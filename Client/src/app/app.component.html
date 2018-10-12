@@ -1,0 +1,9 @@
+<div class="container navarStyle">
+        <ul *ngIf="isLogged()">
+            <app-navar></app-navar>
+        </ul>
+        <ul>
+            <router-outlet class="navarStyle"></router-outlet>
+        </ul>
+</div>
+

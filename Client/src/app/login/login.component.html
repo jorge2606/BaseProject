@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div style="margin-left : 420px;" class="collapse navbar-collapse" id="navbarSupportedContent"> 
+
+            <form class="form-inline my-2 my-lg-0" (ngSubmit)="LoginForm.form.valid && onSubmit()" #LoginForm="ngForm">
+                <mat-form-field class="example-full-width">
+                    <input matInput [(ngModel)]="model.Usuario" class="form-control" type="text" name="username" #username="ngModel" placeholder="Usuario">
+                </mat-form-field>
+
+                <div *ngIf="username.invalid">
+                    Usuario Incorrecto
+                </div>
+
+                <mat-form-field class="example-full-width">
+                    <input matInput 
+                    [(ngModel)]="model.Password" class="form-control"  type="password" placeholder="Contraseña" name="Password" #password="ngModel">
+                </mat-form-field>    
+
+                <div *ngIf="password.invalid">
+                    Contraseña Incorrecta
+                </div>   
+                       
+
+                  <button mat-button [disabled]="LoginForm.form.invalid" class="btn btn-primary">
+                    <fa-icon icon="sign-in-alt"></fa-icon>
+                  </button>
+                  <a class="btn btn-light" href="" routerLink="/register">Registrar</a>
+               
+                <div *ngIf="!LoginForm.form.valid">
+                      Formulario Incorrecto
+                </div>
+              </form>  
+
+      </div>
+  </nav>
+
