@@ -1,23 +1,36 @@
-<a href="" class="btn btn-success navarStyle" routerLink="create"><fa-icon icon="user-plus"></fa-icon></a>
-<table class="table table-hover" style="margin-top : 5px;margin-right: 25px;">
-	<thead>
-		<tr style="font-weight: bold;">
-			<td>Dni</td><td>Usuario</td><td>Accción<td>
-		</tr>
-	</thead>
-	<tbody>
-	<tr *ngFor="let user of user_list">
+<button mat-button routerLink="create"><fa-icon icon="user-plus"></fa-icon></button>
+
+
+<table [dataSource]="user_list" mat-table class="mat-elevation-z10">
+  
+
+	<ng-container matColumnDef="dni">
+	  <th mat-header-cell *matHeaderCellDef> Dni </th>
+	  <td mat-cell *matCellDef="let user"> {{user.dni}} </td>
+	</ng-container>
+  
+	<ng-container matColumnDef="userName">
+	  <th mat-header-cell *matHeaderCellDef> Usuario </th>
+	  <td mat-cell *matCellDef="let user"> {{user.userName}} </td>
+	</ng-container>
+
+  
+	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+	<tr mat-row *matRowDef="let row; columns: displayedColumns;">
+
+	</tr>
+	<!--
 		<td style="width : 0px;" class="col-lg" >{{user.dni}}</td>
 		<td style="width : 0px;" class="col-lg">{{user.userName}}</td>
 		<td style="width : 0px; margin: 5px;" class="col-lg">
-		<div class="btn-group" role="group" aria-label="Basic example">
+		<div>
 			<button type="button" routerLink="/update/{{user.id}}" class="btn btn-default navarStyle"><fa-icon icon="edit"></fa-icon></button>
-			<button type="button" routerLink="/users" (click)="openEliminar(user.id,user.dni,user.userName)" class="btn btn-danger navarStyle"><fa-icon icon="trash"></fa-icon></button>
+			<button type="button" routerLink="/users" (click)="openEliminar(user.id,user.dni,user.userName)" class="navarStyle"><fa-icon icon="trash"></fa-icon></button>
 		</div>
 		</td>
-	</tr>
-	</tbody>
-</table>
+	-->
+
+  </table>
 
 <ngb-pagination (pageChange)="loadPage($event)" [collectionSize]="col_size" [pageSize]="itemsPerPage" [(page)]="page" aria-label="Default pagination"></ngb-pagination>
 
