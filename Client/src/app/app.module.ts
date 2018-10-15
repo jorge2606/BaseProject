@@ -27,7 +27,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatInputModule } from '@angular/material';
 
 library.add(fas);
 
@@ -58,9 +57,7 @@ library.add(fas);
     NgxPaginationModule,
     FontAwesomeModule,
     TreeviewModule.forRoot(),
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatInputModule
+    BrowserAnimationsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
