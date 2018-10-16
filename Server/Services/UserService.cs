@@ -15,6 +15,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using server.Dto;
 using server.ServiceResult;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace server.Services
 {
@@ -23,6 +24,7 @@ namespace server.Services
         private DataContext _context;
         private UserManager _userManager;
         private readonly RoleManager _roleManager;
+        private readonly IEmailSender _emailSender;
 
 
         private readonly SignInManager _signInManager;
@@ -32,32 +34,52 @@ namespace server.Services
             RoleManager roleManager,
 
             IConfiguration configuration,
-            SignInManager signInManager)
+            SignInManager signInManager,
+            IEmailSender emailSender)
         {
             _context = context;
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
             _signInManager = signInManager;
+            _emailSender = emailSender;
         }
 
         private IConfiguration _configuration { get; }
 
-        public UserDto Authenticate(string username, string password)
+        public async Task<ServiceResult<UserDto>> Authenticate(string username, string password)
         {
-            var user = _context.Users.SingleOrDefault(x => x.UserName == username);
-            UserDto userDto = new UserDto();
-            if (user != null)
-            {
-                var token = GenerateJwtTokenHandler(user.Email, user);
+            ServiceResult<UserDto> result = new ServiceResult<UserDto>();
 
-                userDto.Id = user.Id;
-                userDto.Dni = user.Dni;
-                userDto.UserName = user.UserName;
-                userDto.PhoneNumber = user.PhoneNumber;
-                userDto.Token = token;
+            var user = await _userManager.Users.SingleOrDefaultAsync(x => x.UserName == username);
+
+            if (user == null)
+            {
+                result.AddError("userName", "User not found");
+                return result;
             }
-            return userDto;
+
+            var passwordResult = await _userManager.CheckPasswordAsync(user, password);
+
+            if (!passwordResult)
+            {
+                result.AddError("password", "Password incorrect");
+                return result;
+            }
+
+            UserDto userDto = new UserDto();
+
+            var token = GenerateJwtTokenHandler(user.Email, user);
+
+            userDto.Id = user.Id;
+            userDto.Dni = user.Dni;
+            userDto.UserName = user.UserName;
+            userDto.PhoneNumber = user.PhoneNumber;
+            userDto.Token = token;
+
+            result.Response = userDto;
+
+            return result;
         }
 
         public void Delete(Guid id)
@@ -261,5 +283,49 @@ namespace server.Services
                 }
             }
         }
+
+        public async Task<ServiceResult<string>> ForgotPassword(ForgotPasswordDto model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var callbackUrl = string.Format("http://localhost:4200/CambiarPassword?code={0}&userId={1}", code, user.Id);
+
+            await _emailSender.SendEmailAsync(model.Email, "Reset Password",
+            "<html>" +
+              "<head></head>" +
+              "<body>" +
+                "<p> Hello " + user.UserName + "," +
+                "<br><br>" +
+                   "We heard that you lost your Bussiness password. Sorry about that! <br>" +
+                    "But don’t worry!You can use the following link to reset your password: <br><br>" +
+                        "<a href='" + callbackUrl + "'> " + callbackUrl + "</a>" + "<br><br>" +
+                            "Regards, " + user.UserName +
+                "</p>" +
+              "</body>" +
+            "</html>");
+
+            return new ServiceResult<string>(model.Email);
+        }
+
+        public async Task<ServiceResult<string>> ResetPassword(ResetPassword model)
+        {
+            var user = _userManager.Users.FirstOrDefault(x => x.Id == model.UserId);
+
+            if (user != null)
+            {
+                var result = await _userManager.ResetPasswordAsync(user, model.PasswordResetToken, model.Password);
+
+                if (result.Succeeded)
+                {
+                    return new ServiceResult<string>(model.PasswordResetToken);
+                }
+            }
+
+            return new ServiceResult<string>("");
+        }
+
+
     }
 }

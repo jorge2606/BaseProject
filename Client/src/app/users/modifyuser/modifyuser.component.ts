@@ -17,7 +17,7 @@ export class ModifyuserComponent implements OnInit {
 
   id: number;
 
-  constructor(private router : Router, private http: HttpClient, private route: ActivatedRoute, private userService: UserService) {
+  constructor(private router : Router,private route: ActivatedRoute, private userService: UserService) {
   }
   model = new modifyUser;
   

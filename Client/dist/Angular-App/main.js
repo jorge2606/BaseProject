@@ -434,6 +434,49 @@ var AuthenticationService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/_services/recovery-password.service.ts":
+/*!********************************************************!*\
+  !*** ./src/app/_services/recovery-password.service.ts ***!
+  \********************************************************/
+/*! exports provided: RecoveryPasswordService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RecoveryPasswordService", function() { return RecoveryPasswordService; });
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var RecoveryPasswordService = /** @class */ (function () {
+    function RecoveryPasswordService(http) {
+        this.http = http;
+    }
+    RecoveryPasswordService.prototype.ForgotPassword = function (passwordObj) {
+        this.http.post("http://localhost:63098/api/Email/ForgotPassword", passwordObj);
+    };
+    RecoveryPasswordService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]])
+    ], RecoveryPasswordService);
+    return RecoveryPasswordService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/_services/role.service.ts":
 /*!*******************************************!*\
   !*** ./src/app/_services/role.service.ts ***!
@@ -619,17 +662,18 @@ var UserService = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppRoutesModule", function() { return AppRoutesModule; });
-/* harmony import */ var _roles_roles_permissions_roles_permissions_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./roles/roles-permissions/roles-permissions.component */ "./src/app/roles/roles-permissions/roles-permissions.component.ts");
-/* harmony import */ var _roles_roles_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./roles/roles.component */ "./src/app/roles/roles.component.ts");
-/* harmony import */ var _users_modifyuser_modifyuser_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./users/modifyuser/modifyuser.component */ "./src/app/users/modifyuser/modifyuser.component.ts");
-/* harmony import */ var _guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./_guards/auth.guard */ "./src/app/_guards/auth.guard.ts");
-/* harmony import */ var _users_createuser_createuser_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./users/createuser/createuser.component */ "./src/app/users/createuser/createuser.component.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
-/* harmony import */ var _users_users_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./users/users.component */ "./src/app/users/users.component.ts");
-/* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
-/* harmony import */ var _register_register_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./register/register.component */ "./src/app/register/register.component.ts");
+/* harmony import */ var _manage_password_manage_password_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./manage-password/manage-password.component */ "./src/app/manage-password/manage-password.component.ts");
+/* harmony import */ var _roles_roles_permissions_roles_permissions_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./roles/roles-permissions/roles-permissions.component */ "./src/app/roles/roles-permissions/roles-permissions.component.ts");
+/* harmony import */ var _roles_roles_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./roles/roles.component */ "./src/app/roles/roles.component.ts");
+/* harmony import */ var _users_modifyuser_modifyuser_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./users/modifyuser/modifyuser.component */ "./src/app/users/modifyuser/modifyuser.component.ts");
+/* harmony import */ var _guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./_guards/auth.guard */ "./src/app/_guards/auth.guard.ts");
+/* harmony import */ var _users_createuser_createuser_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./users/createuser/createuser.component */ "./src/app/users/createuser/createuser.component.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
+/* harmony import */ var _users_users_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./users/users.component */ "./src/app/users/users.component.ts");
+/* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
+/* harmony import */ var _register_register_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./register/register.component */ "./src/app/register/register.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -647,17 +691,19 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 var routes = [
     //canActivate : Interface that a class can implement to be a guard deciding if a route can be activated.
-    { path: '', component: _home_home_component__WEBPACK_IMPORTED_MODULE_9__["HomeComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]] },
-    { path: 'login', component: _login_login_component__WEBPACK_IMPORTED_MODULE_7__["LoginComponent"] },
-    { path: 'register', component: _register_register_component__WEBPACK_IMPORTED_MODULE_10__["RegisterComponent"] },
-    { path: 'users', component: _users_users_component__WEBPACK_IMPORTED_MODULE_8__["UsersComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]] },
-    { path: 'users/create', component: _users_createuser_createuser_component__WEBPACK_IMPORTED_MODULE_4__["CreateuserComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]] },
-    { path: 'update/:id', component: _users_modifyuser_modifyuser_component__WEBPACK_IMPORTED_MODULE_2__["ModifyuserComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]] },
-    { path: 'update/:id', component: _users_modifyuser_modifyuser_component__WEBPACK_IMPORTED_MODULE_2__["ModifyuserComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]] },
-    { path: 'roles', component: _roles_roles_component__WEBPACK_IMPORTED_MODULE_1__["RolesComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]] },
-    { path: 'roles/permissions/:id', component: _roles_roles_permissions_roles_permissions_component__WEBPACK_IMPORTED_MODULE_0__["RolesPermissionsComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]] },
+    { path: '', component: _home_home_component__WEBPACK_IMPORTED_MODULE_10__["HomeComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
+    { path: 'login', component: _login_login_component__WEBPACK_IMPORTED_MODULE_8__["LoginComponent"] },
+    { path: 'register', component: _register_register_component__WEBPACK_IMPORTED_MODULE_11__["RegisterComponent"] },
+    { path: 'users', component: _users_users_component__WEBPACK_IMPORTED_MODULE_9__["UsersComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
+    { path: 'users/create', component: _users_createuser_createuser_component__WEBPACK_IMPORTED_MODULE_5__["CreateuserComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
+    { path: 'update/:id', component: _users_modifyuser_modifyuser_component__WEBPACK_IMPORTED_MODULE_3__["ModifyuserComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
+    { path: 'update/:id', component: _users_modifyuser_modifyuser_component__WEBPACK_IMPORTED_MODULE_3__["ModifyuserComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
+    { path: 'roles', component: _roles_roles_component__WEBPACK_IMPORTED_MODULE_2__["RolesComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
+    { path: 'roles/permissions/:id', component: _roles_roles_permissions_roles_permissions_component__WEBPACK_IMPORTED_MODULE_1__["RolesPermissionsComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
+    { path: 'RecuperarContraseña', component: _manage_password_manage_password_component__WEBPACK_IMPORTED_MODULE_0__["ManagePasswordComponent"] },
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];
@@ -665,12 +711,12 @@ var AppRoutesModule = /** @class */ (function () {
     function AppRoutesModule() {
     }
     AppRoutesModule = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_5__["NgModule"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_6__["NgModule"])({
             exports: [
-                _angular_router__WEBPACK_IMPORTED_MODULE_6__["RouterModule"]
+                _angular_router__WEBPACK_IMPORTED_MODULE_7__["RouterModule"]
             ],
             imports: [
-                _angular_router__WEBPACK_IMPORTED_MODULE_6__["RouterModule"].forRoot(routes)
+                _angular_router__WEBPACK_IMPORTED_MODULE_7__["RouterModule"].forRoot(routes)
             ]
         })
     ], AppRoutesModule);
@@ -784,6 +830,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @fortawesome/fontawesome-svg-core */ "./node_modules/@fortawesome/fontawesome-svg-core/index.es.js");
 /* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
 /* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
+/* harmony import */ var _manage_password_manage_password_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./manage-password/manage-password.component */ "./src/app/manage-password/manage-password.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -817,6 +864,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_23__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_24__["fas"]);
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -835,7 +883,8 @@ var AppModule = /** @class */ (function () {
                 _navar_navar_component__WEBPACK_IMPORTED_MODULE_17__["NavarComponent"],
                 _roles_roles_component__WEBPACK_IMPORTED_MODULE_18__["RolesComponent"],
                 _roles_create_create_component__WEBPACK_IMPORTED_MODULE_19__["CreateRolesComponent"],
-                _roles_roles_permissions_roles_permissions_component__WEBPACK_IMPORTED_MODULE_21__["RolesPermissionsComponent"]
+                _roles_roles_permissions_roles_permissions_component__WEBPACK_IMPORTED_MODULE_21__["RolesPermissionsComponent"],
+                _manage_password_manage_password_component__WEBPACK_IMPORTED_MODULE_26__["ManagePasswordComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["BrowserModule"],
@@ -951,7 +1000,7 @@ module.exports = "\r\n.login {\r\n    margin : 50px;\r\n    background-color: al
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">\n    <div style=\"margin-left : 420px;\" class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\"> \n\n            <form class=\"form-inline my-2 my-lg-0\" (ngSubmit)=\"LoginForm.form.valid && onSubmit()\" #LoginForm=\"ngForm\">\n                <mat-form-field class=\"example-full-width\">\n                    <input matInput [(ngModel)]=\"model.Usuario\" class=\"form-control\" type=\"text\" name=\"username\" #username=\"ngModel\" placeholder=\"Usuario\">\n                </mat-form-field>\n\n                <div *ngIf=\"username.invalid\">\n                    Usuario Incorrecto\n                </div>\n\n                <mat-form-field class=\"example-full-width\">\n                    <input matInput \n                    [(ngModel)]=\"model.Password\" class=\"form-control\"  type=\"password\" placeholder=\"Contraseña\" name=\"Password\" #password=\"ngModel\">\n                </mat-form-field>    \n\n                <div *ngIf=\"password.invalid\">\n                    Contraseña Incorrecta\n                </div>   \n                       \n\n                  <button mat-button [disabled]=\"LoginForm.form.invalid\" class=\"btn btn-primary\">\n                    <fa-icon icon=\"sign-in-alt\"></fa-icon>\n                  </button>\n                  <a class=\"btn btn-light\" href=\"\" routerLink=\"/register\">Registrar</a>\n               \n                <div *ngIf=\"!LoginForm.form.valid\">\n                      Formulario Incorrecto\n                </div>\n              </form>  \n\n      </div>\n  </nav>\n\n"
+module.exports = "<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">\r\n    <div style=\"margin-left : 420px;\" class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\"> \r\n\r\n            <form class=\"form-inline my-2 my-lg-0\" (ngSubmit)=\"LoginForm.form.valid && onSubmit()\" #LoginForm=\"ngForm\">\r\n                \r\n                    <input matInput [(ngModel)]=\"model.Usuario\" class=\"form-control\" type=\"text\" name=\"username\" #username=\"ngModel\" placeholder=\"Usuario\">\r\n                \r\n\r\n                <div *ngIf=\"username.invalid\">\r\n                    Usuario Incorrecto\r\n                </div>\r\n\r\n               \r\n                    <input matInput \r\n                    [(ngModel)]=\"model.Password\" class=\"form-control\"  type=\"password\" placeholder=\"Contraseña\" name=\"Password\" #password=\"ngModel\">\r\n                   \r\n\r\n                <div *ngIf=\"password.invalid\">\r\n                    Contraseña Incorrecta\r\n                </div>   \r\n                       \r\n\r\n                  <button mat-button [disabled]=\"LoginForm.form.invalid\" class=\"btn btn-primary\">\r\n                    <fa-icon icon=\"sign-in-alt\"></fa-icon>\r\n                  </button>\r\n                  <button type=\"button\" class=\"btn btn-light\" href=\"\" routerLink=\"/register\">Registrar</button>\r\n                  <a routerLink=\"/RecuperarContraseña\">olvide mi Contraseña</a>\r\n                <div *ngIf=\"!LoginForm.form.valid\">\r\n                      Formulario Incorrecto\r\n                </div>\r\n              </form>  \r\n\r\n      </div>\r\n  </nav>\r\n\r\n"
 
 /***/ }),
 
@@ -1068,6 +1117,75 @@ var Login = /** @class */ (function () {
     function Login() {
     }
     return Login;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/manage-password/manage-password.component.css":
+/*!***************************************************************!*\
+  !*** ./src/app/manage-password/manage-password.component.css ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/manage-password/manage-password.component.html":
+/*!****************************************************************!*\
+  !*** ./src/app/manage-password/manage-password.component.html ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<form (ngSubmit)=\"onSubmit()\" #RecoveryForm=\"ngForm\">\n  <input type=\"text\" [(ngModel)]=\"model.email\" name=\"email\">\n  <button type=\"submit\" class=\"btn btn-success\">Recuperar</button>\n</form>\n"
+
+/***/ }),
+
+/***/ "./src/app/manage-password/manage-password.component.ts":
+/*!**************************************************************!*\
+  !*** ./src/app/manage-password/manage-password.component.ts ***!
+  \**************************************************************/
+/*! exports provided: ManagePasswordComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ManagePasswordComponent", function() { return ManagePasswordComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_recovery_password_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_services/recovery-password.service */ "./src/app/_services/recovery-password.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var ManagePasswordComponent = /** @class */ (function () {
+    function ManagePasswordComponent(managePassword) {
+        this.managePassword = managePassword;
+    }
+    ManagePasswordComponent.prototype.onSubmit = function () {
+        this.managePassword.ForgotPassword(this.model);
+    };
+    ManagePasswordComponent.prototype.ngOnInit = function () {
+    };
+    ManagePasswordComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-manage-password',
+            template: __webpack_require__(/*! ./manage-password.component.html */ "./src/app/manage-password/manage-password.component.html"),
+            styles: [__webpack_require__(/*! ./manage-password.component.css */ "./src/app/manage-password/manage-password.component.css")]
+        }),
+        __metadata("design:paramtypes", [_services_recovery_password_service__WEBPACK_IMPORTED_MODULE_1__["RecoveryPasswordService"]])
+    ], ManagePasswordComponent);
+    return ManagePasswordComponent;
 }());
 
 

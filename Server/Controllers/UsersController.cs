@@ -5,16 +5,10 @@ using server.Models;
 using System;
 using server.Dto;
 using server.IServices;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
-using server.Helpers.WebApi.Helpers;
 using server.Helpers;
-using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using server.Identity;
 
@@ -58,13 +52,45 @@ namespace server.Controllers
         }
 
         [HttpPost("Auth")]
-        public ActionResult<UserDto> Authentication([FromBody]LoginDto p_LoginDto)
+        public async Task<IActionResult> Authentication([FromBody]LoginDto p_LoginDto)
         {
-            var u = _userService.Authenticate(p_LoginDto.Usuario, p_LoginDto.Password);
+            var result = await _userService.Authenticate(p_LoginDto.Usuario, p_LoginDto.Password);
 
-            return u;
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result);
+            }
 
-            //
+            return Ok(result.Response);
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword([FromBody]ForgotPasswordDto forgotPassword)
+        {
+            var result = await _userService.ForgotPassword(forgotPassword);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(forgotPassword);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword([FromBody]ResetPassword resetPassword)
+        {
+            var result = await _userService.ResetPassword(resetPassword);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(resetPassword);
         }
 
         [HttpGet("getall")]

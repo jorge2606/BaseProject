@@ -23,8 +23,8 @@
                   <button mat-button [disabled]="LoginForm.form.invalid" class="btn btn-primary">
                     <fa-icon icon="sign-in-alt"></fa-icon>
                   </button>
-                  <a class="btn btn-light" href="" routerLink="/register">Registrar</a>
-               
+                  <button type="button" class="btn btn-light" href="" routerLink="/register">Registrar</button>
+                  <a routerLink="/RecuperarContraseña">olvide mi Contraseña</a>
                 <div *ngIf="!LoginForm.form.valid">
                       Formulario Incorrecto
                 </div>

@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace server
 {
@@ -106,6 +107,14 @@ namespace server
 
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IEmailSender, EmailService>();
+            services.AddScoped<ISmsSender, EmailService>();
+
+            //sender Email
+            // Add application services.
+            services.AddTransient<IEmailSender, EmailService>();
+            services.AddTransient<ISmsSender, EmailService>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

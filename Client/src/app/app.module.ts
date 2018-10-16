@@ -27,6 +27,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ManagePasswordComponent } from './manage-password/manage-password.component';
+import { ResetPasswordComponent } from './manage-password/reset-password/reset-password.component';
 
 library.add(fas);
 
@@ -44,7 +46,9 @@ library.add(fas);
     NavarComponent,
     RolesComponent,
     CreateRolesComponent,
-    RolesPermissionsComponent
+    RolesPermissionsComponent,
+    ManagePasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
