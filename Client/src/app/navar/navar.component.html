@@ -1,42 +1,44 @@
-<nav  *ngIf="isLogged | async" class="navbar navbar-expand-lg navbar-dark bg-dark mb-3 font-weight-light">
+<nav *ngIf="isLogged | async" class="navbar navbar-expand-lg navbar-dark bg-dark mb-3 font-weight-light">
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 
     <ul class="navbar-nav mr-auto">
 
       <li class="nav-item active">
-        <a routerLink="/users" class="nav-item nav-link active" href="#">
-          <fa-icon icon="users"></fa-icon>
+        <a routerLink="/users" class="nav-item text-white nav-link small" href="#">
+          <fa-icon icon="users"></fa-icon>Usuarios
         </a>
       </li>
 
       <li class="nav-item">
         <!--<a style="color: white;" class="nav-item nav-link active" href="#" routerLink="/login">Login</a>-->
-        <a class="nav-item nav-link active" href="#" [routerLink]="['/roles']">Roles</a>
+        <a class="nav-item text-white nav-link small" href="#" [routerLink]="['/roles']">
+          <fa-icon icon="key"></fa-icon> Roles
+        </a>
       </li>
 
     </ul>
 
-    <ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav ml-auto small">
       <li class="nav-item dropdown">
         <div class="d-inline-block pull-right" ngbDropdown #myDrop="ngbDropdown">
-          <button class="btn btn-outline-danger mr-2" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()">
+          <button class="btn btn-outline-danger mr-2 small" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()">
             <fa-icon icon="bell"></fa-icon>
           </button>
           <div ngbDropdownMenu aria-labelledby="dropdownManual">
-            <button *ngFor="let x of notification" class="dropdown-item">{{x.tittle}}</button>
+            <button *ngFor="let x of notification" class="dropdown-item small">{{x.tittle}}</button>
           </div>
         </div>
       </li>
 
 
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown small">
           <div class="d-inline-block pull-right" ngbDropdown #myDropCloseSession="ngbDropdown">
-            <button class="btn btn-outline-primary mr-2" id="dropdownManual" ngbDropdownAnchor (focus)="myDropCloseSession.open()">
+            <button class="btn btn-outline-light mr-2 small" id="dropdownManual" ngbDropdownAnchor (focus)="myDropCloseSession.open()">
               <fa-icon icon="user"></fa-icon>
             </button>
             <div ngbDropdownMenu aria-labelledby="dropdownManual">
-                <button class="dropdown-item">Mi Perfil</button>
-              <button (click)="logout()" class="dropdown-item">Cerrar Sesión</button>
+                <button class="dropdown-item small">Mi Perfil</button>
+              <button (click)="logout()" class="dropdown-item small">Cerrar Sesión</button>
             </div>
           </div>
         </li>      
@@ -45,4 +47,4 @@
   </div>
 </nav>
 
-<router-outlet></router-outlet>
+<router-outlet class="small"></router-outlet>
