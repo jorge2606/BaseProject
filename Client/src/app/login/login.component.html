@@ -1,35 +1,31 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div style="margin-left : 420px;" class="collapse navbar-collapse" id="navbarSupportedContent"> 
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 
-            <form class="form-inline my-2 my-lg-0" (ngSubmit)="LoginForm.form.valid && onSubmit()" #LoginForm="ngForm">
-                
-                    <input matInput [(ngModel)]="model.Usuario" class="form-control" type="text" name="username" #username="ngModel" placeholder="Usuario">
-                
+        <form class="form-inline my-2 my-lg-0 ml-auto" (ngSubmit)="LoginForm.form.valid && onSubmit()" #LoginForm="ngForm">
 
-                <div *ngIf="username.invalid">
-                    Usuario Incorrecto
-                </div>
+            <input matInput [(ngModel)]="model.Usuario" class="form-control mr-1" type="text" name="username" #username="ngModel"
+                placeholder="Usuario">
 
-               
-                    <input matInput 
-                    [(ngModel)]="model.Password" class="form-control"  type="password" placeholder="Contraseña" name="Password" #password="ngModel">
-                   
+            <div *ngIf="username.invalid">
+                Usuario Incorrecto
+            </div>
 
-                <div *ngIf="password.invalid">
-                    Contraseña Incorrecta
-                </div>   
-                       
+            <input matInput [(ngModel)]="model.Password" class="form-control mr-1" type="password" placeholder="Contraseña"
+                name="Password" #password="ngModel">
 
-                  <button mat-button [disabled]="LoginForm.form.invalid" class="btn btn-primary">
-                    <fa-icon icon="sign-in-alt"></fa-icon>
-                  </button>
-                  <button type="button" class="btn btn-success" href="" routerLink="/register">Registrar</button>
-                  <a routerLink="/RecuperarContraseña">olvide mi Contraseña</a>
-                <div *ngIf="!LoginForm.form.valid">
-                      Formulario Incorrecto
-                </div>
-              </form>  
+            <div *ngIf="password.invalid">
+                Contraseña Incorrecta
+            </div>
 
-      </div>
-  </nav>
 
+            <button mat-button [disabled]="LoginForm.form.invalid" class="btn btn-primary mr-1">
+                <fa-icon icon="sign-in-alt"></fa-icon>
+            </button>
+            <button type="button" class="btn btn-success mr-1" href="" routerLink="/register">Registrar</button>
+            <a class="text-white small" routerLink="/RecuperarContraseña">olvide mi contraseña</a>
+            <div *ngIf="!LoginForm.form.valid">
+                Formulario Incorrecto
+            </div>
+        </form>
+    </div>
+</nav>

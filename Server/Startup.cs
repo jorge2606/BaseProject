@@ -109,6 +109,7 @@ namespace server
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEmailSender, EmailService>();
             services.AddScoped<ISmsSender, EmailService>();
+            services.AddScoped<INotificationService, NotificationService>();
 
             //sender Email
             // Add application services.

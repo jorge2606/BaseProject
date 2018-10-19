@@ -1,27 +1,31 @@
-<a href="" class="btn btn-success navarStyle" routerLink="create"><fa-icon icon="user-plus"></fa-icon></a>
-<table class="table table-hover" style="margin-top : 5px;margin-right: 25px;">
+<a href="" class="btn btn-success mb-3" routerLink="create">
+	<fa-icon icon="user-plus"></fa-icon>
+</a>
+<table class="table table-hover">
 	<thead>
 		<tr style="font-weight: bold;">
-			<td>Dni</td><td>Usuario</td><td>Accción<td>
+			<td>Dni</td>
+			<td>Usuario</td>
+			<td>Accción<td>
 		</tr>
 	</thead>
 	<tbody>
-	<tr *ngFor="let user of user_list">
-		<td style="width : 0px;" class="col-lg" >{{user.dni}}</td>
-		<td style="width : 0px;" class="col-lg">{{user.userName}}</td>
-		<td style="width : 0px; margin: 5px;" class="col-lg">
-		<div class="btn-group" role="group" aria-label="Basic example">
-			<button type="button" routerLink="/update/{{user.id}}" class="btn btn-default navarStyle"><fa-icon icon="edit"></fa-icon></button>
-			<button type="button" routerLink="/users" (click)="openEliminar(user.id,user.dni,user.userName)" class="btn btn-danger navarStyle"><fa-icon icon="trash"></fa-icon></button>
-		</div>
-		</td>
-	</tr>
+		<tr *ngFor="let user of user_list">
+			<td>{{user.dni}}</td>
+			<td>{{user.userName}}</td>
+			<td>
+				<div class="btn-group" role="group" aria-label="Basic example">
+					<button type="button" routerLink="/update/{{user.id}}" class="btn btn-default">
+						<fa-icon icon="edit"></fa-icon>
+					</button>
+					<button type="button" routerLink="/users" (click)="openEliminar(user.id,user.dni,user.userName)" class="btn btn-danger">
+						<fa-icon icon="trash"></fa-icon>
+					</button>
+				</div>
+			</td>
+		</tr>
 	</tbody>
 </table>
 
-<ngb-pagination (pageChange)="loadPage($event)" [collectionSize]="col_size" [pageSize]="itemsPerPage" [(page)]="page" aria-label="Default pagination"></ngb-pagination>
-
-
-
-
-
+<ngb-pagination (pageChange)="loadPage($event)" [collectionSize]="col_size" [pageSize]="itemsPerPage" [(page)]="page"
+ aria-label="Default pagination"></ngb-pagination>

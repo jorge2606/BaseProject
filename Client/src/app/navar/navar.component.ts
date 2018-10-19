@@ -1,4 +1,9 @@
+import { AuthenticationService } from './../_services/authentication.service';
+import { Observable } from 'rxjs';
+import { Notifications } from './../_models/notifications';
+import { NotificationsService } from './../_services/notifications.service';
 import { Component, OnInit } from '@angular/core';
+
 @Component({
   selector: 'app-navar',
   templateUrl: './navar.component.html',
@@ -6,9 +11,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private notificaionServices : NotificationsService, private authService : AuthenticationService) { }
+
+  notification : Notifications[];
+  isLogged : Observable<boolean>;
 
   ngOnInit() {
+    this.notificaionServices.getAllNotifications().subscribe(
+      x => this.notification = x
+    );
+
+    this.isLogged = this.authService.isLoggedIn;
   }
 
+  logout(){
+    this.authService.logout();
+  }
 }

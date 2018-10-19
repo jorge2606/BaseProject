@@ -251,6 +251,7 @@ namespace server.Services
             {
                 return result.ToServiceResult<string>(null);
             }
+            
 
             await _signInManager.SignInAsync(user, false);
 

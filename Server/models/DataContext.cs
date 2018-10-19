@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
+using server.models;
 
 namespace server.Models
 {
@@ -15,5 +16,7 @@ namespace server.Models
         {
             base.OnModelCreating(builder);
         }
+
+        public virtual DbSet<Notification> Notifications { get; set; }
     }
 }

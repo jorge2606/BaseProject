@@ -1,4 +1,3 @@
-import { AuthGuard } from './_guards/auth.guard';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,10 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  constructor(private auth : AuthGuard){}
- isLogged : any;
+  constructor(){}
   
   ngOnInit(){
-    this.isLogged = this.auth.ifLogged;
+
   }
 }
