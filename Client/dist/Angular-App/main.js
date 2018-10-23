@@ -56,7 +56,7 @@ var AuthGuard = /** @class */ (function () {
             return true;
         }
         // not logged in so redirect to login page with the return url
-        this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+        this.router.navigate(['login'], { queryParams: { returnUrl: state.url } });
         return false;
     };
     AuthGuard.prototype.ifLogged = function () {
@@ -284,6 +284,26 @@ var JwtInterceptor = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/_models/passwords.ts":
+/*!**************************************!*\
+  !*** ./src/app/_models/passwords.ts ***!
+  \**************************************/
+/*! exports provided: ForgotPassword */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ForgotPassword", function() { return ForgotPassword; });
+var ForgotPassword = /** @class */ (function () {
+    function ForgotPassword() {
+    }
+    return ForgotPassword;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/_models/register.ts":
 /*!*************************************!*\
   !*** ./src/app/_models/register.ts ***!
@@ -298,6 +318,26 @@ var Register = /** @class */ (function () {
     function Register() {
     }
     return Register;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/_models/reset-password.ts":
+/*!*******************************************!*\
+  !*** ./src/app/_models/reset-password.ts ***!
+  \*******************************************/
+/*! exports provided: ResetPassword */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ResetPassword", function() { return ResetPassword; });
+var ResetPassword = /** @class */ (function () {
+    function ResetPassword() {
+    }
+    return ResetPassword;
 }());
 
 
@@ -384,6 +424,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -396,38 +438,99 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
 var AuthenticationService = /** @class */ (function () {
-    function AuthenticationService(http) {
+    function AuthenticationService(http, router) {
+        var _this = this;
         this.http = http;
+        this.router = router;
+        this.loggedIn = new rxjs__WEBPACK_IMPORTED_MODULE_3__["BehaviorSubject"](false); // {1}
         this.saveToken = function (user) {
             // login successful if there's a jwt token in the response
             if (user && user.token) {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('currentUser', JSON.stringify(user));
+                _this.loggedIn.next(true);
             }
             return user;
         };
+        if (localStorage.getItem('currentUser')) {
+            // logged in so return true
+            this.loggedIn.next(true);
+        }
     }
     AuthenticationService.prototype.login = function (user) {
         return this.http.post('http://localhost:63098/api/User/Auth', user)
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (user) {
-            // login successful if there's a jwt token in the response
-            if (user && user.token) {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('currentUser', JSON.stringify(user));
-            }
-            return user;
-        }));
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(this.saveToken));
     };
     AuthenticationService.prototype.logout = function () {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
+        this.loggedIn.next(false);
+        this.router.navigate(['login']);
+    };
+    Object.defineProperty(AuthenticationService.prototype, "isLoggedIn", {
+        get: function () {
+            return this.loggedIn.asObservable(); // {2}
+        },
+        enumerable: true,
+        configurable: true
+    });
+    AuthenticationService.prototype.userId = function () {
+        var current = localStorage.getItem('currentUser');
+        var currentUserJSON = JSON.parse(current);
+        return currentUserJSON['id'];
     };
     AuthenticationService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({ providedIn: 'root' }),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]])
     ], AuthenticationService);
     return AuthenticationService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/_services/notifications.service.ts":
+/*!****************************************************!*\
+  !*** ./src/app/_services/notifications.service.ts ***!
+  \****************************************************/
+/*! exports provided: NotificationsService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NotificationsService", function() { return NotificationsService; });
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var NotificationsService = /** @class */ (function () {
+    function NotificationsService(http) {
+        this.http = http;
+    }
+    NotificationsService.prototype.getAllNotifications = function () {
+        return this.http.get("http://localhost:63098/api/Notification/GetAllNotifications");
+    };
+    NotificationsService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]])
+    ], NotificationsService);
+    return NotificationsService;
 }());
 
 
@@ -462,7 +565,14 @@ var RecoveryPasswordService = /** @class */ (function () {
         this.http = http;
     }
     RecoveryPasswordService.prototype.ForgotPassword = function (passwordObj) {
-        this.http.post("http://localhost:63098/api/Email/ForgotPassword", passwordObj);
+        this.http.post("http://localhost:63098/api/User/ForgotPassword/", passwordObj).subscribe(function (x) {
+            return console.log(x.toString());
+        });
+    };
+    RecoveryPasswordService.prototype.ResetPassword = function (passwordObj) {
+        this.http.post("http://localhost:63098/api/User/ResetPassword/", passwordObj).subscribe(function (x) {
+            return console.log(x.toString());
+        });
     };
     RecoveryPasswordService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -674,12 +784,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _users_users_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./users/users.component */ "./src/app/users/users.component.ts");
 /* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
 /* harmony import */ var _register_register_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./register/register.component */ "./src/app/register/register.component.ts");
+/* harmony import */ var _manage_password_reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./manage-password/reset-password/reset-password.component */ "./src/app/manage-password/reset-password/reset-password.component.ts");
+/* harmony import */ var _users_settingofuser_settingofuser_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./users/settingofuser/settingofuser.component */ "./src/app/users/settingofuser/settingofuser.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -700,10 +814,11 @@ var routes = [
     { path: 'users', component: _users_users_component__WEBPACK_IMPORTED_MODULE_9__["UsersComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
     { path: 'users/create', component: _users_createuser_createuser_component__WEBPACK_IMPORTED_MODULE_5__["CreateuserComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
     { path: 'update/:id', component: _users_modifyuser_modifyuser_component__WEBPACK_IMPORTED_MODULE_3__["ModifyuserComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
-    { path: 'update/:id', component: _users_modifyuser_modifyuser_component__WEBPACK_IMPORTED_MODULE_3__["ModifyuserComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
+    { path: 'settingUser/:id', component: _users_settingofuser_settingofuser_component__WEBPACK_IMPORTED_MODULE_13__["SettingofuserComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
     { path: 'roles', component: _roles_roles_component__WEBPACK_IMPORTED_MODULE_2__["RolesComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
     { path: 'roles/permissions/:id', component: _roles_roles_permissions_roles_permissions_component__WEBPACK_IMPORTED_MODULE_1__["RolesPermissionsComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
     { path: 'RecuperarContraseña', component: _manage_password_manage_password_component__WEBPACK_IMPORTED_MODULE_0__["ManagePasswordComponent"] },
+    { path: 'CambiarPassword', component: _manage_password_reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_12__["ResetPasswordComponent"] },
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];
@@ -745,7 +860,7 @@ module.exports = ".navarStyle {\r\n  font-size : 13px;\r\n  font-family: -apple-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container navarStyle\">\n        <ul *ngIf=\"isLogged()\">\n            <app-navar></app-navar>\n        </ul>\n        <ul>\n            <router-outlet class=\"navarStyle\"></router-outlet>\n        </ul>\n</div>\n\n"
+module.exports = "<div class=\"container pt-1 small\">\n    <app-navar></app-navar>\n</div>\n\n"
 
 /***/ }),
 
@@ -759,8 +874,7 @@ module.exports = "<div class=\"container navarStyle\">\n        <ul *ngIf=\"isLo
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function() { return AppComponent; });
-/* harmony import */ var _guards_auth_guard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./_guards/auth.guard */ "./src/app/_guards/auth.guard.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -771,21 +885,18 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-
 var AppComponent = /** @class */ (function () {
-    function AppComponent(auth) {
-        this.auth = auth;
+    function AppComponent() {
     }
     AppComponent.prototype.ngOnInit = function () {
-        this.isLogged = this.auth.ifLogged;
     };
     AppComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-root',
             template: __webpack_require__(/*! ./app.component.html */ "./src/app/app.component.html"),
             styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css")]
         }),
-        __metadata("design:paramtypes", [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_0__["AuthGuard"]])
+        __metadata("design:paramtypes", [])
     ], AppComponent);
     return AppComponent;
 }());
@@ -831,6 +942,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
 /* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
 /* harmony import */ var _manage_password_manage_password_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./manage-password/manage-password.component */ "./src/app/manage-password/manage-password.component.ts");
+/* harmony import */ var _manage_password_reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./manage-password/reset-password/reset-password.component */ "./src/app/manage-password/reset-password/reset-password.component.ts");
+/* harmony import */ var _users_settingofuser_settingofuser_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./users/settingofuser/settingofuser.component */ "./src/app/users/settingofuser/settingofuser.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -865,6 +978,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_23__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_24__["fas"]);
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -884,7 +999,9 @@ var AppModule = /** @class */ (function () {
                 _roles_roles_component__WEBPACK_IMPORTED_MODULE_18__["RolesComponent"],
                 _roles_create_create_component__WEBPACK_IMPORTED_MODULE_19__["CreateRolesComponent"],
                 _roles_roles_permissions_roles_permissions_component__WEBPACK_IMPORTED_MODULE_21__["RolesPermissionsComponent"],
-                _manage_password_manage_password_component__WEBPACK_IMPORTED_MODULE_26__["ManagePasswordComponent"]
+                _manage_password_manage_password_component__WEBPACK_IMPORTED_MODULE_26__["ManagePasswordComponent"],
+                _manage_password_reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_27__["ResetPasswordComponent"],
+                _users_settingofuser_settingofuser_component__WEBPACK_IMPORTED_MODULE_28__["SettingofuserComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["BrowserModule"],
@@ -950,6 +1067,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HomeComponent", function() { return HomeComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_services/user.service */ "./src/app/_services/user.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -961,9 +1079,11 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var HomeComponent = /** @class */ (function () {
-    function HomeComponent(userService) {
+    function HomeComponent(userService, route) {
         this.userService = userService;
+        this.route = route;
     }
     HomeComponent.prototype.ngOnInit = function () {
     };
@@ -973,7 +1093,7 @@ var HomeComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./home.component.html */ "./src/app/home/home.component.html"),
             styles: [__webpack_require__(/*! ./home.component.css */ "./src/app/home/home.component.css")]
         }),
-        __metadata("design:paramtypes", [_services_user_service__WEBPACK_IMPORTED_MODULE_1__["UserService"]])
+        __metadata("design:paramtypes", [_services_user_service__WEBPACK_IMPORTED_MODULE_1__["UserService"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"]])
     ], HomeComponent);
     return HomeComponent;
 }());
@@ -1000,7 +1120,7 @@ module.exports = "\r\n.login {\r\n    margin : 50px;\r\n    background-color: al
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">\r\n    <div style=\"margin-left : 420px;\" class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\"> \r\n\r\n            <form class=\"form-inline my-2 my-lg-0\" (ngSubmit)=\"LoginForm.form.valid && onSubmit()\" #LoginForm=\"ngForm\">\r\n                \r\n                    <input matInput [(ngModel)]=\"model.Usuario\" class=\"form-control\" type=\"text\" name=\"username\" #username=\"ngModel\" placeholder=\"Usuario\">\r\n                \r\n\r\n                <div *ngIf=\"username.invalid\">\r\n                    Usuario Incorrecto\r\n                </div>\r\n\r\n               \r\n                    <input matInput \r\n                    [(ngModel)]=\"model.Password\" class=\"form-control\"  type=\"password\" placeholder=\"Contraseña\" name=\"Password\" #password=\"ngModel\">\r\n                   \r\n\r\n                <div *ngIf=\"password.invalid\">\r\n                    Contraseña Incorrecta\r\n                </div>   \r\n                       \r\n\r\n                  <button mat-button [disabled]=\"LoginForm.form.invalid\" class=\"btn btn-primary\">\r\n                    <fa-icon icon=\"sign-in-alt\"></fa-icon>\r\n                  </button>\r\n                  <button type=\"button\" class=\"btn btn-light\" href=\"\" routerLink=\"/register\">Registrar</button>\r\n                  <a routerLink=\"/RecuperarContraseña\">olvide mi Contraseña</a>\r\n                <div *ngIf=\"!LoginForm.form.valid\">\r\n                      Formulario Incorrecto\r\n                </div>\r\n              </form>  \r\n\r\n      </div>\r\n  </nav>\r\n\r\n"
+module.exports = "<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\r\n    <div class=\"collapse navbar-collapse\" id=\"navbarNavAltMarkup\">\r\n\r\n        <form class=\"form-inline my-2 my-lg-0 ml-auto\" (ngSubmit)=\"LoginForm.form.valid && onSubmit()\" #LoginForm=\"ngForm\">\r\n\r\n            <input matInput [(ngModel)]=\"model.Usuario\" class=\"form-control mr-1\" type=\"text\" name=\"username\" #username=\"ngModel\"\r\n                placeholder=\"Usuario\">\r\n\r\n            <div *ngIf=\"username.invalid\">\r\n                Usuario Incorrecto\r\n            </div>\r\n\r\n            <input matInput [(ngModel)]=\"model.Password\" class=\"form-control mr-1\" type=\"password\" placeholder=\"Contraseña\"\r\n                name=\"Password\" #password=\"ngModel\">\r\n\r\n            <div *ngIf=\"password.invalid\">\r\n                Contraseña Incorrecta\r\n            </div>\r\n\r\n\r\n            <button mat-button [disabled]=\"LoginForm.form.invalid\" class=\"btn btn-primary mr-1\">\r\n                <fa-icon icon=\"sign-in-alt\"></fa-icon>\r\n            </button>\r\n            <button type=\"button\" class=\"btn btn-success mr-1\" href=\"\" routerLink=\"/register\">Registrar</button>\r\n            <a class=\"text-white small\" routerLink=\"/RecuperarContraseña\">olvide mi contraseña</a>\r\n            <div *ngIf=\"!LoginForm.form.valid\">\r\n                Formulario Incorrecto\r\n            </div>\r\n        </form>\r\n    </div>\r\n</nav>"
 
 /***/ }),
 
@@ -1079,8 +1199,6 @@ var LoginComponent = /** @class */ (function () {
             username: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
             Password: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required]
         });
-        // reset login status
-        this.authenticationService.logout();
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     };
@@ -1141,7 +1259,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form (ngSubmit)=\"onSubmit()\" #RecoveryForm=\"ngForm\">\n  <input type=\"text\" [(ngModel)]=\"model.email\" name=\"email\">\n  <button type=\"submit\" class=\"btn btn-success\">Recuperar</button>\n</form>\n"
+module.exports = "<div class=\"container col-7\" style=\"padding-left : 30px;\">\n  <form (ngSubmit)=\"onSubmit()\" #RecoveryForm=\"ngForm\">\n    <div class=\"row\" style=\"padding : 5px;\">\n          <label style=\"padding-top : 7px;padding-right: 3px;\" for=\"\">Email</label>\n              <input style=\"width : 40%;\" class=\"form-control\" type=\"text\" [(ngModel)]=\"model.email\" name=\"email\" #email=\"ngModel\">\n              <button style=\"padding-left : 8px;\" type=\"submit\" class=\"btn btn-success navarStyle\">Recuperar</button>\n    </div>\n  </form>\n</div>\n\n"
 
 /***/ }),
 
@@ -1156,7 +1274,8 @@ module.exports = "<form (ngSubmit)=\"onSubmit()\" #RecoveryForm=\"ngForm\">\n  <
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ManagePasswordComponent", function() { return ManagePasswordComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _services_recovery_password_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_services/recovery-password.service */ "./src/app/_services/recovery-password.service.ts");
+/* harmony import */ var _models_passwords__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_models/passwords */ "./src/app/_models/passwords.ts");
+/* harmony import */ var _services_recovery_password_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_services/recovery-password.service */ "./src/app/_services/recovery-password.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1168,11 +1287,14 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var ManagePasswordComponent = /** @class */ (function () {
     function ManagePasswordComponent(managePassword) {
         this.managePassword = managePassword;
+        this.model = new _models_passwords__WEBPACK_IMPORTED_MODULE_1__["ForgotPassword"]();
     }
     ManagePasswordComponent.prototype.onSubmit = function () {
+        console.log(this.model);
         this.managePassword.ForgotPassword(this.model);
     };
     ManagePasswordComponent.prototype.ngOnInit = function () {
@@ -1183,9 +1305,99 @@ var ManagePasswordComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./manage-password.component.html */ "./src/app/manage-password/manage-password.component.html"),
             styles: [__webpack_require__(/*! ./manage-password.component.css */ "./src/app/manage-password/manage-password.component.css")]
         }),
-        __metadata("design:paramtypes", [_services_recovery_password_service__WEBPACK_IMPORTED_MODULE_1__["RecoveryPasswordService"]])
+        __metadata("design:paramtypes", [_services_recovery_password_service__WEBPACK_IMPORTED_MODULE_2__["RecoveryPasswordService"]])
     ], ManagePasswordComponent);
     return ManagePasswordComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/manage-password/reset-password/reset-password.component.css":
+/*!*****************************************************************************!*\
+  !*** ./src/app/manage-password/reset-password/reset-password.component.css ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/manage-password/reset-password/reset-password.component.html":
+/*!******************************************************************************!*\
+  !*** ./src/app/manage-password/reset-password/reset-password.component.html ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container col-4\" style=\"padding-left : 30px;\">\n  <form (ngSubmit)=\"onSubmit()\" #ResetForm=\"ngForm\">\n    <label for=\"\">Nueva Contraseña</label>\n    <input class=\"form-control\" type=\"password\" [(ngModel)]=\"model.password\" name=\"password\" #password=\"ngModel\">\n    <label for=\"\">Confirmar Contraseña</label>\n    <input class=\"form-control\" type=\"password\" [(ngModel)]=\"model.passwordConfirm\" name=\"passwordConfirm\" #passwordConfirm=\"ngModel\">\n    <button style=\"padding-top : 6px;\" type=\"submit\" class=\"btn btn-success\">Recuperar</button>\n  </form>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/manage-password/reset-password/reset-password.component.ts":
+/*!****************************************************************************!*\
+  !*** ./src/app/manage-password/reset-password/reset-password.component.ts ***!
+  \****************************************************************************/
+/*! exports provided: ResetPasswordComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ResetPasswordComponent", function() { return ResetPasswordComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _models_reset_password__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../_models/reset-password */ "./src/app/_models/reset-password.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _services_recovery_password_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../_services/recovery-password.service */ "./src/app/_services/recovery-password.service.ts");
+/* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../login/login.component */ "./src/app/login/login.component.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var ResetPasswordComponent = /** @class */ (function () {
+    function ResetPasswordComponent(route, resetPass, router) {
+        this.route = route;
+        this.resetPass = resetPass;
+        this.router = router;
+        this.model = new _models_reset_password__WEBPACK_IMPORTED_MODULE_1__["ResetPassword"]();
+    }
+    ResetPasswordComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        //le asigno el id que extraigo de la url
+        this.route.queryParams.subscribe(function (x) {
+            _this.idUserParam = x.userId,
+                _this.codeParam = x.code;
+        });
+        console.log("user : " + this.idUserParam);
+        console.log("code : " + this.codeParam);
+    };
+    ResetPasswordComponent.prototype.onSubmit = function () {
+        this.model.userId = this.idUserParam;
+        this.model.passwordResetToken = this.codeParam;
+        this.resetPass.ResetPassword(this.model);
+        this.router.navigate([_login_login_component__WEBPACK_IMPORTED_MODULE_4__["LoginComponent"]]);
+    };
+    ResetPasswordComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-reset-password',
+            template: __webpack_require__(/*! ./reset-password.component.html */ "./src/app/manage-password/reset-password/reset-password.component.html"),
+            styles: [__webpack_require__(/*! ./reset-password.component.css */ "./src/app/manage-password/reset-password/reset-password.component.css")]
+        }),
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"], _services_recovery_password_service__WEBPACK_IMPORTED_MODULE_3__["RecoveryPasswordService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
+    ], ResetPasswordComponent);
+    return ResetPasswordComponent;
 }());
 
 
@@ -1274,7 +1486,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-lg\" style=\"background-color:black;color: white;\">\r\n  <div class=\"collapse navbar-collapse\" id=\"navbarNavAltMarkup\">\r\n      <div class=\"navbar-nav\">\r\n          <a style=\"color: white;\" routerLink=\"/users\" class=\"nav-item nav-link active\" href=\"#\">\r\n            <fa-icon icon=\"users\"></fa-icon>\r\n          </a>\r\n          <!--<a style=\"color: white;\" class=\"nav-item nav-link active\" href=\"#\" routerLink=\"/login\">Login</a>-->\r\n          <a style=\"color: white;\" class=\"nav-item nav-link active\" href=\"#\" [routerLink]=\"['/roles']\">Roles</a>\r\n          <a style=\"color: white; padding-left: 52rem;\" class=\"nav-item nav-link active\" href=\"#\" [routerLink]=\"['/login']\">Cerrar Sesión</a>\r\n      </div>\r\n  </div>\r\n</nav>"
+module.exports = "<nav *ngIf=\"isLogged | async\" class=\"navbar navbar-expand-lg navbar-dark bg-dark mb-3 font-weight-light\">\r\n  <div class=\"collapse navbar-collapse\" id=\"navbarNavAltMarkup\">\r\n\r\n    <ul class=\"navbar-nav mr-auto\">\r\n\r\n      <li class=\"nav-item active\">\r\n        <a routerLink=\"/users\" class=\"nav-item text-white nav-link small\" href=\"#\">\r\n          <fa-icon icon=\"users\"></fa-icon>Usuarios\r\n        </a>\r\n      </li>\r\n\r\n      <li class=\"nav-item\">\r\n        <!--<a style=\"color: white;\" class=\"nav-item nav-link active\" href=\"#\" routerLink=\"/login\">Login</a>-->\r\n        <a class=\"nav-item text-white nav-link small\" href=\"#\" [routerLink]=\"['/roles']\">\r\n          <fa-icon icon=\"key\"></fa-icon> Roles\r\n        </a>\r\n      </li>\r\n\r\n    </ul>\r\n\r\n    <ul class=\"navbar-nav ml-auto small\">\r\n      <li class=\"nav-item dropdown\">\r\n        <div class=\"d-inline-block pull-right\" ngbDropdown #myDrop=\"ngbDropdown\">\r\n          <button class=\"btn btn-outline-danger mr-2 small\" id=\"dropdownManual\" ngbDropdownAnchor (focus)=\"myDrop.open()\">\r\n            <fa-icon icon=\"bell\"></fa-icon>\r\n          </button>\r\n          <div ngbDropdownMenu aria-labelledby=\"dropdownManual\">\r\n            <button *ngFor=\"let x of notification\" class=\"dropdown-item small\">{{x.tittle}}</button>\r\n          </div>\r\n        </div>\r\n      </li>\r\n\r\n\r\n      <li class=\"nav-item dropdown small\">\r\n          <div class=\"d-inline-block pull-right\" ngbDropdown #myDropCloseSession=\"ngbDropdown\">\r\n            <button class=\"btn btn-outline-light mr-2 small\" id=\"dropdownManual\" ngbDropdownAnchor (focus)=\"myDropCloseSession.open()\">\r\n              <fa-icon icon=\"user\"></fa-icon>\r\n            </button>\r\n            <div ngbDropdownMenu aria-labelledby=\"dropdownManual\">\r\n                <button routerLink=\"/settingUser/{{idUser}}\" class=\"dropdown-item small\">Mi Perfil</button>\r\n              <button (click)=\"logout()\" class=\"dropdown-item small\">Cerrar Sesión</button>\r\n            </div>\r\n          </div>\r\n        </li>      \r\n\r\n    </ul>\r\n  </div>\r\n</nav>\r\n\r\n<router-outlet class=\"small\"></router-outlet>"
 
 /***/ }),
 
@@ -1288,7 +1500,9 @@ module.exports = "<nav class=\"navbar navbar-expand-lg\" style=\"background-colo
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NavarComponent", function() { return NavarComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_authentication_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../_services/authentication.service */ "./src/app/_services/authentication.service.ts");
+/* harmony import */ var _services_notifications_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../_services/notifications.service */ "./src/app/_services/notifications.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1299,18 +1513,29 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
 var NavarComponent = /** @class */ (function () {
-    function NavarComponent() {
+    function NavarComponent(notificaionServices, authService) {
+        this.notificaionServices = notificaionServices;
+        this.authService = authService;
     }
     NavarComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.notificaionServices.getAllNotifications().subscribe(function (x) { return _this.notification = x; });
+        this.idUser = this.authService.userId();
+        this.isLogged = this.authService.isLoggedIn;
+    };
+    NavarComponent.prototype.logout = function () {
+        this.authService.logout();
     };
     NavarComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
             selector: 'app-navar',
             template: __webpack_require__(/*! ./navar.component.html */ "./src/app/navar/navar.component.html"),
             styles: [__webpack_require__(/*! ./navar.component.css */ "./src/app/navar/navar.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_services_notifications_service__WEBPACK_IMPORTED_MODULE_1__["NotificationsService"], _services_authentication_service__WEBPACK_IMPORTED_MODULE_0__["AuthenticationService"]])
     ], NavarComponent);
     return NavarComponent;
 }());
@@ -1797,8 +2022,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../_services/user.service */ "./src/app/_services/user.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _users__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../users */ "./src/app/users/users.ts");
+/* harmony import */ var _users__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../users */ "./src/app/users/users.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1813,14 +2037,12 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
-
 var ModifyuserComponent = /** @class */ (function () {
-    function ModifyuserComponent(router, http, route, userService) {
+    function ModifyuserComponent(router, route, userService) {
         this.router = router;
-        this.http = http;
         this.route = route;
         this.userService = userService;
-        this.model = new _users__WEBPACK_IMPORTED_MODULE_5__["modifyUser"];
+        this.model = new _users__WEBPACK_IMPORTED_MODULE_4__["modifyUser"];
     }
     ModifyuserComponent.prototype.onChange = function (rol) {
         console.log(rol.rolBelongUser);
@@ -1853,9 +2075,107 @@ var ModifyuserComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./modifyuser.component.html */ "./src/app/users/modifyuser/modifyuser.component.html"),
             styles: [__webpack_require__(/*! ./modifyuser.component.css */ "./src/app/users/modifyuser/modifyuser.component.css")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"], _services_user_service__WEBPACK_IMPORTED_MODULE_1__["UserService"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"], _services_user_service__WEBPACK_IMPORTED_MODULE_1__["UserService"]])
     ], ModifyuserComponent);
     return ModifyuserComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/users/settingofuser/settingofuser.component.css":
+/*!*****************************************************************!*\
+  !*** ./src/app/users/settingofuser/settingofuser.component.css ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/users/settingofuser/settingofuser.component.html":
+/*!******************************************************************!*\
+  !*** ./src/app/users/settingofuser/settingofuser.component.html ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container col-4 navarStyle\">\n  <h2>Mi Perfil</h2>\n  <form (ngSubmit)=\"onSubmit()\" #userForm=\"ngForm\">\n      \n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <input class=\"form-control\" [(ngModel)]=\"model.dni\" #Dni=\"ngModel\" required name=\"Dni\" id=\"Dni\" type=\"number\"\n              placeholder=\"Dni\">\n      </div>\n\n      <div style=\"margin-top: 10px;\" *ngIf=\"submitted && Dni.invalid\" clas=\"alert alert-danger\">\n          Dni Incorrecto\n      </div>\n\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <input class=\"form-control\" [(ngModel)]=\"model.userName\" required #Usuario=\"ngModel\" name=\"Usuario\" type=\"text\"\n              placeholder=\"Username\" value=\"\">\n      </div>\n\n      <div style=\"margin-top: 10px;\" *ngIf=\"submitted && Usuario.invalid\" class=\"alert alert-danger\">\n          Usuario Incorrecto\n      </div>\n\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <input class=\"form-control\" [(ngModel)]=\"model.password\" #Usuario=\"ngModel\" name=\"Password\" type=\"password\"\n              placeholder=\"Nueva Contraseña\" value=\"\">\n      </div>\n\n      <div style=\"margin-top: 10px;\" *ngIf=\"submitted && Password.invalid\" class=\"alert alert-danger\">\n          Contraseña Incorrecta\n      </div>\n\n      <div class=\"form-group\" style=\"margin-bottom : 0px;\">\n          <div class=\"row\">\n              <li *ngFor=\"let rol of model.rolesUser\" style=\"list-style:none\">\n                  <div class=\"col\">\n                      <input type=\"checkbox\" name=\"{{rol.id}}\" value=\"{{rol.id}}\" [(ngModel)]=\"rol.rolBelongUser\" />\n                      <label class=\"navarStyle\" style=\"text-transform: capitalize; padding-left: 5px;font-size: 11px;\" for=\"exampleCheck1\">{{rol.name}}</label>\n                  </div>\n              </li>\n          </div>\n      </div> \n\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <input class=\"form-control\" [(ngModel)]=\"model.phoneNumber\" required #PhoneNumber=\"ngModel\" name=\"phoneNumber\"\n              type=\"text\" placeholder=\"Telefóno\" value=\"\">\n      </div>\n      \n      <div style=\"margin-top: 10px;\" *ngIf=\"submitted && PhoneNumber.invalid\" class=\"alert alert-danger\">\n          Telefóno Incorrecto\n      </div>\n\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <button class=\"btn btn-success navarStyle\" [disabled]=\"!userForm.form.valid\">Guardar</button>\n          <a style=\"margin-left : 5px;\" class=\"btn btn-primary navarStyle\" href=\"\" routerLink=\"/users\">atrás</a>\n      </div>\n      \n\n  </form>\n  <div style=\"margin-top: 10px;\" *ngIf=\"userForm.form.invalid\">\n      Hay Campos erroneos en el formulario, verifiquelos\n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/users/settingofuser/settingofuser.component.ts":
+/*!****************************************************************!*\
+  !*** ./src/app/users/settingofuser/settingofuser.component.ts ***!
+  \****************************************************************/
+/*! exports provided: SettingofuserComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SettingofuserComponent", function() { return SettingofuserComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _users_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../users.component */ "./src/app/users/users.component.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../_services/user.service */ "./src/app/_services/user.service.ts");
+/* harmony import */ var _users__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../users */ "./src/app/users/users.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var SettingofuserComponent = /** @class */ (function () {
+    function SettingofuserComponent(router, route, userService) {
+        this.router = router;
+        this.route = route;
+        this.userService = userService;
+        this.model = new _users__WEBPACK_IMPORTED_MODULE_4__["modifyUser"];
+    }
+    SettingofuserComponent.prototype.onChange = function (rol) {
+        console.log(rol.rolBelongUser);
+    };
+    SettingofuserComponent.prototype.onSubmit = function () {
+        var _this = this;
+        this.model.id = this.id;
+        this.userService.updateUsers(this.model).subscribe(function (result) {
+            _this.router.navigate(['/users']);
+        }, function (error) {
+            // this.errors = error.error.notifications;
+        });
+        this.router.navigate([_users_component__WEBPACK_IMPORTED_MODULE_1__["UsersComponent"]]);
+    };
+    SettingofuserComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        //le asigno el id que extraigo de la url
+        this.route.params.subscribe(function (p) { return _this.id = p.id; });
+        this.userService.getById(this.id).subscribe(function (i) {
+            _this.model.dni = i.dni,
+                _this.model.userName = i.userName,
+                _this.model.id = i.id,
+                _this.model.phoneNumber = i.phoneNumber,
+                _this.model.rolesUser = i.rolesUser;
+        });
+    };
+    SettingofuserComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-settingofuser',
+            template: __webpack_require__(/*! ./settingofuser.component.html */ "./src/app/users/settingofuser/settingofuser.component.html"),
+            styles: [__webpack_require__(/*! ./settingofuser.component.css */ "./src/app/users/settingofuser/settingofuser.component.css")]
+        }),
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"], _services_user_service__WEBPACK_IMPORTED_MODULE_3__["UserService"]])
+    ], SettingofuserComponent);
+    return SettingofuserComponent;
 }());
 
 
@@ -1880,7 +2200,7 @@ module.exports = "@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.1.
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<a href=\"\" class=\"btn btn-success navarStyle\" routerLink=\"create\"><fa-icon icon=\"user-plus\"></fa-icon></a>\r\n<table class=\"table table-hover\" style=\"margin-top : 5px;margin-right: 25px;\">\r\n\t<thead>\r\n\t\t<tr style=\"font-weight: bold;\">\r\n\t\t\t<td>Dni</td><td>Usuario</td><td>Accción<td>\r\n\t\t</tr>\r\n\t</thead>\r\n\t<tbody>\r\n\t<tr *ngFor=\"let user of user_list\">\r\n\t\t<td style=\"width : 0px;\" class=\"col-lg\" >{{user.dni}}</td>\r\n\t\t<td style=\"width : 0px;\" class=\"col-lg\">{{user.userName}}</td>\r\n\t\t<td style=\"width : 0px; margin: 5px;\" class=\"col-lg\">\r\n\t\t<div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">\r\n\t\t\t<button type=\"button\" routerLink=\"/update/{{user.id}}\" class=\"btn btn-default navarStyle\"><fa-icon icon=\"edit\"></fa-icon></button>\r\n\t\t\t<button type=\"button\" routerLink=\"/users\" (click)=\"openEliminar(user.id,user.dni,user.userName)\" class=\"btn btn-danger navarStyle\"><fa-icon icon=\"trash\"></fa-icon></button>\r\n\t\t</div>\r\n\t\t</td>\r\n\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<ngb-pagination (pageChange)=\"loadPage($event)\" [collectionSize]=\"col_size\" [pageSize]=\"itemsPerPage\" [(page)]=\"page\" aria-label=\"Default pagination\"></ngb-pagination>\r\n\r\n\r\n\r\n\r\n\r\n"
+module.exports = "<a href=\"\" class=\"btn btn-success mb-3\" routerLink=\"create\">\r\n\t<fa-icon icon=\"user-plus\"></fa-icon>\r\n</a>\r\n<table class=\"table table-hover\">\r\n\t<thead>\r\n\t\t<tr style=\"font-weight: bold;\">\r\n\t\t\t<td>Dni</td>\r\n\t\t\t<td>Usuario</td>\r\n\t\t\t<td>Accción<td>\r\n\t\t</tr>\r\n\t</thead>\r\n\t<tbody>\r\n\t\t<tr *ngFor=\"let user of user_list\">\r\n\t\t\t<td>{{user.dni}}</td>\r\n\t\t\t<td>{{user.userName}}</td>\r\n\t\t\t<td>\r\n\t\t\t\t<div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">\r\n\t\t\t\t\t<button type=\"button\" routerLink=\"/update/{{user.id}}\" class=\"btn btn-default\">\r\n\t\t\t\t\t\t<fa-icon icon=\"edit\"></fa-icon>\r\n\t\t\t\t\t</button>\r\n\t\t\t\t\t<button type=\"button\" routerLink=\"/users\" (click)=\"openEliminar(user.id,user.dni,user.userName)\" class=\"btn btn-danger\">\r\n\t\t\t\t\t\t<fa-icon icon=\"trash\"></fa-icon>\r\n\t\t\t\t\t</button>\r\n\t\t\t\t</div>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<ngb-pagination (pageChange)=\"loadPage($event)\" [collectionSize]=\"col_size\" [pageSize]=\"itemsPerPage\" [(page)]=\"page\"\r\n aria-label=\"Default pagination\"></ngb-pagination>"
 
 /***/ }),
 

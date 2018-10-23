@@ -7,6 +7,5 @@ namespace server.Models
     public class User : IdentityUser<Guid>
     {
         public int Dni { set; get; }
-
     }
 }

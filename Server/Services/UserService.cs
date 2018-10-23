@@ -244,7 +244,7 @@ namespace server.Services
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber
             };
-
+            
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)

@@ -110,6 +110,7 @@ namespace server
             services.AddScoped<IEmailSender, EmailService>();
             services.AddScoped<ISmsSender, EmailService>();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<IFileService, FileService>();
 
             //sender Email
             // Add application services.
@@ -121,6 +122,7 @@ namespace server
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseStaticFiles();
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 

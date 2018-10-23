@@ -52,6 +52,7 @@ namespace server.Controllers
         }
 
         [HttpPost("Auth")]
+        [AllowAnonymous]
         public async Task<IActionResult> Authentication([FromBody]LoginDto p_LoginDto)
         {
             var result = await _userService.Authenticate(p_LoginDto.Usuario, p_LoginDto.Password);

@@ -18,5 +18,6 @@ namespace server.Models
         }
 
         public virtual DbSet<Notification> Notifications { get; set; }
+        public virtual DbSet<File> Files { get; set; }
     }
 }
