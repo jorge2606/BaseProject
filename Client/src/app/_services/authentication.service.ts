@@ -46,4 +46,10 @@ export class AuthenticationService {
     get isLoggedIn() {
         return this.loggedIn.asObservable(); // {2}
     }
+
+    userId(){
+        let current = localStorage.getItem('currentUser');
+        var currentUserJSON = JSON.parse(current);
+        return  currentUserJSON['id'];
+    }
 }

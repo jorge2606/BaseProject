@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../_services/user.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,8 +9,8 @@ import { UserService } from '../_services/user.service';
 })
 
 export class HomeComponent implements OnInit {
-
-  constructor(private userService: UserService) {}
+  id: number;
+  constructor(private userService: UserService, private route : ActivatedRoute) {}
 
   ngOnInit() {
   }

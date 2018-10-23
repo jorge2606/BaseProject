@@ -11,6 +11,7 @@ import { UsersComponent } from './users/users.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { ResetPasswordComponent } from './manage-password/reset-password/reset-password.component';
+import { SettingofuserComponent } from './users/settingofuser/settingofuser.component';
 
 const routes: Routes = [
   //canActivate : Interface that a class can implement to be a guard deciding if a route can be activated.
@@ -20,7 +21,7 @@ const routes: Routes = [
   { path: 'users', component: UsersComponent, canActivate : [AuthGuard] },
   { path: 'users/create', component: CreateuserComponent, canActivate : [AuthGuard] },
   { path: 'update/:id', component: ModifyuserComponent, canActivate : [AuthGuard] },
-  { path: 'update/:id', component: ModifyuserComponent, canActivate : [AuthGuard] },
+  { path: 'settingUser/:id', component: SettingofuserComponent, canActivate : [AuthGuard] },
 
   { path: 'roles', component: RolesComponent, canActivate : [AuthGuard] },
   { path: 'roles/permissions/:id', component: RolesPermissionsComponent, canActivate : [AuthGuard] },

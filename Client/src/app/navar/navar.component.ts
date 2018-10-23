@@ -15,13 +15,16 @@ export class NavarComponent implements OnInit {
 
   notification : Notifications[];
   isLogged : Observable<boolean>;
+  idUser : number;
 
   ngOnInit() {
     this.notificaionServices.getAllNotifications().subscribe(
       x => this.notification = x
     );
 
+    this.idUser = this.authService.userId();
     this.isLogged = this.authService.isLoggedIn;
+    
   }
 
   logout(){
