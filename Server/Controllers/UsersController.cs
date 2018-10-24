@@ -11,6 +11,7 @@ using AutoMapper;
 using server.Helpers;
 using System.Threading.Tasks;
 using server.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace server.Controllers
 {
@@ -172,6 +173,14 @@ namespace server.Controllers
         [HttpPut]
         [Authorize]
         public async Task<IActionResult> Update([FromBody]MofidyUserCommingFromClientDto userDto)
+        {
+            await _userService.UpdateAsync(userDto);
+            return Ok();
+        }
+
+        [HttpPut("UpdateProfile")]
+        [Authorize]
+        public async Task<IActionResult> UpdateProfile([FromBody]MofidyUserCommingFromClientDto userDto)
         {
             await _userService.UpdateAsync(userDto);
             return Ok();

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using server.Dto;
-using server.Models;
 using server.ServiceResult;
 
 namespace server.IServices

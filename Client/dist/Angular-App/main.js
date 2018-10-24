@@ -479,8 +479,10 @@ var AuthenticationService = /** @class */ (function () {
     });
     AuthenticationService.prototype.userId = function () {
         var current = localStorage.getItem('currentUser');
-        var currentUserJSON = JSON.parse(current);
-        return currentUserJSON['id'];
+        if (current != null) {
+            var currentUserJSON = JSON.parse(current);
+            return currentUserJSON['id'];
+        }
     };
     AuthenticationService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({ providedIn: 'root' }),
@@ -727,6 +729,9 @@ var UserService = /** @class */ (function () {
     };
     UserService.prototype.updateUsers = function (user) {
         return this.http.put('http://localhost:63098/api/User/', user);
+    };
+    UserService.prototype.updateProfileUsers = function (user) {
+        return this.http.put('http://localhost:63098/api/User/UpdateProfile', user);
     };
     UserService.prototype.createWithObjectUser = function (user) {
         var _this = this;
@@ -1120,7 +1125,7 @@ module.exports = "\r\n.login {\r\n    margin : 50px;\r\n    background-color: al
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\r\n    <div class=\"collapse navbar-collapse\" id=\"navbarNavAltMarkup\">\r\n\r\n        <form class=\"form-inline my-2 my-lg-0 ml-auto\" (ngSubmit)=\"LoginForm.form.valid && onSubmit()\" #LoginForm=\"ngForm\">\r\n\r\n            <input matInput [(ngModel)]=\"model.Usuario\" class=\"form-control mr-1\" type=\"text\" name=\"username\" #username=\"ngModel\"\r\n                placeholder=\"Usuario\">\r\n\r\n            <div *ngIf=\"username.invalid\">\r\n                Usuario Incorrecto\r\n            </div>\r\n\r\n            <input matInput [(ngModel)]=\"model.Password\" class=\"form-control mr-1\" type=\"password\" placeholder=\"Contraseña\"\r\n                name=\"Password\" #password=\"ngModel\">\r\n\r\n            <div *ngIf=\"password.invalid\">\r\n                Contraseña Incorrecta\r\n            </div>\r\n\r\n\r\n            <button mat-button [disabled]=\"LoginForm.form.invalid\" class=\"btn btn-primary mr-1\">\r\n                <fa-icon icon=\"sign-in-alt\"></fa-icon>\r\n            </button>\r\n            <button type=\"button\" class=\"btn btn-success mr-1\" href=\"\" routerLink=\"/register\">Registrar</button>\r\n            <a class=\"text-white small\" routerLink=\"/RecuperarContraseña\">olvide mi contraseña</a>\r\n            <div *ngIf=\"!LoginForm.form.valid\">\r\n                Formulario Incorrecto\r\n            </div>\r\n        </form>\r\n    </div>\r\n</nav>"
+module.exports = "<nav *ngIf=\"!isLogged | async\" class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\r\n    <div class=\"collapse navbar-collapse\" id=\"navbarNavAltMarkup\">\r\n\r\n        <form class=\"form-inline my-2 my-lg-0 ml-auto\" (ngSubmit)=\"LoginForm.form.valid && onSubmit()\" #LoginForm=\"ngForm\">\r\n\r\n            <input matInput [(ngModel)]=\"model.Usuario\" class=\"form-control mr-1\" type=\"text\" name=\"username\" #username=\"ngModel\"\r\n                placeholder=\"Usuario\">\r\n\r\n            <div *ngIf=\"username.invalid\">\r\n                Usuario Incorrecto\r\n            </div>\r\n\r\n            <input matInput [(ngModel)]=\"model.Password\" class=\"form-control mr-1\" type=\"password\" placeholder=\"Contraseña\"\r\n                name=\"Password\" #password=\"ngModel\">\r\n\r\n            <div *ngIf=\"password.invalid\">\r\n                Contraseña Incorrecta\r\n            </div>\r\n\r\n\r\n            <button mat-button [disabled]=\"LoginForm.form.invalid\" class=\"btn btn-primary mr-1\">\r\n                <fa-icon icon=\"sign-in-alt\"></fa-icon>\r\n            </button>\r\n            <button type=\"button\" class=\"btn btn-success mr-1\" href=\"\" routerLink=\"/register\">Registrar</button>\r\n            <a class=\"text-white small\" routerLink=\"/RecuperarContraseña\">olvide mi contraseña</a>\r\n            <div *ngIf=\"!LoginForm.form.valid\">\r\n                Formulario Incorrecto\r\n            </div>\r\n        </form>\r\n    </div>\r\n</nav>"
 
 /***/ }),
 
@@ -1199,6 +1204,7 @@ var LoginComponent = /** @class */ (function () {
             username: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
             Password: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required]
         });
+        this.isLogged = this.authenticationService.isLoggedIn;
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     };
@@ -2102,7 +2108,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container col-4 navarStyle\">\n  <h2>Mi Perfil</h2>\n  <form (ngSubmit)=\"onSubmit()\" #userForm=\"ngForm\">\n      \n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <input class=\"form-control\" [(ngModel)]=\"model.dni\" #Dni=\"ngModel\" required name=\"Dni\" id=\"Dni\" type=\"number\"\n              placeholder=\"Dni\">\n      </div>\n\n      <div style=\"margin-top: 10px;\" *ngIf=\"submitted && Dni.invalid\" clas=\"alert alert-danger\">\n          Dni Incorrecto\n      </div>\n\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <input class=\"form-control\" [(ngModel)]=\"model.userName\" required #Usuario=\"ngModel\" name=\"Usuario\" type=\"text\"\n              placeholder=\"Username\" value=\"\">\n      </div>\n\n      <div style=\"margin-top: 10px;\" *ngIf=\"submitted && Usuario.invalid\" class=\"alert alert-danger\">\n          Usuario Incorrecto\n      </div>\n\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <input class=\"form-control\" [(ngModel)]=\"model.password\" #Usuario=\"ngModel\" name=\"Password\" type=\"password\"\n              placeholder=\"Nueva Contraseña\" value=\"\">\n      </div>\n\n      <div style=\"margin-top: 10px;\" *ngIf=\"submitted && Password.invalid\" class=\"alert alert-danger\">\n          Contraseña Incorrecta\n      </div>\n\n      <div class=\"form-group\" style=\"margin-bottom : 0px;\">\n          <div class=\"row\">\n              <li *ngFor=\"let rol of model.rolesUser\" style=\"list-style:none\">\n                  <div class=\"col\">\n                      <input type=\"checkbox\" name=\"{{rol.id}}\" value=\"{{rol.id}}\" [(ngModel)]=\"rol.rolBelongUser\" />\n                      <label class=\"navarStyle\" style=\"text-transform: capitalize; padding-left: 5px;font-size: 11px;\" for=\"exampleCheck1\">{{rol.name}}</label>\n                  </div>\n              </li>\n          </div>\n      </div> \n\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <input class=\"form-control\" [(ngModel)]=\"model.phoneNumber\" required #PhoneNumber=\"ngModel\" name=\"phoneNumber\"\n              type=\"text\" placeholder=\"Telefóno\" value=\"\">\n      </div>\n      \n      <div style=\"margin-top: 10px;\" *ngIf=\"submitted && PhoneNumber.invalid\" class=\"alert alert-danger\">\n          Telefóno Incorrecto\n      </div>\n\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <button class=\"btn btn-success navarStyle\" [disabled]=\"!userForm.form.valid\">Guardar</button>\n          <a style=\"margin-left : 5px;\" class=\"btn btn-primary navarStyle\" href=\"\" routerLink=\"/users\">atrás</a>\n      </div>\n      \n\n  </form>\n  <div style=\"margin-top: 10px;\" *ngIf=\"userForm.form.invalid\">\n      Hay Campos erroneos en el formulario, verifiquelos\n  </div>\n</div>"
+module.exports = "<div class=\"container col-4 navarStyle\">\n  <h2>Mi Perfil</h2>\n  <form (ngSubmit)=\"onSubmit()\" #userForm=\"ngForm\">\n      \n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <input class=\"form-control\" [(ngModel)]=\"model.dni\" #Dni=\"ngModel\" required name=\"Dni\" id=\"Dni\" type=\"number\"\n              placeholder=\"Dni\">\n      </div>\n\n      <div style=\"margin-top: 10px;\" *ngIf=\"submitted && Dni.invalid\" clas=\"alert alert-danger\">\n          Dni Incorrecto\n      </div>\n\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <input class=\"form-control\" [(ngModel)]=\"model.userName\" required #Usuario=\"ngModel\" name=\"Usuario\" type=\"text\"\n              placeholder=\"Username\" value=\"\">\n      </div>\n\n      <div style=\"margin-top: 10px;\" *ngIf=\"submitted && Usuario.invalid\" class=\"alert alert-danger\">\n          Usuario Incorrecto\n      </div>\n\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <input class=\"form-control\" [(ngModel)]=\"model.password\" #Usuario=\"ngModel\" name=\"Password\" type=\"password\"\n              placeholder=\"Nueva Contraseña\" value=\"\">\n      </div>\n\n      <div style=\"margin-top: 10px;\" *ngIf=\"submitted && Password.invalid\" class=\"alert alert-danger\">\n          Contraseña Incorrecta\n      </div>\n\n      <div class=\"form-group\" style=\"margin-bottom : 0px;\">\n          <div class=\"row\">\n              <li *ngFor=\"let rol of model.rolesUser\" style=\"list-style:none\">\n                  <div class=\"col\">\n                      <input type=\"checkbox\" name=\"{{rol.id}}\" value=\"{{rol.id}}\" [(ngModel)]=\"rol.rolBelongUser\" />\n                      <label class=\"navarStyle\" style=\"text-transform: capitalize; padding-left: 5px;font-size: 11px;\" for=\"exampleCheck1\">{{rol.name}}</label>\n                  </div>\n              </li>\n          </div>\n      </div> \n\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <input class=\"form-control\" [(ngModel)]=\"model.phoneNumber\" required #PhoneNumber=\"ngModel\" name=\"phoneNumber\"\n              type=\"text\" placeholder=\"Telefóno\" value=\"\">\n      </div>\n      \n      <div style=\"margin-top: 10px;\" *ngIf=\"submitted && PhoneNumber.invalid\" class=\"alert alert-danger\">\n          Telefóno Incorrecto\n      </div>\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n        <input type=\"file\" [(ngModel)]=\"model.image\" name=\"image\" #image=\"ngModel\" required>\n     </div>\n\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <button class=\"btn btn-success navarStyle\" [disabled]=\"!userForm.form.valid\">Guardar</button>\n          <a style=\"margin-left : 5px;\" class=\"btn btn-primary navarStyle\" href=\"\" routerLink=\"/users\">atrás</a>\n      </div>\n\n\n  </form>\n  <div style=\"margin-top: 10px;\" *ngIf=\"userForm.form.invalid\">\n      Hay Campos erroneos en el formulario, verifiquelos\n  </div>\n</div>"
 
 /***/ }),
 
@@ -2140,7 +2146,8 @@ var SettingofuserComponent = /** @class */ (function () {
         this.router = router;
         this.route = route;
         this.userService = userService;
-        this.model = new _users__WEBPACK_IMPORTED_MODULE_4__["modifyUser"];
+        this.model = new _users__WEBPACK_IMPORTED_MODULE_4__["modifyProfileUser"];
+        this.id = 0;
     }
     SettingofuserComponent.prototype.onChange = function (rol) {
         console.log(rol.rolBelongUser);
@@ -2148,7 +2155,7 @@ var SettingofuserComponent = /** @class */ (function () {
     SettingofuserComponent.prototype.onSubmit = function () {
         var _this = this;
         this.model.id = this.id;
-        this.userService.updateUsers(this.model).subscribe(function (result) {
+        this.userService.updateProfileUsers(this.model).subscribe(function (result) {
             _this.router.navigate(['/users']);
         }, function (error) {
             // this.errors = error.error.notifications;
@@ -2166,6 +2173,10 @@ var SettingofuserComponent = /** @class */ (function () {
                 _this.model.phoneNumber = i.phoneNumber,
                 _this.model.rolesUser = i.rolesUser;
         });
+    };
+    SettingofuserComponent.prototype.onFileChanged = function (event) {
+        var file = event.target.files[0];
+        console.log(event);
     };
     SettingofuserComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -2293,7 +2304,7 @@ var UsersComponent = /** @class */ (function () {
 /*!********************************!*\
   !*** ./src/app/users/users.ts ***!
   \********************************/
-/*! exports provided: User, rolesBelongUser, modifyUser, createUser */
+/*! exports provided: User, rolesBelongUser, modifyUser, modifyProfileUser, createUser */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2301,6 +2312,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "User", function() { return User; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rolesBelongUser", function() { return rolesBelongUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "modifyUser", function() { return modifyUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "modifyProfileUser", function() { return modifyProfileUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createUser", function() { return createUser; });
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2330,6 +2342,14 @@ var modifyUser = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return modifyUser;
+}(User));
+
+var modifyProfileUser = /** @class */ (function (_super) {
+    __extends(modifyProfileUser, _super);
+    function modifyProfileUser() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return modifyProfileUser;
 }(User));
 
 var createUser = /** @class */ (function (_super) {

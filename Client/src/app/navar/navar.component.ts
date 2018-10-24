@@ -21,8 +21,9 @@ export class NavarComponent implements OnInit {
     this.notificaionServices.getAllNotifications().subscribe(
       x => this.notification = x
     );
-
-    this.idUser = this.authService.userId();
+    
+    this.idUser = this.authService.userId('id');
+    
     this.isLogged = this.authService.isLoggedIn;
     
   }

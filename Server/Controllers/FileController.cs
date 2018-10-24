@@ -20,10 +20,12 @@ namespace server.Controllers
             _fileService = fileService;
         }
 
-        [HttpPost]
+        [HttpPost("{userId}")]
         [AllowAnonymous]
-        public async Task<IActionResult> saveFile(FileCreateDto fileCreateDto)
+        public async Task<IActionResult> saveFile(FileCreateDto fileCreateDto,Guid userId)
         {
+           fileCreateDto.UserId = userId;
+
            var result = await _fileService.Save(fileCreateDto);
             if (!result.IsSuccess)
             {

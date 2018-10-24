@@ -30,6 +30,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ManagePasswordComponent } from './manage-password/manage-password.component';
 import { ResetPasswordComponent } from './manage-password/reset-password/reset-password.component';
 import { SettingofuserComponent } from './users/settingofuser/settingofuser.component';
+import { FileUploadModule } from 'ng2-file-upload';
+import { PhotoProfileComponent } from './users/photo-profile/photo-profile.component';
+
 
 library.add(fas);
 
@@ -50,7 +53,8 @@ library.add(fas);
     RolesPermissionsComponent,
     ManagePasswordComponent,
     ResetPasswordComponent,
-    SettingofuserComponent
+    SettingofuserComponent,
+    PhotoProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -63,6 +67,7 @@ library.add(fas);
     NgxPaginationModule,
     FontAwesomeModule,
     TreeviewModule.forRoot(),
+    FileUploadModule,
     BrowserAnimationsModule
   ],
   providers: [

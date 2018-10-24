@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using server.Dto;
 using server.ServiceResult;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace server.Services
 {
@@ -25,6 +26,7 @@ namespace server.Services
         private UserManager _userManager;
         private readonly RoleManager _roleManager;
         private readonly IEmailSender _emailSender;
+        private IFileService _fileService;
 
 
         private readonly SignInManager _signInManager;
@@ -35,7 +37,8 @@ namespace server.Services
 
             IConfiguration configuration,
             SignInManager signInManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IFileService fileService)
         {
             _context = context;
             _userManager = userManager;
@@ -43,6 +46,7 @@ namespace server.Services
             _configuration = configuration;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _fileService = fileService;
         }
 
         private IConfiguration _configuration { get; }
@@ -142,7 +146,7 @@ namespace server.Services
                 if (_context.Users.Any(x => x.UserName == userParam.UserName))
                     throw new AppException("El usuario " + userParam.UserName + " ya existe en la db.");
             }
-
+             
             // update user properties
             user.Dni = userParam.Dni;
             user.UserName = userParam.UserName;
@@ -161,9 +165,18 @@ namespace server.Services
             {
                 user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, userParam.Password);
             }
-
+            if (userParam.image.Length > 0)
+            {
+                //agregamos la imagen
+                FileCreateDto fileNew = new FileCreateDto();
+                fileNew.File = userParam.image;
+                fileNew.UserId = user.Id;
+                await _fileService.Save(fileNew);
+            }
             _context.Users.Update(user);
             _context.SaveChanges();
+
+
         }
 
         public async Task<ServiceResult<string>> CreateAsync(createUserDto user)

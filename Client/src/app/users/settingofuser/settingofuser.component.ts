@@ -1,8 +1,10 @@
+import { environment } from './../../../environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { UsersComponent } from '../users.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../_services/user.service';
 import { modifyUser } from '../users';
+import { FileUploader } from 'ng2-file-upload';
 
 @Component({
   selector: 'app-settingofuser',
@@ -13,11 +15,13 @@ export class SettingofuserComponent implements OnInit {
 
   
 
-  constructor(private router : Router,private route: ActivatedRoute, private userService: UserService) {
+  constructor(private router : Router,
+    private route: ActivatedRoute, 
+    private userService: UserService) {
   }
   model = new modifyUser;
-  id: number;
-  
+  id: number=0;
+
 
   onChange(rol){
     console.log(rol.rolBelongUser);
@@ -25,7 +29,7 @@ export class SettingofuserComponent implements OnInit {
 
    onSubmit() {
     this.model.id = this.id;
-    this.userService.updateUsers(this.model).subscribe(
+    this.userService.updateProfileUsers(this.model).subscribe(
       result => {
         this.router.navigate(['/users']);
       },
@@ -41,7 +45,7 @@ export class SettingofuserComponent implements OnInit {
     this.route.params.subscribe(
       p => this.id = p.id
     );
-
+    
     this.userService.getById(this.id).subscribe(i => {
         this.model.dni = i.dni,
         this.model.userName = i.userName,
@@ -49,6 +53,6 @@ export class SettingofuserComponent implements OnInit {
         this.model.phoneNumber = i.phoneNumber,
         this.model.rolesUser = i.rolesUser;
     })
-
   }
+
 }

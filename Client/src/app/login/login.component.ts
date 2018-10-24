@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Login } from './login';
 import { AuthenticationService } from '../_services/authentication.service';
 import { first } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';  
+  isLogged : Observable<boolean>;
 
   constructor(private http : HttpClient,
     private formBuilder: FormBuilder,
@@ -58,6 +60,8 @@ export class LoginComponent implements OnInit {
           username: ['', Validators.required],
           Password: ['', Validators.required]
         });
+
+        this.isLogged = this.authenticationService.isLoggedIn;
         
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';

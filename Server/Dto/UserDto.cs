@@ -1,4 +1,5 @@
-﻿using server.Models;
+﻿using Microsoft.AspNetCore.Http;
+using server.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -36,6 +37,7 @@ namespace server.Dto
     {
         public Guid Id { get; set; }
         public string Password { get; set; }
+        public IFormFile image { set; get; }
     }
 
     public class createUserDto : ModifyUserDto

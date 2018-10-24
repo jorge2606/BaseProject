@@ -1,3 +1,4 @@
+import { PhotoProfileComponent } from './users/photo-profile/photo-profile.component';
 import { ManagePasswordComponent } from './manage-password/manage-password.component';
 import { RolesPermissionsComponent } from './roles/roles-permissions/roles-permissions.component';
 import { RolesComponent } from './roles/roles.component';
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'users/create', component: CreateuserComponent, canActivate : [AuthGuard] },
   { path: 'update/:id', component: ModifyuserComponent, canActivate : [AuthGuard] },
   { path: 'settingUser/:id', component: SettingofuserComponent, canActivate : [AuthGuard] },
+  { path: 'photoProfile/:id', component: PhotoProfileComponent, canActivate : [AuthGuard] },
 
   { path: 'roles', component: RolesComponent, canActivate : [AuthGuard] },
   { path: 'roles/permissions/:id', component: RolesPermissionsComponent, canActivate : [AuthGuard] },

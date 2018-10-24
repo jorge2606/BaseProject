@@ -28,6 +28,10 @@ export class UserService {
         return this.http.put('http://localhost:63098/api/User/', user);
     }
 
+    updateProfileUsers(user: modifyUser) : Observable<any> {
+        return this.http.put('http://localhost:63098/api/User/UpdateProfile', user);
+    }
+
     createWithObjectUser(user: createUser): Observable<any> {
         return this.http.post('http://localhost:63098/api/User/', user)
         .pipe(
