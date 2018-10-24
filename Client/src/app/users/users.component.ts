@@ -19,7 +19,7 @@ export class UsersComponent implements OnInit {
   itemsPerPage : number = 10;
   value : number;
 
-  
+  displayedColumns = ['dni','userName'];
 
   changeRolDto = new RoleUserDto();
   
