@@ -22,6 +22,8 @@ using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace server
 {
@@ -117,12 +119,34 @@ namespace server
             services.AddTransient<IEmailSender, EmailService>();
             services.AddTransient<ISmsSender, EmailService>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
+
+            services.AddDirectoryBrowser();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            app.UseStaticFiles();
+            var staticFileDirectory =
+                Path.Combine(FileService.StaticFilesDirectory);
+
+            if (!Directory.Exists(staticFileDirectory))
+            {
+                Directory.CreateDirectory(staticFileDirectory);
+            }
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(staticFileDirectory),
+                RequestPath = "/StaticFiles"
+            });
+
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(staticFileDirectory, "Profile")),
+                RequestPath = "/StaticFiles"
+            });
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 

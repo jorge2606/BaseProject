@@ -74,13 +74,14 @@ namespace server.Services
             UserDto userDto = new UserDto();
 
             var token = GenerateJwtTokenHandler(user.Email, user);
+            var filePath = _fileService.GetByIdFile(user.Id);
 
             userDto.Id = user.Id;
             userDto.Dni = user.Dni;
             userDto.UserName = user.UserName;
             userDto.PhoneNumber = user.PhoneNumber;
             userDto.Token = token;
-
+            userDto.Path = filePath.Response.Paths;
             result.Response = userDto;
 
             return result;

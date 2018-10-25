@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';  
-  isLogged : Observable<boolean>;
+  
 
   constructor(private http : HttpClient,
     private formBuilder: FormBuilder,
@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthenticationService) { }
 
     model = new Login();
+    isLogged : Observable<boolean>;
 
    // convenience getter for easy access to form fields
    get f() { return this.loginForm.controls; }

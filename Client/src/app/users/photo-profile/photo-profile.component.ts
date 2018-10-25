@@ -32,12 +32,11 @@ export class PhotoProfileComponent implements OnInit {
       maxFileSize: 10 * 1024 * 1024
     });
 
-    this.uploader.onBeforeUploadItem = function (item) {
+    /*this.uploader.onBeforeUploadItem = function (item) {
       item.formData = [{'userId': '60651FA8-4443-4157-AB18-8F3886320362'}];
     };
-    debugger
-    console.log(this.uploader);
-
+    */
+    
   }
 
 

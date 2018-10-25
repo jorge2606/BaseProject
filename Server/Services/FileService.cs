@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +16,8 @@ namespace server.Services
     public class FileService : IFileService
     {
 
-        private string applicationRoot = "D:/Dev/Devlights/BaseProject/Server/wwwroot/images/";
+        public static string StaticFilesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles");
+
         private DataContext _contextFile;
         private IMapper _mapper;
 
@@ -29,9 +33,16 @@ namespace server.Services
 
             using (var stream = file.OpenReadStream())
             {
-                var newDirectory = Directory.CreateDirectory(applicationRoot + "/" + model.UserId + "/");
 
-                var filePath = Path.Combine(applicationRoot + model.UserId + "/", file.FileName);
+                var newDirectory =
+                    Path.Combine(StaticFilesDirectory, "Profile", model.UserId.ToString());
+
+                if (!Directory.Exists(newDirectory))
+                {
+                    Directory.CreateDirectory(newDirectory);
+                }
+
+                var filePath = Path.Combine(newDirectory, file.FileName);
 
                 model.Path = filePath;
                 model.MimeType = file.ContentType;
@@ -45,7 +56,29 @@ namespace server.Services
             _contextFile.Files.Add(_mapper.Map<models.File>(model));
             _contextFile.SaveChanges();
 
-           return new ServiceResult<FileCreateDto>(model);
+            return new ServiceResult<FileCreateDto>(model);
+        }
+
+        public ServiceResult<FileByIdDto> GetByIdFile(Guid userId)
+        {
+            var path = Path.Combine(StaticFilesDirectory,"Profile",userId.ToString());
+            var files = Directory.EnumerateFiles(path, "*.*");
+
+            FileByIdDto imagesPath = new FileByIdDto();
+
+            if (files.Count() == 1)
+            {
+                string pathFile = "";
+
+                foreach (var i in files)
+                {
+                    pathFile = i;
+                }
+
+                imagesPath.Paths = pathFile;
+            }
+
+            return new ServiceResult<FileByIdDto>(imagesPath);
         }
     }
 }

@@ -23,7 +23,9 @@ namespace server.Dto
         public string UserName { set; get; }
         public string PhoneNumber { set; get; }
         public string Token { get; set; }
+        public string Path { get; set; }
     }
+
 
     public class ModifyUserDto
     {

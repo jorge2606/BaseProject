@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -32,9 +33,17 @@ namespace server.Controllers
                 return BadRequest(result);
             }
 
-            return Ok(result.Response);
+            return Ok(result.Response.File);
         }
 
+        [HttpGet("{userId}")]
+        [AllowAnonymous]
+        public IActionResult FileById(Guid userId)
+        {
+           var result = _fileService.GetByIdFile(userId);
 
+            return Ok(result);
+        }
     }
+
 }

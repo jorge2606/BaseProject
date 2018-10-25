@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Http;
 
@@ -24,5 +25,10 @@ namespace server.Dto
     public class FileDeleteDto
     {
         public DateTime DeleteTime { set; get; }
+    }
+
+    public class FileByIdDto
+    {
+        public string Paths { set; get; }
     }
 }

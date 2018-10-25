@@ -477,11 +477,11 @@ var AuthenticationService = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    AuthenticationService.prototype.userId = function () {
+    AuthenticationService.prototype.userId = function (key) {
         var current = localStorage.getItem('currentUser');
         if (current != null) {
             var currentUserJSON = JSON.parse(current);
-            return currentUserJSON['id'];
+            return currentUserJSON[key];
         }
     };
     AuthenticationService = __decorate([
@@ -777,20 +777,21 @@ var UserService = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppRoutesModule", function() { return AppRoutesModule; });
-/* harmony import */ var _manage_password_manage_password_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./manage-password/manage-password.component */ "./src/app/manage-password/manage-password.component.ts");
-/* harmony import */ var _roles_roles_permissions_roles_permissions_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./roles/roles-permissions/roles-permissions.component */ "./src/app/roles/roles-permissions/roles-permissions.component.ts");
-/* harmony import */ var _roles_roles_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./roles/roles.component */ "./src/app/roles/roles.component.ts");
-/* harmony import */ var _users_modifyuser_modifyuser_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./users/modifyuser/modifyuser.component */ "./src/app/users/modifyuser/modifyuser.component.ts");
-/* harmony import */ var _guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./_guards/auth.guard */ "./src/app/_guards/auth.guard.ts");
-/* harmony import */ var _users_createuser_createuser_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./users/createuser/createuser.component */ "./src/app/users/createuser/createuser.component.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
-/* harmony import */ var _users_users_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./users/users.component */ "./src/app/users/users.component.ts");
-/* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
-/* harmony import */ var _register_register_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./register/register.component */ "./src/app/register/register.component.ts");
-/* harmony import */ var _manage_password_reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./manage-password/reset-password/reset-password.component */ "./src/app/manage-password/reset-password/reset-password.component.ts");
-/* harmony import */ var _users_settingofuser_settingofuser_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./users/settingofuser/settingofuser.component */ "./src/app/users/settingofuser/settingofuser.component.ts");
+/* harmony import */ var _users_photo_profile_photo_profile_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./users/photo-profile/photo-profile.component */ "./src/app/users/photo-profile/photo-profile.component.ts");
+/* harmony import */ var _manage_password_manage_password_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./manage-password/manage-password.component */ "./src/app/manage-password/manage-password.component.ts");
+/* harmony import */ var _roles_roles_permissions_roles_permissions_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./roles/roles-permissions/roles-permissions.component */ "./src/app/roles/roles-permissions/roles-permissions.component.ts");
+/* harmony import */ var _roles_roles_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./roles/roles.component */ "./src/app/roles/roles.component.ts");
+/* harmony import */ var _users_modifyuser_modifyuser_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./users/modifyuser/modifyuser.component */ "./src/app/users/modifyuser/modifyuser.component.ts");
+/* harmony import */ var _guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./_guards/auth.guard */ "./src/app/_guards/auth.guard.ts");
+/* harmony import */ var _users_createuser_createuser_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./users/createuser/createuser.component */ "./src/app/users/createuser/createuser.component.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
+/* harmony import */ var _users_users_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./users/users.component */ "./src/app/users/users.component.ts");
+/* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
+/* harmony import */ var _register_register_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./register/register.component */ "./src/app/register/register.component.ts");
+/* harmony import */ var _manage_password_reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./manage-password/reset-password/reset-password.component */ "./src/app/manage-password/reset-password/reset-password.component.ts");
+/* harmony import */ var _users_settingofuser_settingofuser_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./users/settingofuser/settingofuser.component */ "./src/app/users/settingofuser/settingofuser.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -811,19 +812,21 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 var routes = [
     //canActivate : Interface that a class can implement to be a guard deciding if a route can be activated.
-    { path: '', component: _home_home_component__WEBPACK_IMPORTED_MODULE_10__["HomeComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
-    { path: 'login', component: _login_login_component__WEBPACK_IMPORTED_MODULE_8__["LoginComponent"] },
-    { path: 'register', component: _register_register_component__WEBPACK_IMPORTED_MODULE_11__["RegisterComponent"] },
-    { path: 'users', component: _users_users_component__WEBPACK_IMPORTED_MODULE_9__["UsersComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
-    { path: 'users/create', component: _users_createuser_createuser_component__WEBPACK_IMPORTED_MODULE_5__["CreateuserComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
-    { path: 'update/:id', component: _users_modifyuser_modifyuser_component__WEBPACK_IMPORTED_MODULE_3__["ModifyuserComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
-    { path: 'settingUser/:id', component: _users_settingofuser_settingofuser_component__WEBPACK_IMPORTED_MODULE_13__["SettingofuserComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
-    { path: 'roles', component: _roles_roles_component__WEBPACK_IMPORTED_MODULE_2__["RolesComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
-    { path: 'roles/permissions/:id', component: _roles_roles_permissions_roles_permissions_component__WEBPACK_IMPORTED_MODULE_1__["RolesPermissionsComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
-    { path: 'RecuperarContraseña', component: _manage_password_manage_password_component__WEBPACK_IMPORTED_MODULE_0__["ManagePasswordComponent"] },
-    { path: 'CambiarPassword', component: _manage_password_reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_12__["ResetPasswordComponent"] },
+    { path: '', component: _home_home_component__WEBPACK_IMPORTED_MODULE_11__["HomeComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
+    { path: 'login', component: _login_login_component__WEBPACK_IMPORTED_MODULE_9__["LoginComponent"] },
+    { path: 'register', component: _register_register_component__WEBPACK_IMPORTED_MODULE_12__["RegisterComponent"] },
+    { path: 'users', component: _users_users_component__WEBPACK_IMPORTED_MODULE_10__["UsersComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
+    { path: 'users/create', component: _users_createuser_createuser_component__WEBPACK_IMPORTED_MODULE_6__["CreateuserComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
+    { path: 'update/:id', component: _users_modifyuser_modifyuser_component__WEBPACK_IMPORTED_MODULE_4__["ModifyuserComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
+    { path: 'settingUser/:id', component: _users_settingofuser_settingofuser_component__WEBPACK_IMPORTED_MODULE_14__["SettingofuserComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
+    { path: 'photoProfile/:id', component: _users_photo_profile_photo_profile_component__WEBPACK_IMPORTED_MODULE_0__["PhotoProfileComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
+    { path: 'roles', component: _roles_roles_component__WEBPACK_IMPORTED_MODULE_3__["RolesComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
+    { path: 'roles/permissions/:id', component: _roles_roles_permissions_roles_permissions_component__WEBPACK_IMPORTED_MODULE_2__["RolesPermissionsComponent"], canActivate: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
+    { path: 'RecuperarContraseña', component: _manage_password_manage_password_component__WEBPACK_IMPORTED_MODULE_1__["ManagePasswordComponent"] },
+    { path: 'CambiarPassword', component: _manage_password_reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_13__["ResetPasswordComponent"] },
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];
@@ -831,12 +834,12 @@ var AppRoutesModule = /** @class */ (function () {
     function AppRoutesModule() {
     }
     AppRoutesModule = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_6__["NgModule"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_7__["NgModule"])({
             exports: [
-                _angular_router__WEBPACK_IMPORTED_MODULE_7__["RouterModule"]
+                _angular_router__WEBPACK_IMPORTED_MODULE_8__["RouterModule"]
             ],
             imports: [
-                _angular_router__WEBPACK_IMPORTED_MODULE_7__["RouterModule"].forRoot(routes)
+                _angular_router__WEBPACK_IMPORTED_MODULE_8__["RouterModule"].forRoot(routes)
             ]
         })
     ], AppRoutesModule);
@@ -949,6 +952,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _manage_password_manage_password_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./manage-password/manage-password.component */ "./src/app/manage-password/manage-password.component.ts");
 /* harmony import */ var _manage_password_reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./manage-password/reset-password/reset-password.component */ "./src/app/manage-password/reset-password/reset-password.component.ts");
 /* harmony import */ var _users_settingofuser_settingofuser_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./users/settingofuser/settingofuser.component */ "./src/app/users/settingofuser/settingofuser.component.ts");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ng2-file-upload */ "./node_modules/ng2-file-upload/index.js");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_29___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload__WEBPACK_IMPORTED_MODULE_29__);
+/* harmony import */ var _users_photo_profile_photo_profile_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./users/photo-profile/photo-profile.component */ "./src/app/users/photo-profile/photo-profile.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -985,6 +991,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_23__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_24__["fas"]);
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -1006,7 +1014,8 @@ var AppModule = /** @class */ (function () {
                 _roles_roles_permissions_roles_permissions_component__WEBPACK_IMPORTED_MODULE_21__["RolesPermissionsComponent"],
                 _manage_password_manage_password_component__WEBPACK_IMPORTED_MODULE_26__["ManagePasswordComponent"],
                 _manage_password_reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_27__["ResetPasswordComponent"],
-                _users_settingofuser_settingofuser_component__WEBPACK_IMPORTED_MODULE_28__["SettingofuserComponent"]
+                _users_settingofuser_settingofuser_component__WEBPACK_IMPORTED_MODULE_28__["SettingofuserComponent"],
+                _users_photo_profile_photo_profile_component__WEBPACK_IMPORTED_MODULE_30__["PhotoProfileComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["BrowserModule"],
@@ -1019,6 +1028,7 @@ var AppModule = /** @class */ (function () {
                 ngx_pagination__WEBPACK_IMPORTED_MODULE_16__["NgxPaginationModule"],
                 _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_22__["FontAwesomeModule"],
                 ngx_treeview__WEBPACK_IMPORTED_MODULE_20__["TreeviewModule"].forRoot(),
+                ng2_file_upload__WEBPACK_IMPORTED_MODULE_29__["FileUploadModule"],
                 _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_25__["BrowserAnimationsModule"]
             ],
             providers: [
@@ -1125,7 +1135,7 @@ module.exports = "\r\n.login {\r\n    margin : 50px;\r\n    background-color: al
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav *ngIf=\"!isLogged | async\" class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\r\n    <div class=\"collapse navbar-collapse\" id=\"navbarNavAltMarkup\">\r\n\r\n        <form class=\"form-inline my-2 my-lg-0 ml-auto\" (ngSubmit)=\"LoginForm.form.valid && onSubmit()\" #LoginForm=\"ngForm\">\r\n\r\n            <input matInput [(ngModel)]=\"model.Usuario\" class=\"form-control mr-1\" type=\"text\" name=\"username\" #username=\"ngModel\"\r\n                placeholder=\"Usuario\">\r\n\r\n            <div *ngIf=\"username.invalid\">\r\n                Usuario Incorrecto\r\n            </div>\r\n\r\n            <input matInput [(ngModel)]=\"model.Password\" class=\"form-control mr-1\" type=\"password\" placeholder=\"Contraseña\"\r\n                name=\"Password\" #password=\"ngModel\">\r\n\r\n            <div *ngIf=\"password.invalid\">\r\n                Contraseña Incorrecta\r\n            </div>\r\n\r\n\r\n            <button mat-button [disabled]=\"LoginForm.form.invalid\" class=\"btn btn-primary mr-1\">\r\n                <fa-icon icon=\"sign-in-alt\"></fa-icon>\r\n            </button>\r\n            <button type=\"button\" class=\"btn btn-success mr-1\" href=\"\" routerLink=\"/register\">Registrar</button>\r\n            <a class=\"text-white small\" routerLink=\"/RecuperarContraseña\">olvide mi contraseña</a>\r\n            <div *ngIf=\"!LoginForm.form.valid\">\r\n                Formulario Incorrecto\r\n            </div>\r\n        </form>\r\n    </div>\r\n</nav>"
+module.exports = "<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\r\n    <div class=\"collapse navbar-collapse\" id=\"navbarNavAltMarkup\">\r\n\r\n        <form class=\"form-inline my-2 my-lg-0 ml-auto\" (ngSubmit)=\"LoginForm.form.valid && onSubmit()\" #LoginForm=\"ngForm\">\r\n\r\n            <input matInput [(ngModel)]=\"model.Usuario\" class=\"form-control mr-1\" type=\"text\" name=\"username\" #username=\"ngModel\"\r\n                placeholder=\"Usuario\">\r\n\r\n            <div *ngIf=\"username.invalid\">\r\n                Usuario Incorrecto\r\n            </div>\r\n\r\n            <input matInput [(ngModel)]=\"model.Password\" class=\"form-control mr-1\" type=\"password\" placeholder=\"Contraseña\"\r\n                name=\"Password\" #password=\"ngModel\">\r\n\r\n            <div *ngIf=\"password.invalid\">\r\n                Contraseña Incorrecta\r\n            </div>\r\n\r\n\r\n            <button mat-button [disabled]=\"LoginForm.form.invalid\" class=\"btn btn-primary mr-1\">\r\n                <fa-icon icon=\"sign-in-alt\"></fa-icon>\r\n            </button>\r\n            <button type=\"button\" class=\"btn btn-success mr-1\" href=\"\" routerLink=\"/register\">Registrar</button>\r\n            <a class=\"text-white small\" routerLink=\"/RecuperarContraseña\">olvide mi contraseña</a>\r\n            <div *ngIf=\"!LoginForm.form.valid\">\r\n                Formulario Incorrecto\r\n            </div>\r\n        </form>\r\n    </div>\r\n</nav>"
 
 /***/ }),
 
@@ -1529,7 +1539,7 @@ var NavarComponent = /** @class */ (function () {
     NavarComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.notificaionServices.getAllNotifications().subscribe(function (x) { return _this.notification = x; });
-        this.idUser = this.authService.userId();
+        this.idUser = this.authService.userId('id');
         this.isLogged = this.authService.isLoggedIn;
     };
     NavarComponent.prototype.logout = function () {
@@ -1908,7 +1918,7 @@ var RolesComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\r\n.ng-valid[required], .ng-valid.required  {\r\n    border-left: 5px solid #42A948; /* green */\r\n  }\r\n  \r\n.ng-invalid:not(form)  {\r\n    border-left: 5px solid #a94442; /* red */\r\n}\r\n  \r\n.navarStyle {\r\n  font-size : 13px;\r\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;\r\n  padding-top: 1px;\r\n}\r\n  \r\ninput{\r\n  font-size : 13px;\r\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;  \r\n}"
+module.exports = "\r\n.ng-valid[required], .ng-valid.required  {\r\n    border-left: solid #42A948; /* green */\r\n  }\r\n  \r\n.ng-invalid:not(form)  {\r\n    border-left: solid #a94442; /* red */\r\n}\r\n  \r\n.navarStyle {\r\n  font-size : 13px;\r\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;\r\n  padding-top: 1px;\r\n}\r\n  \r\ninput{\r\n  font-size : 13px;\r\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;  \r\n}"
 
 /***/ }),
 
@@ -1919,7 +1929,7 @@ module.exports = "\r\n.ng-valid[required], .ng-valid.required  {\r\n    border-l
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container col-4 navarStyle\">\r\n    <h2>Nuevo Usuario</h2>\r\n    <form (ngSubmit)=\"userForm.form.valid && onSubmit()\" method=\"post\" #userForm=\"ngForm\">\r\n\r\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\r\n          <input class=\"form-control\" [(ngModel)]=\"model.dni\" #Dni=\"ngModel\" required name=\"Dni\" id=\"Dni\" type=\"number\" placeholder=\"Dni\">\r\n      </div>\r\n\r\n      <div style=\"margin-top: 10px;\" *ngIf=\"Dni.dirty && Dni.invalid\" class=\"alert alert-danger\">\r\n        Dni Incorrecto\r\n      </div>\r\n\r\n      <div  style=\"margin-bottom:5px;\" class=\"form-group\">\r\n          <input class=\"form-control\" [(ngModel)]=\"model.userName\" required #Usuario=\"ngModel\" name=\"Usuario\" type=\"text\" placeholder=\"Username\" value=\"\">\r\n      </div>\r\n\r\n      <div style=\"margin-top: 10px;\" *ngIf=\"Usuario.dirty && Usuario.invalid\" class=\"alert alert-danger\">\r\n        Usuario Incorrecto\r\n      </div>\r\n\r\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\r\n          <input class=\"form-control\" [(ngModel)]=\"model.password\" required #Password=\"ngModel\" name=\"Password\" type=\"password\" placeholder=\"Password\" value=\"\">\r\n      </div>   \r\n\r\n      <div class=\"form-group\" style=\"margin-bottom : 0px;\">\r\n            <div class=\"row\">\r\n                <li *ngFor=\"let rol of model.rolesUser\" style=\"list-style:none\">\r\n                    <div class=\"col\">\r\n                        <input type=\"checkbox\" name=\"{{rol.id}}\" value=\"{{rol.id}}\" [(ngModel)]=\"rol.rolBelongUser\" />\r\n                        <label class=\"navarStyle\" style=\"text-transform: capitalize; padding-left: 5px;font-size: 11px;\" for=\"exampleCheck1\">{{rol.name}}</label>\r\n                    </div>   \r\n                </li>  \r\n            </div>\r\n        </div> \r\n\r\n        <div  style=\"margin-bottom:5px;\" class=\"form-group\">\r\n            <input class=\"form-control\" [(ngModel)]=\"model.phoneNumber\" required #PhoneNumber=\"ngModel\" name=\"phoneNumber\"\r\n                type=\"text\" placeholder=\"Telefóno\" value=\"\">\r\n        </div>\r\n\r\n        <div style=\"margin-top: 10px;\" *ngIf=\"PhoneNumber.dirty && PhoneNumber.invalid\" class=\"alert alert-danger\">\r\n            Telefóno Incorrecto\r\n        </div>\r\n\r\n        <div class=\"form-group\">\r\n            <button class=\"btn btn-success navarStyle\" [disabled]=\"!userForm.form.valid\">Guardar</button>\r\n            <a style=\"margin-left : 5px;\" class=\"btn btn-primary navarStyle\" href=\"\" routerLink=\"/users\">atrás</a>\r\n        </div>\r\n    </form>\r\n    \r\n    <div style=\"margin-top: 10px;\" *ngIf=\"userForm.form.invalid\" class=\"alert alert-danger\">\r\n        Hay Campos erroneos en el formulario, verifiquelos\r\n    </div>\r\n\r\n    <div>\r\n        <ul style=\"margin-top : 15px;\" *ngIf=\"errors.length != 0\" class=\"alert alert-danger\" role=\"alert\">\r\n            <li *ngFor=\"let error of errors\">{{ error.value }}</li>\r\n        </ul>\r\n    </div>\r\n</div>\r\n\r\n"
+module.exports = "<form (ngSubmit)=\"userForm.form.valid && onSubmit()\" method=\"post\" #userForm=\"ngForm\">\r\n        <mat-form-field class=\"example-full-width\">\r\n          <input matInput placeholder=\"Dni\" [(ngModel)]=\"model.dni\" #Dni=\"ngModel\" required name=\"Dni\" id=\"Dni\" type=\"number\">\r\n        </mat-form-field>\r\n        \r\n        <div style=\"margin-top: 10px;\" *ngIf=\"Dni.dirty && Dni.invalid\" class=\"alert alert-danger\">\r\n            Dni Incorrecto\r\n        </div>\r\n        \r\n        <mat-form-field class=\"example-full-width\">\r\n            <input matInput class=\"form-control\" [(ngModel)]=\"model.userName\" required #Usuario=\"ngModel\" name=\"Usuario\" type=\"text\" placeholder=\"Username\">\r\n        </mat-form-field>\r\n\r\n        <div style=\"margin-top: 10px;\" *ngIf=\"Usuario.dirty && Usuario.invalid\" class=\"alert alert-danger\">\r\n                Usuario Incorrecto\r\n        </div>\r\n\r\n        <mat-form-field class=\"example-full-width\">\r\n            <input matInput class=\"form-control\" [(ngModel)]=\"model.password\" required #Password=\"ngModel\" name=\"Password\" type=\"password\" placeholder=\"Password\">\r\n        </mat-form-field>\r\n\r\n        <div class=\"form-group\" style=\"margin-bottom : 0px;\">\r\n                <div class=\"row\">\r\n                    <li *ngFor=\"let rol of model.rolesUser\" style=\"list-style:none\">\r\n                        <div class=\"col\">\r\n                            <input  type=\"checkbox\" name=\"{{rol.id}}\" value=\"{{rol.id}}\" [(ngModel)]=\"rol.rolBelongUser\" />\r\n                            <!-- <mat-checkbox [(ngModel)]=\"rol.rolBelongUser\" >{{rol.name}}</mat-checkbox> -->\r\n                            <label class=\"navarStyle\" style=\"text-transform: capitalize; padding-left: 5px;font-size: 11px;\" for=\"exampleCheck1\">{{rol.name}}</label>\r\n                        </div>   \r\n                    </li>  \r\n                </div>\r\n            </div> \r\n\r\n        <mat-form-field class=\"example-full-width\">\r\n            <input matInput class=\"form-control\" [(ngModel)]=\"model.phoneNumber\" required #PhoneNumber=\"ngModel\" name=\"phoneNumber\"\r\n                type=\"number\" placeholder=\"Telefóno\" value=\"\">\r\n        </mat-form-field>\r\n\r\n        <div style=\"margin-top: 10px;\" *ngIf=\"PhoneNumber.dirty && PhoneNumber.invalid\" class=\"alert alert-danger\">\r\n                Telefóno Incorrecto\r\n        </div>\r\n\r\n        <div class=\"form-group\">\r\n                <button mat-button style=\"background-color :lightgreen; color: black;\" class=\"navarStyle\" [disabled]=\"!userForm.form.valid\">Guardar</button>\r\n                <button mat-button style=\"margin-left : 5px;\" class=\"navarStyle\" href=\"\" routerLink=\"/users\">atrás\r\n                </button>\r\n        </div>\r\n</form>\r\n\r\n    <div style=\"margin-top: 10px;\" *ngIf=\"userForm.form.invalid\" class=\"alert alert-danger\">\r\n        Hay Campos erroneos en el formulario, verifiquelos\r\n    </div>\r\n\r\n    <div>\r\n        <ul style=\"margin-top : 15px;\" *ngIf=\"errors.length != 0\" class=\"alert alert-danger\" role=\"alert\">\r\n            <li *ngFor=\"let error of errors\">{{ error.value }}</li>\r\n        </ul>\r\n    </div>\r\n\r\n\r\n    \r\n\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -2090,6 +2100,99 @@ var ModifyuserComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/users/photo-profile/photo-profile.component.css":
+/*!*****************************************************************!*\
+  !*** ./src/app/users/photo-profile/photo-profile.component.css ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/users/photo-profile/photo-profile.component.html":
+/*!******************************************************************!*\
+  !*** ./src/app/users/photo-profile/photo-profile.component.html ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<style>\n    .my-drop-zone { border: dotted 3px lightgray; }\n    .nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */\n    .another-file-over-class { border: dotted 3px green; }\n    \n    html, body { height: 100%; }\n</style>\n\n<div class=\"container\">\n\n    <div class=\"navbar navbar-default\">\n            <div class=\"navbar-header\">\n               <h3>Imagen de Perfil</h3> \n            </div>\n    </div>\n    <div class=\"col-md-3\">\n\n        <div ng2FileDrop\n            [ngClass]=\"{'nv-file-over': hasBaseDropZoneOver}\"\n            (fileOver)=\"fileOverBase($event)\"\n            [uploader]=\"uploader\"\n            class=\"well my-drop-zone\">\n            <b>Arrastre su imagen aqui</b>\n        </div>\n        <br>\n        <!--Multiple\n        <input type=\"file\" ng2FileSelect [uploader]=\"uploader\" multiple  /><br/>-->\n        <input type=\"file\" ng2FileSelect [uploader]=\"uploader\" />\n    </div>\n\n    <br>\n    <div class=\"col-md-9\" style=\"margin-bottom: 40px\">\n\n       <!-- <h3>Upload queue</h3>\n        <p>Queue length: {{ uploader?.queue?.length }}</p>-->\n\n        <table class=\"table\">\n            <thead>\n            <tr>\n                <th width=\"100%\">Name</th>\n                <th>Tamaño</th>\n                <th>Progreso</th>\n                <th>Estado</th>\n                <th>Acciones</th>\n            </tr>\n            </thead>\n            <tbody>\n            <tr *ngFor=\"let item of uploader.queue\">\n                <td><strong>{{ item?.file?.name }}</strong></td>\n                <td *ngIf=\"uploader.options.isHTML5\" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                <td *ngIf=\"uploader.options.isHTML5\">\n                    <div class=\"progress\" style=\"margin-bottom: 0;\">\n                        <div class=\"progress-bar\" role=\"progressbar\" [ngStyle]=\"{ 'width': item.progress + '%' }\"></div>\n                    </div>\n                </td>\n                <td class=\"text-center\">\n                    <span *ngIf=\"item.isSuccess\"><i class=\"glyphicon glyphicon-ok\"></i></span>\n                    <span *ngIf=\"item.isCancel\"><i class=\"glyphicon glyphicon-ban-circle\"></i></span>\n                    <span *ngIf=\"item.isError\"><i class=\"glyphicon glyphicon-remove\"></i></span>\n                </td>\n                <td nowrap>\n                    <button type=\"button\" class=\"btn btn-success btn-xs\"\n                            (click)=\"item.upload()\" [disabled]=\"item.isReady || item.isUploading || item.isSuccess\">\n                            <fa-icon icon=\"pencil-alt\" ></fa-icon> Enviar\n                    </button>\n                    <button type=\"button\" class=\"btn btn-warning btn-xs\"\n                            (click)=\"item.cancel()\" [disabled]=\"!item.isUploading\">\n                            <fa-icon icon=\"ban\"></fa-icon> Cancelar\n                    </button>\n                    <button type=\"button\" class=\"btn btn-danger btn-xs\"\n                            (click)=\"item.remove()\">\n                            <fa-icon icon=\"trash\"></fa-icon> Remover\n                    </button>\n                </td>\n            </tr>\n            </tbody>\n        </table>\n\n\n        <div>\n            <div>\n                Queue progress:\n                <div class=\"progress\" style=\"margin-bottom: 0;\">\n                    <div class=\"progress-bar\" role=\"progressbar\" [ngStyle]=\"{ 'width': uploader.progress + '%' }\"></div>\n                </div>\n            </div>\n\n            <br>\n\n            <button type=\"button\" class=\"btn btn-success btn-s\"\n                    (click)=\"uploader.uploadAll()\" [disabled]=\"!uploader.getNotUploadedItems().length\">\n                    <fa-icon icon=\"pencil-alt\"></fa-icon> Enviar Todos\n            </button>\n            <button type=\"button\" class=\"btn btn-warning btn-s\"\n                    (click)=\"uploader.cancelAll()\" [disabled]=\"!uploader.isUploading\">\n                    <fa-icon icon=\"ban\"></fa-icon> Cancelar Todos\n            </button>\n            <button type=\"button\" class=\"btn btn-danger btn-s\"\n                    (click)=\"uploader.clearQueue()\" [disabled]=\"!uploader.queue.length\">\n                        <fa-icon icon=\"trash\"></fa-icon>\n                        Remover todos\n            </button>\n        </div>\n\n    </div>\n\n    </div>"
+
+/***/ }),
+
+/***/ "./src/app/users/photo-profile/photo-profile.component.ts":
+/*!****************************************************************!*\
+  !*** ./src/app/users/photo-profile/photo-profile.component.ts ***!
+  \****************************************************************/
+/*! exports provided: PhotoProfileComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PhotoProfileComponent", function() { return PhotoProfileComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_authentication_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../_services/authentication.service */ "./src/app/_services/authentication.service.ts");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ng2-file-upload */ "./node_modules/ng2-file-upload/index.js");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var PhotoProfileComponent = /** @class */ (function () {
+    function PhotoProfileComponent(authService) {
+        this.authService = authService;
+        this.hasBaseDropZoneOver = false;
+        this.baseUrl = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl;
+    }
+    PhotoProfileComponent.prototype.fileOverBase = function (e) {
+        this.hasBaseDropZoneOver = e;
+    };
+    PhotoProfileComponent.prototype.initializeUploader = function () {
+        this.uploader = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_2__["FileUploader"]({
+            url: this.baseUrl + this.authService.userId('id'),
+            authToken: 'Bearer ' + this.authService.userId('token'),
+            isHTML5: true,
+            allowedFileType: ['image'],
+            removeAfterUpload: true,
+            autoUpload: false,
+            maxFileSize: 10 * 1024 * 1024
+        });
+        this.uploader.onBeforeUploadItem = function (item) {
+            item.formData = [{ 'userId': '60651FA8-4443-4157-AB18-8F3886320362' }];
+        };
+        console.log(this.uploader);
+    };
+    PhotoProfileComponent.prototype.ngOnInit = function () {
+        //image
+        this.initializeUploader();
+    };
+    PhotoProfileComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-photo-profile',
+            template: __webpack_require__(/*! ./photo-profile.component.html */ "./src/app/users/photo-profile/photo-profile.component.html"),
+            styles: [__webpack_require__(/*! ./photo-profile.component.css */ "./src/app/users/photo-profile/photo-profile.component.css")]
+        }),
+        __metadata("design:paramtypes", [_services_authentication_service__WEBPACK_IMPORTED_MODULE_1__["AuthenticationService"]])
+    ], PhotoProfileComponent);
+    return PhotoProfileComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/users/settingofuser/settingofuser.component.css":
 /*!*****************************************************************!*\
   !*** ./src/app/users/settingofuser/settingofuser.component.css ***!
@@ -2108,7 +2211,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container col-4 navarStyle\">\n  <h2>Mi Perfil</h2>\n  <form (ngSubmit)=\"onSubmit()\" #userForm=\"ngForm\">\n      \n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <input class=\"form-control\" [(ngModel)]=\"model.dni\" #Dni=\"ngModel\" required name=\"Dni\" id=\"Dni\" type=\"number\"\n              placeholder=\"Dni\">\n      </div>\n\n      <div style=\"margin-top: 10px;\" *ngIf=\"submitted && Dni.invalid\" clas=\"alert alert-danger\">\n          Dni Incorrecto\n      </div>\n\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <input class=\"form-control\" [(ngModel)]=\"model.userName\" required #Usuario=\"ngModel\" name=\"Usuario\" type=\"text\"\n              placeholder=\"Username\" value=\"\">\n      </div>\n\n      <div style=\"margin-top: 10px;\" *ngIf=\"submitted && Usuario.invalid\" class=\"alert alert-danger\">\n          Usuario Incorrecto\n      </div>\n\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <input class=\"form-control\" [(ngModel)]=\"model.password\" #Usuario=\"ngModel\" name=\"Password\" type=\"password\"\n              placeholder=\"Nueva Contraseña\" value=\"\">\n      </div>\n\n      <div style=\"margin-top: 10px;\" *ngIf=\"submitted && Password.invalid\" class=\"alert alert-danger\">\n          Contraseña Incorrecta\n      </div>\n\n      <div class=\"form-group\" style=\"margin-bottom : 0px;\">\n          <div class=\"row\">\n              <li *ngFor=\"let rol of model.rolesUser\" style=\"list-style:none\">\n                  <div class=\"col\">\n                      <input type=\"checkbox\" name=\"{{rol.id}}\" value=\"{{rol.id}}\" [(ngModel)]=\"rol.rolBelongUser\" />\n                      <label class=\"navarStyle\" style=\"text-transform: capitalize; padding-left: 5px;font-size: 11px;\" for=\"exampleCheck1\">{{rol.name}}</label>\n                  </div>\n              </li>\n          </div>\n      </div> \n\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <input class=\"form-control\" [(ngModel)]=\"model.phoneNumber\" required #PhoneNumber=\"ngModel\" name=\"phoneNumber\"\n              type=\"text\" placeholder=\"Telefóno\" value=\"\">\n      </div>\n      \n      <div style=\"margin-top: 10px;\" *ngIf=\"submitted && PhoneNumber.invalid\" class=\"alert alert-danger\">\n          Telefóno Incorrecto\n      </div>\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n        <input type=\"file\" [(ngModel)]=\"model.image\" name=\"image\" #image=\"ngModel\" required>\n     </div>\n\n      <div style=\"margin-bottom:5px;\" class=\"form-group\">\n          <button class=\"btn btn-success navarStyle\" [disabled]=\"!userForm.form.valid\">Guardar</button>\n          <a style=\"margin-left : 5px;\" class=\"btn btn-primary navarStyle\" href=\"\" routerLink=\"/users\">atrás</a>\n      </div>\n\n\n  </form>\n  <div style=\"margin-top: 10px;\" *ngIf=\"userForm.form.invalid\">\n      Hay Campos erroneos en el formulario, verifiquelos\n  </div>\n</div>"
+module.exports = "<ngb-tabset type=\"pills\">\n    <ngb-tab title=\"Perfil\">\n        <ng-template ngbTabContent>\n            <div class=\"container col-4\">\n                <h2>Mi Perfil</h2>\n                <form (ngSubmit)=\"onSubmit()\" #userForm=\"ngForm\">\n                    \n                    <div style=\"margin-bottom:5px;\" class=\"form-group\">\n                        <input class=\"form-control\" [(ngModel)]=\"model.dni\" #Dni=\"ngModel\" required name=\"Dni\" id=\"Dni\" type=\"number\"\n                            placeholder=\"Dni\">\n                    </div>\n                \n                    <div style=\"margin-top: 10px;\" *ngIf=\"submitted && Dni.invalid\" clas=\"alert alert-danger\">\n                        Dni Incorrecto\n                    </div>\n                \n                    <div style=\"margin-bottom:5px;\" class=\"form-group\">\n                        <input class=\"form-control\" [(ngModel)]=\"model.userName\" required #Usuario=\"ngModel\" name=\"Usuario\" type=\"text\"\n                            placeholder=\"Username\" value=\"\">\n                    </div>\n                \n                    <div style=\"margin-top: 10px;\" *ngIf=\"submitted && Usuario.invalid\" class=\"alert alert-danger\">\n                        Usuario Incorrecto\n                    </div>\n                \n                    <div style=\"margin-bottom:5px;\" class=\"form-group\">\n                        <input class=\"form-control\" [(ngModel)]=\"model.password\" #Usuario=\"ngModel\" name=\"Password\" type=\"password\"\n                            placeholder=\"Nueva Contraseña\" value=\"\">\n                    </div>\n                \n                    <div style=\"margin-top: 10px;\" *ngIf=\"submitted && Password.invalid\" class=\"alert alert-danger\">\n                        Contraseña Incorrecta\n                    </div>\n                \n                    <div class=\"form-group\" style=\"margin-bottom : 0px;\">\n                        <div class=\"row\">\n                            <li *ngFor=\"let rol of model.rolesUser\" style=\"list-style:none\">\n                                <div class=\"col\">\n                                    <input type=\"checkbox\" name=\"{{rol.id}}\" value=\"{{rol.id}}\" [(ngModel)]=\"rol.rolBelongUser\" />\n                                    <label class=\"navarStyle\" style=\"text-transform: capitalize; padding-left: 5px;font-size: 11px;\" for=\"exampleCheck1\">{{rol.name}}</label>\n                                </div>\n                            </li>\n                        </div>\n                    </div> \n                \n                    <div style=\"margin-bottom:5px;\" class=\"form-group\">\n                        <input class=\"form-control\" [(ngModel)]=\"model.phoneNumber\" required #PhoneNumber=\"ngModel\" name=\"phoneNumber\"\n                            type=\"text\" placeholder=\"Telefóno\" value=\"\">\n                    </div>\n                    \n                    <div style=\"margin-top: 10px;\" *ngIf=\"submitted && PhoneNumber.invalid\" class=\"alert alert-danger\">\n                        Telefóno Incorrecto\n                    </div>\n                \n                    <div style=\"margin-bottom:5px;\" class=\"form-group\">\n                        <button class=\"btn btn-success navarStyle\" [disabled]=\"!userForm.form.valid\">Guardar</button>\n                        <a style=\"margin-left : 5px;\" class=\"btn btn-primary navarStyle\" href=\"\" routerLink=\"/users\">atrás</a>\n                    </div>\n                \n                \n                </form>\n                <div style=\"margin-top: 10px;\" *ngIf=\"userForm.form.invalid\">\n                    Hay Campos erroneos en el formulario, verifiquelos\n                </div>\n            </div>\n        </ng-template>\n    </ngb-tab>\n    <ngb-tab>\n        <ng-template ngbTabTitle>Imagen</ng-template>\n        <ng-template ngbTabContent>\n            <div class=\"container col-8 \">\n                <app-photo-profile></app-photo-profile>\n            </div>\n        </ng-template>\n    </ngb-tab>\n</ngb-tabset>\n\n\n"
 
 /***/ }),
 
@@ -2146,7 +2249,7 @@ var SettingofuserComponent = /** @class */ (function () {
         this.router = router;
         this.route = route;
         this.userService = userService;
-        this.model = new _users__WEBPACK_IMPORTED_MODULE_4__["modifyProfileUser"];
+        this.model = new _users__WEBPACK_IMPORTED_MODULE_4__["modifyUser"];
         this.id = 0;
     }
     SettingofuserComponent.prototype.onChange = function (rol) {
@@ -2174,17 +2277,15 @@ var SettingofuserComponent = /** @class */ (function () {
                 _this.model.rolesUser = i.rolesUser;
         });
     };
-    SettingofuserComponent.prototype.onFileChanged = function (event) {
-        var file = event.target.files[0];
-        console.log(event);
-    };
     SettingofuserComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-settingofuser',
             template: __webpack_require__(/*! ./settingofuser.component.html */ "./src/app/users/settingofuser/settingofuser.component.html"),
             styles: [__webpack_require__(/*! ./settingofuser.component.css */ "./src/app/users/settingofuser/settingofuser.component.css")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"], _services_user_service__WEBPACK_IMPORTED_MODULE_3__["UserService"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"],
+            _services_user_service__WEBPACK_IMPORTED_MODULE_3__["UserService"]])
     ], SettingofuserComponent);
     return SettingofuserComponent;
 }());
@@ -2250,6 +2351,7 @@ var UsersComponent = /** @class */ (function () {
         this.modalService = modalService;
         this.page = 0;
         this.itemsPerPage = 10;
+        this.displayedColumns = ['dni', 'userName'];
         this.changeRolDto = new _models_roles__WEBPACK_IMPORTED_MODULE_0__["RoleUserDto"]();
     }
     UsersComponent.prototype.ngOnInit = function () {
@@ -2304,7 +2406,7 @@ var UsersComponent = /** @class */ (function () {
 /*!********************************!*\
   !*** ./src/app/users/users.ts ***!
   \********************************/
-/*! exports provided: User, rolesBelongUser, modifyUser, modifyProfileUser, createUser */
+/*! exports provided: User, rolesBelongUser, modifyUser, createUser */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2312,7 +2414,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "User", function() { return User; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rolesBelongUser", function() { return rolesBelongUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "modifyUser", function() { return modifyUser; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "modifyProfileUser", function() { return modifyProfileUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createUser", function() { return createUser; });
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2344,14 +2445,6 @@ var modifyUser = /** @class */ (function (_super) {
     return modifyUser;
 }(User));
 
-var modifyProfileUser = /** @class */ (function (_super) {
-    __extends(modifyProfileUser, _super);
-    function modifyProfileUser() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return modifyProfileUser;
-}(User));
-
 var createUser = /** @class */ (function (_super) {
     __extends(createUser, _super);
     function createUser() {
@@ -2378,7 +2471,8 @@ __webpack_require__.r(__webpack_exports__);
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 var environment = {
-    production: false
+    production: false,
+    apiUrl: 'http://localhost:63098/api/File/'
 };
 /*
  * In development mode, for easier debugging, you can ignore zone related error
