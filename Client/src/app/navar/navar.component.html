@@ -35,7 +35,7 @@
           <div class="d-inline-block pull-right" ngbDropdown #myDropCloseSession="ngbDropdown">
             <button class="btn btn-outline-light mr-2 small" id="dropdownManual" ngbDropdownAnchor (focus)="myDropCloseSession.open()">
              <!-- <fa-icon icon="user"></fa-icon>-->
-              <img src="{{urlImage}}" alt="">
+              <img class="rounded-circle" src="{{urlImage}}" alt="">
             </button>
             <div ngbDropdownMenu aria-labelledby="dropdownManual">
                 <button routerLink="/settingUser/{{idUser}}" class="dropdown-item small">Mi Perfil</button>

@@ -54,4 +54,9 @@ export class AuthenticationService {
             return  currentUserJSON[key];
         }
     }
+
+    urlFile(userId : number, width : number, height: number){
+        return "http://localhost:63098/api/File/"+userId+"/"+width+"/"+height;
+    }
+
 }

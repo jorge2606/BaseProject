@@ -16,6 +16,8 @@ export class PhotoProfileComponent implements OnInit {
     uploader:FileUploader;
     hasBaseDropZoneOver = false;
     baseUrl = environment.apiUrl; 
+    idUser : number;
+    urlImage : string;
    
     fileOverBase(e:any):void {
       this.hasBaseDropZoneOver = e;
@@ -45,6 +47,8 @@ export class PhotoProfileComponent implements OnInit {
   ngOnInit() {
     //image
     this.initializeUploader();
+    this.idUser = this.authService.userId('id');
+    this.urlImage = this.authService.urlFile(this.idUser, 200,200);
   }
 
 }

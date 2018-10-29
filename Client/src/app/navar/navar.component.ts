@@ -27,7 +27,8 @@ export class NavarComponent implements OnInit {
     
     this.isLogged = this.authService.isLoggedIn;
     
-    this.urlImage = "http://localhost:63098/StaticFiles/Profile/b2163009-9256-4357-bcf0-b21e86d960e0/155570_195329_1.jpg";
+    this.urlImage = this.authService.urlFile(this.idUser, 25,25);
+      
   }
 
   logout(){
