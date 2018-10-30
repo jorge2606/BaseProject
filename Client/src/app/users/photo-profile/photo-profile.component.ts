@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../_services/authentication.service';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from '../../../environments/environment';
+import { Subject } from 'rxjs';
+import { MessBetweenCompService } from '../../_services/mess-between-comp.service';
 
 @Component({
   selector: 'app-photo-profile',
@@ -10,7 +12,8 @@ import { environment } from '../../../environments/environment';
 })
 export class PhotoProfileComponent implements OnInit {
 
-  constructor(private authService : AuthenticationService) { }
+  constructor(private authService : AuthenticationService, 
+              private messaBetweenComp : MessBetweenCompService) { }
 
     //image
     uploader:FileUploader;
@@ -18,6 +21,8 @@ export class PhotoProfileComponent implements OnInit {
     baseUrl = environment.apiUrl; 
     idUser : number;
     urlImage : string;
+    subject = new Subject<any>();
+    image : Blob;
    
     fileOverBase(e:any):void {
       this.hasBaseDropZoneOver = e;
@@ -34,16 +39,15 @@ export class PhotoProfileComponent implements OnInit {
       maxFileSize: 10 * 1024 * 1024
     });
 
-    /*this.uploader.onBeforeUploadItem = function (item) {
-      item.formData = [{'userId': '60651FA8-4443-4157-AB18-8F3886320362'}];
-    };
-    */
+    this.uploader.onSuccessItem = (item, response, status, headers) => {
+      if (response) {
+        this.urlImage = this.authService.urlFile(this.idUser, 200,200) + "r=" + (Math.random() * 100) + 1;
+        this.messaBetweenComp.sendMessage(this.urlImage);
+      }
+    }
     
   }
 
-
-
-  
   ngOnInit() {
     //image
     this.initializeUploader();

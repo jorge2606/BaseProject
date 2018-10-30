@@ -13,7 +13,7 @@ namespace server.IServices
         Task UpdateAsync(MofidyUserCommingFromClientDto user);
         Task<ServiceResult<string>> CreateAsync(createUserDto user);
         void Delete(Guid id);
-        Task<ServiceResult<string>> Register(SaveUserDto model);
+        Task<ServiceResult<UserDto>> Register(SaveUserDto model);
         Task UpdateUserRole(Guid idUser, Guid id);
         Task<ServiceResult<string>> ForgotPassword(ForgotPasswordDto model);
         Task<ServiceResult<string>> ResetPassword(ResetPassword model);

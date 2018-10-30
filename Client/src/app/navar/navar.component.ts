@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Notifications } from './../_models/notifications';
 import { NotificationsService } from './../_services/notifications.service';
 import { Component, OnInit } from '@angular/core';
+import { MessBetweenCompService } from '../_services/mess-between-comp.service';
 
 @Component({
   selector: 'app-navar',
@@ -11,7 +12,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavarComponent implements OnInit {
 
-  constructor(private notificaionServices : NotificationsService, private authService : AuthenticationService) { }
+  constructor(private notificaionServices : NotificationsService, 
+              private authService : AuthenticationService,
+              private messaBetweenComp : MessBetweenCompService ) { }
 
   notification : Notifications[];
   isLogged : Observable<boolean>;
@@ -27,11 +30,17 @@ export class NavarComponent implements OnInit {
     
     this.isLogged = this.authService.isLoggedIn;
     
-    this.urlImage = this.authService.urlFile(this.idUser, 25,25);
-      
+    this.messaBetweenComp.getMessage().subscribe( x=> 
+      this.urlImage = this.authService.urlFile(this.idUser, 25,25)+ "r=" + (Math.random() * 100) + 1 );
+    
+    if (!this.urlImage){
+      this.urlImage = this.authService.urlFile(this.idUser, 25,25)+ "r=" + (Math.random() * 100) + 1;
+    }
+    
   }
 
   logout(){
     this.authService.logout();
   }
+
 }

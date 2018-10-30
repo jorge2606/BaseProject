@@ -112,12 +112,12 @@ namespace server.Controllers
                 return BadRequest(result);
             }
 
-            UserAuthenticationDto ObjToken = new UserAuthenticationDto
+           /* UserAuthenticationDto ObjToken = new UserAuthenticationDto
             {
                 Token = result.Response
             };
-
-            return Ok(ObjToken);
+            */
+            return Ok(result.Response);
         }
 
         [HttpGet("getbyid/{id}")]

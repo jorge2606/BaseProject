@@ -17,6 +17,7 @@ using server.Dto;
 using server.ServiceResult;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Http;
+using AutoMapper;
 
 namespace server.Services
 {
@@ -27,6 +28,7 @@ namespace server.Services
         private readonly RoleManager _roleManager;
         private readonly IEmailSender _emailSender;
         private IFileService _fileService;
+        private IMapper _mapper;
 
 
         private readonly SignInManager _signInManager;
@@ -38,7 +40,8 @@ namespace server.Services
             IConfiguration configuration,
             SignInManager signInManager,
             IEmailSender emailSender,
-            IFileService fileService)
+            IFileService fileService,
+            IMapper mapper)
         {
             _context = context;
             _userManager = userManager;
@@ -47,6 +50,7 @@ namespace server.Services
             _signInManager = signInManager;
             _emailSender = emailSender;
             _fileService = fileService;
+            _mapper = mapper;
         }
 
         private IConfiguration _configuration { get; }
@@ -248,7 +252,7 @@ namespace server.Services
             return Token;
         }
 
-        public async Task<ServiceResult<string>> Register(SaveUserDto model)
+        public async Task<ServiceResult<UserDto>> Register(SaveUserDto model)
         {
             var user = new User
             {
@@ -263,15 +267,23 @@ namespace server.Services
 
             if (!result.Succeeded)
             {
-                return result.ToServiceResult<string>(null);
+                return result.ToServiceResult<UserDto>(null);
             }
             
 
             await _signInManager.SignInAsync(user, false);
 
             var token = GenerateJwtTokenHandler(model.Email, user);
-
-            return new ServiceResult<string>(token);
+            var userDto = new UserDto
+            {
+                Id = user.Id,
+                Dni = user.Dni,
+                UserName = user.UserName,
+                PhoneNumber = user.PhoneNumber,
+                Token = token,
+                Path = ""
+            };
+            return new ServiceResult<UserDto>(userDto);
 
         }
 

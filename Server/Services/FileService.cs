@@ -29,19 +29,29 @@ namespace server.Services
 
         public async Task<ServiceResult<FileCreateDto>> Save(FileCreateDto model)
         {
+
+            var path = Path.Combine(StaticFilesDirectory, "Profile", model.UserId.ToString());
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            var newDirectory = Path.Combine(StaticFilesDirectory, "Profile", model.UserId.ToString());
+            var files = Directory.EnumerateFiles(path, "*.*" );
+
+            
+            if (files.Count() == 1)
+            {
+               Directory.Delete(path,true);
+
+                Directory.CreateDirectory(newDirectory);
+            }
+
             var file = model.File;
 
             using (var stream = file.OpenReadStream())
             {
-
-                var newDirectory =
-                    Path.Combine(StaticFilesDirectory, "Profile", model.UserId.ToString());
-
-                if (!Directory.Exists(newDirectory))
-                {
-                    Directory.CreateDirectory(newDirectory);
-                }
-
                 var filePath = Path.Combine(newDirectory, file.FileName);
 
                 model.Path = filePath;
@@ -55,6 +65,7 @@ namespace server.Services
 
             _contextFile.Files.Add(_mapper.Map<models.File>(model));
             _contextFile.SaveChanges();
+            
 
             return new ServiceResult<FileCreateDto>(model);
         }
@@ -64,8 +75,41 @@ namespace server.Services
             var path = Path.Combine(StaticFilesDirectory,"Profile",userId.ToString());
             var files = Directory.EnumerateFiles(path, "*.*");
 
+            FileInfo file1;
+
             FileByIdDto imagesPath = new FileByIdDto();
 
+            if (files.Count() == 1)
+            {
+                string pathFile = "";
+
+                foreach (var i in files)
+                {
+                    file1 = new FileInfo(i.ToString());
+                    pathFile = file1.Name;
+                }
+
+                imagesPath.Paths = pathFile;
+            }
+
+            return new ServiceResult<FileByIdDto>(imagesPath);
+        }
+
+        public ServiceResult<FileByIdDto> GetCompletePath(Guid userId)
+        {
+            var path = Path.Combine(StaticFilesDirectory, "Profile", userId.ToString());
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+                
+                File.Copy(Path.Combine(StaticFilesDirectory, "user.png"), Path.Combine(path, "user.png"));
+            }
+
+            FileByIdDto imagesPath = new FileByIdDto();
+
+            var files = Directory.EnumerateFiles(path, "*.*");
+     
             if (files.Count() == 1)
             {
                 string pathFile = "";
@@ -80,5 +124,6 @@ namespace server.Services
 
             return new ServiceResult<FileByIdDto>(imagesPath);
         }
+
     }
 }
