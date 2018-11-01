@@ -63,6 +63,7 @@ export class NavarComponent implements OnInit {
       this.notificaionServices.notificationRidden(this.notificationridden).subscribe(
         x => this.notificaionServices.getAllNotifications().subscribe(
           x => console.log(x)
+          
         )
       )
     },

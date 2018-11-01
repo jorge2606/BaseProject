@@ -25,8 +25,7 @@
             <fa-icon icon="bell"></fa-icon>
           </button>
           <div  ngbDropdownMenu aria-labelledby="dropdownManual">
-            <input type="checkbox" *ngFor="let x of notification" [checked]="!x.read" name="" id="">
-            <button *ngFor="let j of notification" (click)="seeThisNotification(j.textData,j.id)" class="dropdown-item small">
+            <button *ngFor="let j of notification" [ngClass]="{'text-muted': j.read,'text-info' : !j.read}" (click)="seeThisNotification(j.textData,j.id)" class="dropdown-item small">
                 {{j.tittle}}
             </button>
             
