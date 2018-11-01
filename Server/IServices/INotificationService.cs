@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using server.Dto;
 using System;
+using server.ServiceResult;
 
 namespace server.IServices
 {
@@ -9,5 +10,6 @@ namespace server.IServices
     {
         ActionResult<List<NotificationDto>> GetAllNotifications();
         ActionResult<List<NotificationDto>> GetNotificationsById(Guid id);
+        ServiceResult<NotificationDto> NotificationRidden(Guid id);
     }
 }

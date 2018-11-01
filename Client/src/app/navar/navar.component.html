@@ -24,8 +24,12 @@
           <button class="btn btn-outline-danger mr-2 small" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()">
             <fa-icon icon="bell"></fa-icon>
           </button>
-          <div ngbDropdownMenu aria-labelledby="dropdownManual">
-            <button *ngFor="let x of notification" class="dropdown-item small">{{x.tittle}}</button>
+          <div  ngbDropdownMenu aria-labelledby="dropdownManual">
+            <input type="checkbox" *ngFor="let x of notification" [checked]="!x.read" name="" id="">
+            <button *ngFor="let j of notification" (click)="seeThisNotification(j.textData,j.id)" class="dropdown-item small">
+                {{j.tittle}}
+            </button>
+            
           </div>
         </div>
       </li>

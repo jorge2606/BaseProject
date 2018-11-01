@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { UserService } from './../../_services/user.service';
+import { Component, OnInit, Input } from '@angular/core';
 import { AuthenticationService } from '../../_services/authentication.service';
-import { FileUploader } from 'ng2-file-upload';
+import { FileUploader, FileItem } from 'ng2-file-upload';
 import { environment } from '../../../environments/environment';
 import { Subject } from 'rxjs';
 import { MessBetweenCompService } from '../../_services/mess-between-comp.service';
+import { $ } from 'protractor';
 
 @Component({
   selector: 'app-photo-profile',
@@ -13,7 +15,8 @@ import { MessBetweenCompService } from '../../_services/mess-between-comp.servic
 export class PhotoProfileComponent implements OnInit {
 
   constructor(private authService : AuthenticationService, 
-              private messaBetweenComp : MessBetweenCompService) { }
+              private messaBetweenComp : MessBetweenCompService,
+              private userService : UserService) { }
 
     //image
     uploader:FileUploader;
@@ -22,7 +25,6 @@ export class PhotoProfileComponent implements OnInit {
     idUser : number;
     urlImage : string;
     subject = new Subject<any>();
-    image : Blob;
    
     fileOverBase(e:any):void {
       this.hasBaseDropZoneOver = e;
@@ -44,15 +46,38 @@ export class PhotoProfileComponent implements OnInit {
         this.urlImage = this.authService.urlFile(this.idUser, 200,200) + "r=" + (Math.random() * 100) + 1;
         this.messaBetweenComp.sendMessage(this.urlImage);
       }
-    }
-    
+    }    
   }
 
+  url = '';
+  onSelectFile(event) {
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+      reader.onload = (event) => { // called once readAsDataURL is completed
+        this.url = event.target.result;
+    }
+    }
+  }
   ngOnInit() {
     //image
     this.initializeUploader();
     this.idUser = this.authService.userId('id');
     this.urlImage = this.authService.urlFile(this.idUser, 200,200);
+  }
+
+  removePreview(){
+    this.url='';
+    this.uploader.cancelAll();
+    this.uploader.clearQueue();
+  }
+
+  eliminarPerfil(){
+    this.userService.deleteProfilePhoto(this.idUser);
+    this.urlImage = this.authService.urlFile(this.idUser, 200,200);
+    this.url = '';
   }
 
 }

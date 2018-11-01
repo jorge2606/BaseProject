@@ -12,4 +12,9 @@ export class NotificationsService {
   getAllNotifications(){
     return this.http.get<Notifications[]>("http://localhost:63098/api/Notification/GetAllNotifications");
   }
+
+  notificationRidden(id : Notifications){
+    return this.http.put<Notifications>("http://localhost:63098/api/Notification/NotificationRidden/",id);
+  }
+
 }

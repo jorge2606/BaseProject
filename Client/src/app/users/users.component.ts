@@ -57,7 +57,7 @@ export class UsersComponent implements OnInit {
         error => {
             console.log("error", error);
         }
-    );;
+    );
     },
       () => {
         console.log('Backdrop click');

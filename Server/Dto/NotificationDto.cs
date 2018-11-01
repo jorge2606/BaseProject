@@ -22,5 +22,6 @@ namespace server.Dto
         public Guid Id { get; set; }
         public string TextData { get; set; }
         public string Tittle { get; set; }
+        public bool Read { get; set; }
     }
 }

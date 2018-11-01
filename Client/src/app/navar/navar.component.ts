@@ -4,6 +4,9 @@ import { Notifications } from './../_models/notifications';
 import { NotificationsService } from './../_services/notifications.service';
 import { Component, OnInit } from '@angular/core';
 import { MessBetweenCompService } from '../_services/mess-between-comp.service';
+import { NgbdModalContent } from '../modals/modals.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserService } from '../_services/user.service';
 
 @Component({
   selector: 'app-navar',
@@ -14,9 +17,12 @@ export class NavarComponent implements OnInit {
 
   constructor(private notificaionServices : NotificationsService, 
               private authService : AuthenticationService,
-              private messaBetweenComp : MessBetweenCompService ) { }
+              private messaBetweenComp : MessBetweenCompService,
+              private modalService: NgbModal,
+              private var_user_service: UserService ) { }
 
   notification : Notifications[];
+  notificationridden = new Notifications();
   isLogged : Observable<boolean>;
   idUser : number;
   urlImage : string;
@@ -41,6 +47,28 @@ export class NavarComponent implements OnInit {
 
   logout(){
     this.authService.logout();
+  }
+
+  //MODALS
+  seeThisNotification(notif : String, id : number) {
+    const modalRef = this.modalService.open(NgbdModalContent);
+    modalRef.componentInstance.Encabezado = "Notificación";
+    modalRef.componentInstance.Contenido = notif;
+    modalRef.componentInstance.GuardaroEliminar = "Entendido";
+    modalRef.result.then(() => {
+      this.notificationridden.id = id,
+      this.notificationridden.read = true,
+      this.notificationridden.textData = "";
+      this.notificationridden.tittle = "" 
+      this.notificaionServices.notificationRidden(this.notificationridden).subscribe(
+        x => this.notificaionServices.getAllNotifications().subscribe(
+          x => console.log(x)
+        )
+      )
+    },
+      () => {
+        console.log('Backdrop click');
+    })
   }
 
 }

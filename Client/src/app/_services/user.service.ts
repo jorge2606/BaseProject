@@ -66,4 +66,16 @@ export class UserService {
             }
         );
     }
+
+    deleteProfilePhoto(id: number) {
+        return this.http.delete('http://localhost:63098/api/File/removePhoto/' + id).subscribe(
+            data => {
+                console.log("POST Request is successful ", data);
+            },
+            error => {
+                console.log("Rrror", error);
+            }
+        );
+    }
+
 }

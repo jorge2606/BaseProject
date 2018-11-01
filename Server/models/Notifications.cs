@@ -10,6 +10,7 @@ namespace server.models
         public Guid UserId { set; get; }
         public Guid EntityId { set; get; }
         public NotificationType NotificationType { set; get; }
+        public bool Read { set; get; }
     }
 
     public enum NotificationType

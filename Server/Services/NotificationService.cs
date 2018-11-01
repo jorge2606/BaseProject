@@ -6,6 +6,7 @@ using AutoMapper;
 using server.Dto;
 using server.IServices;
 using server.Models;
+using server.ServiceResult;
 
 namespace server.Services
 {
@@ -33,6 +34,22 @@ namespace server.Services
                     Where(x => x.Id == id).
                     Take(2).ToList();
             
+        }
+
+        public ServiceResult<NotificationDto> NotificationRidden(Guid id)
+        {
+            var notif = _contextNotification.Notifications.FirstOrDefault(x => x.Id == id);
+            
+            if (notif == null)
+            {
+                return new ServiceResult<NotificationDto>(null);
+            }
+            notif.Read = true;
+            _contextNotification.Notifications.Update(notif);
+            _contextNotification.SaveChanges();
+
+            return new ServiceResult <NotificationDto>(_mapper.Map<NotificationDto>(notif));
+
         }
 
 

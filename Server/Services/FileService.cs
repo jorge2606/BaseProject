@@ -125,5 +125,32 @@ namespace server.Services
             return new ServiceResult<FileByIdDto>(imagesPath);
         }
 
+        public ServiceResult<FileByIdDto> RemoveProfilePhoto(Guid userId)
+        {
+            var path = Path.Combine(StaticFilesDirectory, "Profile", userId.ToString());
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+
+                File.Copy(Path.Combine(StaticFilesDirectory, "user.png"), Path.Combine(path, "user.png"));
+            }
+            DirectoryInfo files = new DirectoryInfo(path);
+
+            var fileSystem = files.EnumerateFileSystemInfos();
+
+            foreach (var i in fileSystem)
+            {
+                File.Delete(Path.Combine(path, i.Name));
+            }
+
+            File.Copy(Path.Combine(StaticFilesDirectory, "user.png"), Path.Combine(path, "user.png"));
+            FileByIdDto pathByIdDto = new FileByIdDto()
+            {
+                Paths = path
+            };
+            return new ServiceResult<FileByIdDto>(pathByIdDto);
+        }
+
     }
 }

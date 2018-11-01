@@ -1,85 +1,72 @@
-
 <div class="container">
 
     <div class="navbar navbar-default">
-            <div class="navbar-header">
-               <h3>Imagen de Perfil</h3> 
-            </div>
+        <div class="navbar-header">
+            <h3>Imagen de Perfil</h3>
+        </div>
     </div>
 
-    
-    <!--<div *ngFor="let item of uploader.queue" class="media">
-        <div class="media-left">
-            <img src="" imgPreview [image]="item?._file" class="media-object" />
-        </div>
-        <div class="media-body">
-            <p>{{ item?.file?.name }}</p>
-        </div>
-    </div>-->
+    <div class="container">
+        <div *ngIf="!url" class="container-image">
+            <img src="{{urlImage}}" class="image" height="50" with="50">
+            <div class="middle">
+                <span class="btn btn-default btn-file">
+                    <input class="text" type="file" id="fileUpload" (change)="onSelectFile($event)" ng2FileSelect
+                        [uploader]="uploader" value="Cambiar" />
+                </span>
 
-    <img src="{{urlImage}}" alt="" class="img-thumbnail">
-    
-    <div class="col-md-3">
-
-        <div ng2FileDrop
-            [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
-            (fileOver)="fileOverBase($event)"
-            [uploader]="uploader"
-            class="card bg-faded p-3 text-center mb-3 my-drop-zone">
-            <fa-icon icon="upload"></fa-icon>
-            <b>Arrastre su imagen aqui</b>
+            </div>
+            <button type="button" class="btn btn-danger btn-xs" (click)="eliminarPerfil()">
+                <fa-icon icon="trash"></fa-icon>
+            </button>
         </div>
-        <br>
-        <input type="file" ng2FileSelect [uploader]="uploader" />
+
+        <div *ngIf="url" class="container-image">
+            <div class="media-left">
+                <img [src]="url" class="image" height="50" with="50">
+                <div class="middle">
+                    <button class="btn text">Quitar</button>
+                </div>
+            </div>
+        </div>
+
+        <ul *ngFor="let item of uploader.queue">
+            <li>Nombre: <strong>{{ item?.file?.name }}</strong></li>
+            <li *ngIf="uploader.options.isHTML5" nowrap>Tamaño : {{ item?.file?.size/1024/1024 | number:'.2' }} MB</li>
+            <li class="text-center">
+                <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+            </li>
+            <li nowrap>
+                <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                    <fa-icon icon="pencil-alt"></fa-icon> Enviar
+                </button>
+                <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
+                    <fa-icon icon="ban"></fa-icon>
+                </button>
+                <button type="button" class="btn btn-danger btn-xs" (click)="removePreview()">
+                    <fa-icon icon="trash"></fa-icon>
+                </button>
+            </li>
+        </ul>
+
+
     </div>
 
     <br>
     <div class="col-md-9" style="margin-bottom: 40px" *ngIf="uploader?.queue?.length">
+        <div class="col-md-3">
 
-       <!-- <h3>Upload queue</h3>
+            <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)"
+                [uploader]="uploader" class="card bg-faded p-3 text-center mb-3 my-drop-zone">
+                <fa-icon icon="upload"></fa-icon>
+                <b>Arrastre su imagen aqui</b>
+            </div>
+            <br>
+        </div>
+        <!-- <h3>Upload queue</h3>
         <p>Queue length: {{ uploader?.queue?.length }}</p>-->
-
-        <table class="table">
-            <thead>
-            <tr>
-                <th width="100%">Name</th>
-                <th>Tamaño</th>
-                <th>Progreso</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let item of uploader.queue">
-                <td><strong>{{ item?.file?.name }}</strong></td>
-                <td *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
-                <td *ngIf="uploader.options.isHTML5">
-                    <div class="progress" style="margin-bottom: 0;">
-                        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
-                    </div>
-                </td>
-                <td class="text-center">
-                    <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
-                    <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
-                    <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-                </td>
-                <td nowrap>
-                    <button type="button" class="btn btn-success btn-xs"
-                            (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                            <fa-icon icon="pencil-alt" ></fa-icon> Enviar
-                    </button>
-                    <button type="button" class="btn btn-warning btn-xs"
-                            (click)="item.cancel()" [disabled]="!item.isUploading">
-                            <fa-icon icon="ban"></fa-icon> Cancelar
-                    </button>
-                    <button type="button" class="btn btn-danger btn-xs"
-                            (click)="item.remove()">
-                            <fa-icon icon="trash"></fa-icon> Remover
-                    </button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
     </div>
 
 </div>

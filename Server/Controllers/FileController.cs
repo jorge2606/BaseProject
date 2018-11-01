@@ -54,6 +54,18 @@ namespace server.Controllers
             return Ok(result);
         }
 
+        [HttpDelete("removePhoto/{userId}")]
+        [AllowAnonymous]
+        public IActionResult RemoveFile(Guid userId)
+        {
+            var result = _fileService.RemoveProfilePhoto(userId);
+            if (!result.IsSuccess)
+            {
+                return BadRequest();
+            }
+            return Ok(result);
+        }
+
         [HttpGet("{userId}/{width}/{height}")]
         [AllowAnonymous]
         public async Task<IActionResult> ResizeImage(Guid userId, int width, int height)
