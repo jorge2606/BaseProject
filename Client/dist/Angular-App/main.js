@@ -284,6 +284,26 @@ var JwtInterceptor = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/_models/notifications.ts":
+/*!******************************************!*\
+  !*** ./src/app/_models/notifications.ts ***!
+  \******************************************/
+/*! exports provided: Notifications */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Notifications", function() { return Notifications; });
+var Notifications = /** @class */ (function () {
+    function Notifications() {
+    }
+    return Notifications;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/_models/passwords.ts":
 /*!**************************************!*\
   !*** ./src/app/_models/passwords.ts ***!
@@ -484,12 +504,60 @@ var AuthenticationService = /** @class */ (function () {
             return currentUserJSON[key];
         }
     };
+    AuthenticationService.prototype.urlFile = function (userId, width, height) {
+        return "http://localhost:63098/api/File/" + userId + "/" + width + "/" + height;
+    };
     AuthenticationService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({ providedIn: 'root' }),
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"],
             _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]])
     ], AuthenticationService);
     return AuthenticationService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/_services/mess-between-comp.service.ts":
+/*!********************************************************!*\
+  !*** ./src/app/_services/mess-between-comp.service.ts ***!
+  \********************************************************/
+/*! exports provided: MessBetweenCompService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MessBetweenCompService", function() { return MessBetweenCompService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+var MessBetweenCompService = /** @class */ (function () {
+    function MessBetweenCompService() {
+        this.subject = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+    }
+    MessBetweenCompService.prototype.sendMessage = function (message) {
+        this.subject.next({ text: message });
+    };
+    MessBetweenCompService.prototype.clearMessage = function () {
+        this.subject.next();
+    };
+    MessBetweenCompService.prototype.getMessage = function () {
+        return this.subject.asObservable();
+    };
+    MessBetweenCompService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        })
+    ], MessBetweenCompService);
+    return MessBetweenCompService;
 }());
 
 
@@ -525,6 +593,9 @@ var NotificationsService = /** @class */ (function () {
     }
     NotificationsService.prototype.getAllNotifications = function () {
         return this.http.get("http://localhost:63098/api/Notification/GetAllNotifications");
+    };
+    NotificationsService.prototype.notificationRidden = function (id) {
+        return this.http.put("http://localhost:63098/api/Notification/NotificationRidden/", id);
     };
     NotificationsService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -756,6 +827,13 @@ var UserService = /** @class */ (function () {
             console.log("Rrror", error);
         });
     };
+    UserService.prototype.deleteProfilePhoto = function (id) {
+        return this.http.delete('http://localhost:63098/api/File/removePhoto/' + id).subscribe(function (data) {
+            console.log("POST Request is successful ", data);
+        }, function (error) {
+            console.log("Rrror", error);
+        });
+    };
     UserService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({ providedIn: 'root' }),
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"], _authentication_service__WEBPACK_IMPORTED_MODULE_4__["AuthenticationService"]])
@@ -868,7 +946,7 @@ module.exports = ".navarStyle {\r\n  font-size : 13px;\r\n  font-family: -apple-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container pt-1 small\">\n    <app-navar></app-navar>\n</div>\n\n"
+module.exports = "<div class=\"container pt-1 small\">\n    <app-navar [urlImage]=\"urlImage\"></app-navar>\n</div>\n\n"
 
 /***/ }),
 
@@ -883,6 +961,7 @@ module.exports = "<div class=\"container pt-1 small\">\n    <app-navar></app-nav
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function() { return AppComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_authentication_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_services/authentication.service */ "./src/app/_services/authentication.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -893,10 +972,15 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var AppComponent = /** @class */ (function () {
-    function AppComponent() {
+    function AppComponent(authService) {
+        this.authService = authService;
+        this.urlImage = "";
     }
     AppComponent.prototype.ngOnInit = function () {
+        this.idUser = this.authService.userId('id');
+        this.urlImage = this.authService.urlFile(this.idUser, 25, 25) + "r=" + (Math.random() * 100) + 1;
     };
     AppComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -904,7 +988,7 @@ var AppComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./app.component.html */ "./src/app/app.component.html"),
             styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_services_authentication_service__WEBPACK_IMPORTED_MODULE_1__["AuthenticationService"]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -1502,7 +1586,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav *ngIf=\"isLogged | async\" class=\"navbar navbar-expand-lg navbar-dark bg-dark mb-3 font-weight-light\">\r\n  <div class=\"collapse navbar-collapse\" id=\"navbarNavAltMarkup\">\r\n\r\n    <ul class=\"navbar-nav mr-auto\">\r\n\r\n      <li class=\"nav-item active\">\r\n        <a routerLink=\"/users\" class=\"nav-item text-white nav-link small\" href=\"#\">\r\n          <fa-icon icon=\"users\"></fa-icon>Usuarios\r\n        </a>\r\n      </li>\r\n\r\n      <li class=\"nav-item\">\r\n        <!--<a style=\"color: white;\" class=\"nav-item nav-link active\" href=\"#\" routerLink=\"/login\">Login</a>-->\r\n        <a class=\"nav-item text-white nav-link small\" href=\"#\" [routerLink]=\"['/roles']\">\r\n          <fa-icon icon=\"key\"></fa-icon> Roles\r\n        </a>\r\n      </li>\r\n\r\n    </ul>\r\n\r\n    <ul class=\"navbar-nav ml-auto small\">\r\n      <li class=\"nav-item dropdown\">\r\n        <div class=\"d-inline-block pull-right\" ngbDropdown #myDrop=\"ngbDropdown\">\r\n          <button class=\"btn btn-outline-danger mr-2 small\" id=\"dropdownManual\" ngbDropdownAnchor (focus)=\"myDrop.open()\">\r\n            <fa-icon icon=\"bell\"></fa-icon>\r\n          </button>\r\n          <div ngbDropdownMenu aria-labelledby=\"dropdownManual\">\r\n            <button *ngFor=\"let x of notification\" class=\"dropdown-item small\">{{x.tittle}}</button>\r\n          </div>\r\n        </div>\r\n      </li>\r\n\r\n\r\n      <li class=\"nav-item dropdown small\">\r\n          <div class=\"d-inline-block pull-right\" ngbDropdown #myDropCloseSession=\"ngbDropdown\">\r\n            <button class=\"btn btn-outline-light mr-2 small\" id=\"dropdownManual\" ngbDropdownAnchor (focus)=\"myDropCloseSession.open()\">\r\n              <fa-icon icon=\"user\"></fa-icon>\r\n            </button>\r\n            <div ngbDropdownMenu aria-labelledby=\"dropdownManual\">\r\n                <button routerLink=\"/settingUser/{{idUser}}\" class=\"dropdown-item small\">Mi Perfil</button>\r\n              <button (click)=\"logout()\" class=\"dropdown-item small\">Cerrar Sesión</button>\r\n            </div>\r\n          </div>\r\n        </li>      \r\n\r\n    </ul>\r\n  </div>\r\n</nav>\r\n\r\n<router-outlet class=\"small\"></router-outlet>"
+module.exports = "<nav *ngIf=\"isLogged | async\" class=\"navbar navbar-expand-lg navbar-dark bg-dark mb-3 font-weight-light\">\r\n  <div class=\"collapse navbar-collapse\" id=\"navbarNavAltMarkup\">\r\n\r\n    <ul class=\"navbar-nav mr-auto\">\r\n\r\n      <li class=\"nav-item active\">\r\n        <a routerLink=\"/users\" class=\"nav-item text-white nav-link small\" href=\"#\">\r\n          <fa-icon icon=\"users\"></fa-icon>Usuarios\r\n        </a>\r\n      </li>\r\n\r\n      <li class=\"nav-item\">\r\n        <!--<a style=\"color: white;\" class=\"nav-item nav-link active\" href=\"#\" routerLink=\"/login\">Login</a>-->\r\n        <a class=\"nav-item text-white nav-link small\" href=\"#\" [routerLink]=\"['/roles']\">\r\n          <fa-icon icon=\"key\"></fa-icon> Roles\r\n        </a>\r\n      </li>\r\n\r\n    </ul>\r\n\r\n    <ul class=\"navbar-nav ml-auto small\">\r\n      <li class=\"nav-item dropdown\">\r\n        <div class=\"d-inline-block pull-right\" ngbDropdown #myDrop=\"ngbDropdown\">\r\n          <button class=\"btn btn-outline-danger mr-2 small\" id=\"dropdownManual\" ngbDropdownAnchor (focus)=\"myDrop.open()\">\r\n            <fa-icon icon=\"bell\"></fa-icon>\r\n          </button>\r\n          <div ngbDropdownMenu aria-labelledby=\"dropdownManual\">\r\n            <button *ngFor=\"let j of notification\" [ngClass]=\"{'dropdown-item small alert alert-light': j.read,'dropdown-item small alert alert-success' : !j.read}\" (click)=\"seeThisNotification(j.textData,j.id)\">\r\n                {{j.tittle}}\r\n            </button>\r\n            \r\n          </div>\r\n        </div>\r\n      </li>\r\n\r\n      \r\n      <li class=\"nav-item dropdown small\">\r\n          <div class=\"d-inline-block pull-right\" ngbDropdown #myDropCloseSession=\"ngbDropdown\">\r\n            <button class=\"btn btn-outline-light mr-2 small\" id=\"dropdownManual\" ngbDropdownAnchor (focus)=\"myDropCloseSession.open()\">\r\n             <!-- <fa-icon icon=\"user\"></fa-icon>-->\r\n              <img class=\"rounded-circle\" src=\"{{urlImage}}\" alt=\"\">\r\n            </button>\r\n            <div ngbDropdownMenu aria-labelledby=\"dropdownManual\">\r\n                <button routerLink=\"/settingUser/{{idUser}}\" class=\"dropdown-item small\">Mi Perfil</button>\r\n              <button (click)=\"logout()\" class=\"dropdown-item small\">Cerrar Sesión</button>\r\n            </div>\r\n          </div>\r\n        </li>      \r\n\r\n    </ul>\r\n  </div>\r\n</nav>\r\n\r\n<router-outlet class=\"small\"></router-outlet>\r\n"
 
 /***/ }),
 
@@ -1517,8 +1601,13 @@ module.exports = "<nav *ngIf=\"isLogged | async\" class=\"navbar navbar-expand-l
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NavarComponent", function() { return NavarComponent; });
 /* harmony import */ var _services_authentication_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../_services/authentication.service */ "./src/app/_services/authentication.service.ts");
-/* harmony import */ var _services_notifications_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../_services/notifications.service */ "./src/app/_services/notifications.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _models_notifications__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../_models/notifications */ "./src/app/_models/notifications.ts");
+/* harmony import */ var _services_notifications_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../_services/notifications.service */ "./src/app/_services/notifications.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_mess_between_comp_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_services/mess-between-comp.service */ "./src/app/_services/mess-between-comp.service.ts");
+/* harmony import */ var _modals_modals_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modals/modals.component */ "./src/app/modals/modals.component.ts");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../_services/user.service */ "./src/app/_services/user.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1531,27 +1620,67 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
+
+
+
 var NavarComponent = /** @class */ (function () {
-    function NavarComponent(notificaionServices, authService) {
+    function NavarComponent(notificaionServices, authService, messaBetweenComp, modalService, var_user_service) {
         this.notificaionServices = notificaionServices;
         this.authService = authService;
+        this.messaBetweenComp = messaBetweenComp;
+        this.modalService = modalService;
+        this.var_user_service = var_user_service;
+        this.notificationridden = new _models_notifications__WEBPACK_IMPORTED_MODULE_1__["Notifications"]();
     }
     NavarComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.notificaionServices.getAllNotifications().subscribe(function (x) { return _this.notification = x; });
         this.idUser = this.authService.userId('id');
         this.isLogged = this.authService.isLoggedIn;
+        this.messaBetweenComp.getMessage().subscribe(function (x) {
+            return _this.urlImage = _this.authService.urlFile(_this.idUser, 25, 25) + "r=" + (Math.random() * 100) + 1;
+        });
+        if (!this.urlImage) {
+            this.urlImage = this.authService.urlFile(this.idUser, 25, 25) + "r=" + (Math.random() * 100) + 1;
+        }
     };
     NavarComponent.prototype.logout = function () {
         this.authService.logout();
     };
+    //MODALS
+    NavarComponent.prototype.seeThisNotification = function (notif, id) {
+        var _this = this;
+        var modalRef = this.modalService.open(_modals_modals_component__WEBPACK_IMPORTED_MODULE_5__["NgbdModalContent"]);
+        modalRef.componentInstance.Encabezado = "Notificación";
+        modalRef.componentInstance.Contenido = notif;
+        modalRef.componentInstance.GuardaroEliminar = "Entendido";
+        modalRef.result.then(function () {
+            _this.notificationridden.id = id,
+                _this.notificationridden.read = true,
+                _this.notificationridden.textData = "";
+            _this.notificationridden.tittle = "";
+            _this.notificaionServices.notificationRidden(_this.notificationridden).subscribe(function (x) { return _this.notificaionServices.getAllNotifications().subscribe(function (x) { return console.log(x); }); });
+        }, function () {
+            console.log('Backdrop click');
+        });
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Input"])(),
+        __metadata("design:type", String)
+    ], NavarComponent.prototype, "urlImage", void 0);
     NavarComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Component"])({
             selector: 'app-navar',
             template: __webpack_require__(/*! ./navar.component.html */ "./src/app/navar/navar.component.html"),
             styles: [__webpack_require__(/*! ./navar.component.css */ "./src/app/navar/navar.component.css")]
         }),
-        __metadata("design:paramtypes", [_services_notifications_service__WEBPACK_IMPORTED_MODULE_1__["NotificationsService"], _services_authentication_service__WEBPACK_IMPORTED_MODULE_0__["AuthenticationService"]])
+        __metadata("design:paramtypes", [_services_notifications_service__WEBPACK_IMPORTED_MODULE_2__["NotificationsService"],
+            _services_authentication_service__WEBPACK_IMPORTED_MODULE_0__["AuthenticationService"],
+            _services_mess_between_comp_service__WEBPACK_IMPORTED_MODULE_4__["MessBetweenCompService"],
+            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__["NgbModal"],
+            _services_user_service__WEBPACK_IMPORTED_MODULE_7__["UserService"]])
     ], NavarComponent);
     return NavarComponent;
 }());
@@ -1918,7 +2047,7 @@ var RolesComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\r\n.ng-valid[required], .ng-valid.required  {\r\n    border-left: solid #42A948; /* green */\r\n  }\r\n  \r\n.ng-invalid:not(form)  {\r\n    border-left: solid #a94442; /* red */\r\n}\r\n  \r\n.navarStyle {\r\n  font-size : 13px;\r\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;\r\n  padding-top: 1px;\r\n}\r\n  \r\ninput{\r\n  font-size : 13px;\r\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;  \r\n}"
+module.exports = ".ng-valid[required], .ng-valid.required  {\r\n  border-left: 5px solid #42A948; /* green */\r\n}\r\n\r\n.ng-invalid:not(form)  {\r\n  border-left: 5px solid #a94442; /* red */\r\n}\r\n\r\n.navarStyle {\r\n  font-size : 13px;\r\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;\r\n  padding-top: 1px;\r\n}\r\n\r\ninput{\r\nfont-size : 13px;\r\nfont-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;  \r\n}"
 
 /***/ }),
 
@@ -1929,7 +2058,7 @@ module.exports = "\r\n.ng-valid[required], .ng-valid.required  {\r\n    border-l
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form (ngSubmit)=\"userForm.form.valid && onSubmit()\" method=\"post\" #userForm=\"ngForm\">\r\n        <mat-form-field class=\"example-full-width\">\r\n          <input matInput placeholder=\"Dni\" [(ngModel)]=\"model.dni\" #Dni=\"ngModel\" required name=\"Dni\" id=\"Dni\" type=\"number\">\r\n        </mat-form-field>\r\n        \r\n        <div style=\"margin-top: 10px;\" *ngIf=\"Dni.dirty && Dni.invalid\" class=\"alert alert-danger\">\r\n            Dni Incorrecto\r\n        </div>\r\n        \r\n        <mat-form-field class=\"example-full-width\">\r\n            <input matInput class=\"form-control\" [(ngModel)]=\"model.userName\" required #Usuario=\"ngModel\" name=\"Usuario\" type=\"text\" placeholder=\"Username\">\r\n        </mat-form-field>\r\n\r\n        <div style=\"margin-top: 10px;\" *ngIf=\"Usuario.dirty && Usuario.invalid\" class=\"alert alert-danger\">\r\n                Usuario Incorrecto\r\n        </div>\r\n\r\n        <mat-form-field class=\"example-full-width\">\r\n            <input matInput class=\"form-control\" [(ngModel)]=\"model.password\" required #Password=\"ngModel\" name=\"Password\" type=\"password\" placeholder=\"Password\">\r\n        </mat-form-field>\r\n\r\n        <div class=\"form-group\" style=\"margin-bottom : 0px;\">\r\n                <div class=\"row\">\r\n                    <li *ngFor=\"let rol of model.rolesUser\" style=\"list-style:none\">\r\n                        <div class=\"col\">\r\n                            <input  type=\"checkbox\" name=\"{{rol.id}}\" value=\"{{rol.id}}\" [(ngModel)]=\"rol.rolBelongUser\" />\r\n                            <!-- <mat-checkbox [(ngModel)]=\"rol.rolBelongUser\" >{{rol.name}}</mat-checkbox> -->\r\n                            <label class=\"navarStyle\" style=\"text-transform: capitalize; padding-left: 5px;font-size: 11px;\" for=\"exampleCheck1\">{{rol.name}}</label>\r\n                        </div>   \r\n                    </li>  \r\n                </div>\r\n            </div> \r\n\r\n        <mat-form-field class=\"example-full-width\">\r\n            <input matInput class=\"form-control\" [(ngModel)]=\"model.phoneNumber\" required #PhoneNumber=\"ngModel\" name=\"phoneNumber\"\r\n                type=\"number\" placeholder=\"Telefóno\" value=\"\">\r\n        </mat-form-field>\r\n\r\n        <div style=\"margin-top: 10px;\" *ngIf=\"PhoneNumber.dirty && PhoneNumber.invalid\" class=\"alert alert-danger\">\r\n                Telefóno Incorrecto\r\n        </div>\r\n\r\n        <div class=\"form-group\">\r\n                <button mat-button style=\"background-color :lightgreen; color: black;\" class=\"navarStyle\" [disabled]=\"!userForm.form.valid\">Guardar</button>\r\n                <button mat-button style=\"margin-left : 5px;\" class=\"navarStyle\" href=\"\" routerLink=\"/users\">atrás\r\n                </button>\r\n        </div>\r\n</form>\r\n\r\n    <div style=\"margin-top: 10px;\" *ngIf=\"userForm.form.invalid\" class=\"alert alert-danger\">\r\n        Hay Campos erroneos en el formulario, verifiquelos\r\n    </div>\r\n\r\n    <div>\r\n        <ul style=\"margin-top : 15px;\" *ngIf=\"errors.length != 0\" class=\"alert alert-danger\" role=\"alert\">\r\n            <li *ngFor=\"let error of errors\">{{ error.value }}</li>\r\n        </ul>\r\n    </div>\r\n\r\n\r\n    \r\n\r\n\r\n\r\n"
+module.exports = "<div class=\"container col-4 navarStyle\">\r\n        <h2>Crear</h2>\r\n        <form (ngSubmit)=\"onSubmit()\" #userForm=\"ngForm\">\r\n            \r\n            <div style=\"margin-bottom:5px;\" class=\"form-group\">\r\n                <input class=\"form-control\" [(ngModel)]=\"model.dni\" #Dni=\"ngModel\" required name=\"Dni\" id=\"Dni\" type=\"number\"\r\n                    placeholder=\"Dni\">\r\n            </div>\r\n    \r\n            <div style=\"margin-top: 10px;\" *ngIf=\"submitted && Dni.invalid\" clas=\"alert alert-danger\">\r\n                Dni Incorrecto\r\n            </div>\r\n    \r\n            <div style=\"margin-bottom:5px;\" class=\"form-group\">\r\n                <input class=\"form-control\" [(ngModel)]=\"model.userName\" required #Usuario=\"ngModel\" name=\"Usuario\" type=\"text\"\r\n                    placeholder=\"Username\" value=\"\">\r\n            </div>\r\n    \r\n            <div style=\"margin-top: 10px;\" *ngIf=\"submitted && Usuario.invalid\" class=\"alert alert-danger\">\r\n                Usuario Incorrecto\r\n            </div>\r\n    \r\n            <div style=\"margin-bottom:5px;\" class=\"form-group\">\r\n                <input class=\"form-control\" [(ngModel)]=\"model.password\" #Usuario=\"ngModel\" name=\"Password\" type=\"password\"\r\n                    placeholder=\"Nueva Contraseña\" value=\"\">\r\n            </div>\r\n    \r\n            <div style=\"margin-top: 10px;\" *ngIf=\"submitted && Password.invalid\" class=\"alert alert-danger\">\r\n                Contraseña Incorrecta\r\n            </div>\r\n    \r\n            <div class=\"form-group\" style=\"margin-bottom : 0px;\">\r\n                <div class=\"row\">\r\n                    <li *ngFor=\"let rol of model.rolesUser\" style=\"list-style:none\">\r\n                        <div class=\"col\">\r\n                            <input type=\"checkbox\" name=\"{{rol.id}}\" value=\"{{rol.id}}\" [(ngModel)]=\"rol.rolBelongUser\" />\r\n                            <label class=\"navarStyle\" style=\"text-transform: capitalize; padding-left: 5px;font-size: 11px;\" for=\"exampleCheck1\">{{rol.name}}</label>\r\n                        </div>\r\n                    </li>\r\n                </div>\r\n            </div> \r\n    \r\n            <div style=\"margin-bottom:5px;\" class=\"form-group\">\r\n                <input class=\"form-control\" [(ngModel)]=\"model.phoneNumber\" required #PhoneNumber=\"ngModel\" name=\"phoneNumber\"\r\n                    type=\"text\" placeholder=\"Telefóno\" value=\"\">\r\n            </div>\r\n            \r\n            <div style=\"margin-top: 10px;\" *ngIf=\"submitted && PhoneNumber.invalid\" class=\"alert alert-danger\">\r\n                Telefóno Incorrecto\r\n            </div>\r\n    \r\n            <div style=\"margin-bottom:5px;\" class=\"form-group\">\r\n                <button class=\"btn btn-success navarStyle\" [disabled]=\"!userForm.form.valid\">Guardar</button>\r\n                <a style=\"margin-left : 5px;\" class=\"btn btn-primary navarStyle\" href=\"\" routerLink=\"/users\">atrás</a>\r\n            </div>\r\n    \r\n        </form>\r\n        <div style=\"margin-top: 10px;\" *ngIf=\"userForm.form.invalid\">\r\n            Hay Campos erroneos en el formulario, verifiquelos\r\n        </div>\r\n    </div>\r\n\r\n\r\n    \r\n\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -2107,7 +2236,7 @@ var ModifyuserComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".my-drop-zone { border: dotted 3px lightgray; }\r\n.nv-file-over { border: dotted 3px red; }\r\n/* Default class applied to drop zones on over */\r\n.another-file-over-class { border: dotted 3px green; }\r\nhtml, body { height: 100%; }\r\n.image {\r\n    opacity: 1;\r\n    display: block;\r\n    width: 50;\r\n    height: auto;\r\n    transition: .5s ease;\r\n    -webkit-backface-visibility: hidden;\r\n            backface-visibility: hidden;\r\n}\r\n.imageUrl {\r\n    opacity: 1;\r\n    display: block;\r\n    width: 200px;\r\n    height: 200px;\r\n    transition: .5s ease;\r\n    -webkit-backface-visibility: hidden;\r\n            backface-visibility: hidden;\r\n}\r\n.text {\r\n    background-color: #4CAF50;\r\n    color: white;\r\n    font-size: 16px;\r\n    padding: 16px 32px;\r\n}\r\n.textDanger {\r\n    background-color: #FF0A0A;\r\n    color: white;\r\n    font-size: 16px;\r\n    padding: 16px 32px;\r\n}\r\n.container-image {\r\n    position: relative;\r\n    width: 25;\r\n    height: 25;\r\n}\r\n.container-image-url {\r\n    position: relative;\r\n    width: 15;\r\n    height: 15;\r\n}\r\n.middle {\r\n    transition: .5s ease;\r\n    opacity: 0;\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    -webkit-transform: translate(-50%, -50%);\r\n            transform: translate(-50%, -50%);\r\n    -ms-transform: translate(-50%, -50%);\r\n    text-align: center;\r\n  }\r\n.middle-url {\r\n    transition: .5s ease;\r\n    opacity: 0;\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 32%;\r\n    -webkit-transform: translate(-50%, -50%);\r\n            transform: translate(-50%, -50%);\r\n    -ms-transform: translate(-50%, -50%);\r\n    text-align: center;\r\n  }\r\n.container:hover .image {\r\n    opacity: 0.3;\r\n  }\r\n.container:hover .middle {\r\n    opacity: 1;\r\n  }\r\n.container:hover .middle-url {\r\n    opacity: 1;\r\n  }\r\n.btn-file {\r\n    position: relative;\r\n    overflow: hidden;\r\n}\r\n.btn-file input[type=file] {\r\n    top: 0;\r\n    right: 0;\r\n    min-width: 100%;\r\n    min-height: 100%;\r\n    font-size: 10px;\r\n    text-align: right;\r\n    filter: alpha(opacity=0);\r\n    outline: none;\r\n    background: transparent;\r\n    cursor: inherit;\r\n    display: block;\r\n}"
 
 /***/ }),
 
@@ -2118,7 +2247,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<style>\n    .my-drop-zone { border: dotted 3px lightgray; }\n    .nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */\n    .another-file-over-class { border: dotted 3px green; }\n    \n    html, body { height: 100%; }\n</style>\n\n<div class=\"container\">\n\n    <div class=\"navbar navbar-default\">\n            <div class=\"navbar-header\">\n               <h3>Imagen de Perfil</h3> \n            </div>\n    </div>\n    <div class=\"col-md-3\">\n\n        <div ng2FileDrop\n            [ngClass]=\"{'nv-file-over': hasBaseDropZoneOver}\"\n            (fileOver)=\"fileOverBase($event)\"\n            [uploader]=\"uploader\"\n            class=\"well my-drop-zone\">\n            <b>Arrastre su imagen aqui</b>\n        </div>\n        <br>\n        <!--Multiple\n        <input type=\"file\" ng2FileSelect [uploader]=\"uploader\" multiple  /><br/>-->\n        <input type=\"file\" ng2FileSelect [uploader]=\"uploader\" />\n    </div>\n\n    <br>\n    <div class=\"col-md-9\" style=\"margin-bottom: 40px\">\n\n       <!-- <h3>Upload queue</h3>\n        <p>Queue length: {{ uploader?.queue?.length }}</p>-->\n\n        <table class=\"table\">\n            <thead>\n            <tr>\n                <th width=\"100%\">Name</th>\n                <th>Tamaño</th>\n                <th>Progreso</th>\n                <th>Estado</th>\n                <th>Acciones</th>\n            </tr>\n            </thead>\n            <tbody>\n            <tr *ngFor=\"let item of uploader.queue\">\n                <td><strong>{{ item?.file?.name }}</strong></td>\n                <td *ngIf=\"uploader.options.isHTML5\" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                <td *ngIf=\"uploader.options.isHTML5\">\n                    <div class=\"progress\" style=\"margin-bottom: 0;\">\n                        <div class=\"progress-bar\" role=\"progressbar\" [ngStyle]=\"{ 'width': item.progress + '%' }\"></div>\n                    </div>\n                </td>\n                <td class=\"text-center\">\n                    <span *ngIf=\"item.isSuccess\"><i class=\"glyphicon glyphicon-ok\"></i></span>\n                    <span *ngIf=\"item.isCancel\"><i class=\"glyphicon glyphicon-ban-circle\"></i></span>\n                    <span *ngIf=\"item.isError\"><i class=\"glyphicon glyphicon-remove\"></i></span>\n                </td>\n                <td nowrap>\n                    <button type=\"button\" class=\"btn btn-success btn-xs\"\n                            (click)=\"item.upload()\" [disabled]=\"item.isReady || item.isUploading || item.isSuccess\">\n                            <fa-icon icon=\"pencil-alt\" ></fa-icon> Enviar\n                    </button>\n                    <button type=\"button\" class=\"btn btn-warning btn-xs\"\n                            (click)=\"item.cancel()\" [disabled]=\"!item.isUploading\">\n                            <fa-icon icon=\"ban\"></fa-icon> Cancelar\n                    </button>\n                    <button type=\"button\" class=\"btn btn-danger btn-xs\"\n                            (click)=\"item.remove()\">\n                            <fa-icon icon=\"trash\"></fa-icon> Remover\n                    </button>\n                </td>\n            </tr>\n            </tbody>\n        </table>\n\n\n        <div>\n            <div>\n                Queue progress:\n                <div class=\"progress\" style=\"margin-bottom: 0;\">\n                    <div class=\"progress-bar\" role=\"progressbar\" [ngStyle]=\"{ 'width': uploader.progress + '%' }\"></div>\n                </div>\n            </div>\n\n            <br>\n\n            <button type=\"button\" class=\"btn btn-success btn-s\"\n                    (click)=\"uploader.uploadAll()\" [disabled]=\"!uploader.getNotUploadedItems().length\">\n                    <fa-icon icon=\"pencil-alt\"></fa-icon> Enviar Todos\n            </button>\n            <button type=\"button\" class=\"btn btn-warning btn-s\"\n                    (click)=\"uploader.cancelAll()\" [disabled]=\"!uploader.isUploading\">\n                    <fa-icon icon=\"ban\"></fa-icon> Cancelar Todos\n            </button>\n            <button type=\"button\" class=\"btn btn-danger btn-s\"\n                    (click)=\"uploader.clearQueue()\" [disabled]=\"!uploader.queue.length\">\n                        <fa-icon icon=\"trash\"></fa-icon>\n                        Remover todos\n            </button>\n        </div>\n\n    </div>\n\n    </div>"
+module.exports = "<div class=\"container\">\n\n    <div class=\"navbar navbar-default\">\n        <div class=\"navbar-header\">\n            <h3>Imagen de Perfil</h3>\n        </div>\n    </div>\n\n    <div class=\"container\">\n        <div *ngIf=\"!url\" class=\"container-image col-md-6\">\n            <img src=\"{{urlImage}}\" class=\"image\" height=\"25\" with=\"25\">\n            <div class=\"middle\">\n                <span class=\"btn btn-default btn-file\">\n                    <input class=\"text\" type=\"file\" id=\"fileUpload\" (change)=\"onSelectFile($event)\" ng2FileSelect\n                        [uploader]=\"uploader\" value=\"Cambiar\" />\n                </span>\n            </div>\n            <br>\n            <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"eliminarPerfil()\">\n                    <fa-icon icon=\"trash\"></fa-icon>\n            </button>\n        </div>\n</div>\n\n<div *ngIf=\"url\" class=\"container-image-url col-md-6\">\n        <img [src]=\"url\" class=\"imageUrl\" height=\"25\" with=\"25\">\n\n        <ul *ngFor=\"let item of uploader.queue\">\n            <div class=\"middle-url\">\n                <span class=\"btn btn-default btn-file ml-3\">\n                    <button type=\"button\" class=\"btn text\" (click)=\"item.upload()\" [disabled]=\"item.isReady || item.isUploading || item.isSuccess\">\n                        <fa-icon icon=\"upload\"></fa-icon>\n                    </button>\n                    <button type=\"button\" class=\"btn textDanger\" (click)=\"removePreview()\">\n                        <fa-icon icon=\"trash\"></fa-icon>\n                    </button>\n                </span>\n            </div>\n\n        </ul>\n</div>\n    <br>\n    <!--<div class=\"col-md-9\" style=\"margin-bottom: 40px\" *ngIf=\"uploader?.queue?.length\">\n        <div class=\"col-md-3\">\n\n            <div ng2FileDrop [ngClass]=\"{'nv-file-over': hasBaseDropZoneOver}\" (fileOver)=\"fileOverBase($event)\"\n                [uploader]=\"uploader\" class=\"card bg-faded p-3 text-center mb-3 my-drop-zone\">\n                <fa-icon icon=\"upload\"></fa-icon>\n                <b>Arrastre su imagen aqui</b>\n            </div>\n            <br>\n        </div>\n         <h3>Upload queue</h3>\n        <p>Queue length: {{ uploader?.queue?.length }}</p>\n    </div>-->\n\n</div>"
 
 /***/ }),
 
@@ -2132,11 +2261,14 @@ module.exports = "<style>\n    .my-drop-zone { border: dotted 3px lightgray; }\n
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PhotoProfileComponent", function() { return PhotoProfileComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _services_authentication_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../_services/authentication.service */ "./src/app/_services/authentication.service.ts");
-/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ng2-file-upload */ "./node_modules/ng2-file-upload/index.js");
-/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../_services/user.service */ "./src/app/_services/user.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_authentication_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../_services/authentication.service */ "./src/app/_services/authentication.service.ts");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ng2-file-upload */ "./node_modules/ng2-file-upload/index.js");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var _services_mess_between_comp_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../_services/mess-between-comp.service */ "./src/app/_services/mess-between-comp.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2150,17 +2282,25 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
+
 var PhotoProfileComponent = /** @class */ (function () {
-    function PhotoProfileComponent(authService) {
+    function PhotoProfileComponent(authService, messaBetweenComp, userService) {
         this.authService = authService;
+        this.messaBetweenComp = messaBetweenComp;
+        this.userService = userService;
         this.hasBaseDropZoneOver = false;
-        this.baseUrl = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl;
+        this.baseUrl = _environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].apiUrl;
+        this.subject = new rxjs__WEBPACK_IMPORTED_MODULE_5__["Subject"]();
+        this.url = '';
     }
     PhotoProfileComponent.prototype.fileOverBase = function (e) {
         this.hasBaseDropZoneOver = e;
     };
     PhotoProfileComponent.prototype.initializeUploader = function () {
-        this.uploader = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_2__["FileUploader"]({
+        var _this = this;
+        this.uploader = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_3__["FileUploader"]({
             url: this.baseUrl + this.authService.userId('id'),
             authToken: 'Bearer ' + this.authService.userId('token'),
             isHTML5: true,
@@ -2169,22 +2309,48 @@ var PhotoProfileComponent = /** @class */ (function () {
             autoUpload: false,
             maxFileSize: 10 * 1024 * 1024
         });
-        this.uploader.onBeforeUploadItem = function (item) {
-            item.formData = [{ 'userId': '60651FA8-4443-4157-AB18-8F3886320362' }];
+        this.uploader.onSuccessItem = function (item, response, status, headers) {
+            if (response) {
+                _this.urlImage = _this.authService.urlFile(_this.idUser, 200, 200) + "r=" + (Math.random() * 100) + 1;
+                _this.messaBetweenComp.sendMessage(_this.urlImage);
+            }
         };
-        console.log(this.uploader);
+    };
+    PhotoProfileComponent.prototype.onSelectFile = function (event) {
+        var _this = this;
+        if (event.target.files && event.target.files[0]) {
+            var reader = new FileReader();
+            reader.readAsDataURL(event.target.files[0]); // read file as data url
+            reader.onload = function (event) {
+                _this.url = event.target.result;
+            };
+        }
     };
     PhotoProfileComponent.prototype.ngOnInit = function () {
         //image
         this.initializeUploader();
+        this.idUser = this.authService.userId('id');
+        this.urlImage = this.authService.urlFile(this.idUser, 200, 200);
+    };
+    PhotoProfileComponent.prototype.removePreview = function () {
+        this.url = '';
+        this.uploader.cancelAll();
+        this.uploader.clearQueue();
+    };
+    PhotoProfileComponent.prototype.eliminarPerfil = function () {
+        this.userService.deleteProfilePhoto(this.idUser);
+        this.urlImage = this.authService.urlFile(this.idUser, 200, 200);
+        this.url = '';
     };
     PhotoProfileComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-photo-profile',
             template: __webpack_require__(/*! ./photo-profile.component.html */ "./src/app/users/photo-profile/photo-profile.component.html"),
             styles: [__webpack_require__(/*! ./photo-profile.component.css */ "./src/app/users/photo-profile/photo-profile.component.css")]
         }),
-        __metadata("design:paramtypes", [_services_authentication_service__WEBPACK_IMPORTED_MODULE_1__["AuthenticationService"]])
+        __metadata("design:paramtypes", [_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"],
+            _services_mess_between_comp_service__WEBPACK_IMPORTED_MODULE_6__["MessBetweenCompService"],
+            _services_user_service__WEBPACK_IMPORTED_MODULE_0__["UserService"]])
     ], PhotoProfileComponent);
     return PhotoProfileComponent;
 }());
@@ -2382,7 +2548,6 @@ var UsersComponent = /** @class */ (function () {
             }, function (error) {
                 console.log("error", error);
             });
-            ;
         }, function () {
             console.log('Backdrop click');
         });

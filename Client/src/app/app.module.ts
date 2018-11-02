@@ -32,6 +32,7 @@ import { ResetPasswordComponent } from './manage-password/reset-password/reset-p
 import { SettingofuserComponent } from './users/settingofuser/settingofuser.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { PhotoProfileComponent } from './users/photo-profile/photo-profile.component';
+import { ListNotificationsComponent } from './modals/list-notifications/list-notifications.component';
 
 
 library.add(fas);
@@ -54,7 +55,8 @@ library.add(fas);
     ManagePasswordComponent,
     ResetPasswordComponent,
     SettingofuserComponent,
-    PhotoProfileComponent
+    PhotoProfileComponent,
+    ListNotificationsComponent
   ],
   imports: [
     BrowserModule,
@@ -77,7 +79,7 @@ library.add(fas);
     // provider used to create fake backend
     //fakeBackendProvider    
   ],
-  entryComponents: [NgbdModalContent],
+  entryComponents: [NgbdModalContent, ListNotificationsComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -24,11 +24,13 @@
           <button class="btn btn-outline-danger mr-2 small" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()">
             <fa-icon icon="bell"></fa-icon>
           </button>
-          <div  ngbDropdownMenu aria-labelledby="dropdownManual">
-            <button *ngFor="let j of notification" [ngClass]="{'text-muted': j.read,'text-info' : !j.read}" (click)="seeThisNotification(j.textData,j.id)" class="dropdown-item small">
-                {{j.tittle}}
-            </button>
-            
+          <div ngbDropdownMenu aria-labelledby="dropdownManual">
+              <div class="p-2">
+                <button *ngFor="let j of notification" [ngClass]="{'dropdown-item text-center small alert alert-light h-3': j.read,'dropdown-item text-center small alert alert-success h-3' : !j.read}" (click)="seeThisNotification(j.textData,j.id)">
+                    {{j.tittle}}
+                </button>
+                <button (click)="seeAllNotification()" class="btn btn-primary">Ver Todos >></button>
+              </div>
           </div>
         </div>
       </li>
@@ -45,7 +47,7 @@
               <button (click)="logout()" class="dropdown-item small">Cerrar Sesión</button>
             </div>
           </div>
-        </li>      
+      </li>      
 
     </ul>
   </div>
