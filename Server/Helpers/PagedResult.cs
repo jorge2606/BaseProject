@@ -5,7 +5,7 @@ namespace server.Helpers
 {
     public class PagedResult<T>
     {
-        public List<User> List { get; set; }
+        public List<T> List { get; set; }
         public long TotalRecords { get; set; }
     }
 }

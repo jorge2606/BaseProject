@@ -60,7 +60,10 @@ namespace server.Services
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     await file.CopyToAsync(fileStream);
+                    
+                    fileStream.Dispose();
                 }
+                stream.Dispose();
             }
 
             _contextFile.Files.Add(_mapper.Map<models.File>(model));
@@ -102,7 +105,7 @@ namespace server.Services
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
-                
+                    
                 File.Copy(Path.Combine(StaticFilesDirectory, "user.png"), Path.Combine(path, "user.png"));
             }
 
@@ -145,6 +148,7 @@ namespace server.Services
             }
 
             File.Copy(Path.Combine(StaticFilesDirectory, "user.png"), Path.Combine(path, "user.png"));
+
             FileByIdDto pathByIdDto = new FileByIdDto()
             {
                 Paths = path

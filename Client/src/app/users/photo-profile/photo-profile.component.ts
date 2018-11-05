@@ -76,7 +76,7 @@ export class PhotoProfileComponent implements OnInit {
 
   eliminarPerfil(){
     this.userService.deleteProfilePhoto(this.idUser);
-    this.urlImage = this.authService.urlFile(this.idUser, 200,200);
+    this.urlImage = this.authService.urlFile(this.idUser, 200,200)  + "r=" + (Math.random() * 100) + 1;
     this.url = '';
   }
 

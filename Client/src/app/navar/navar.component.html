@@ -26,10 +26,14 @@
           </button>
           <div ngbDropdownMenu aria-labelledby="dropdownManual">
               <div class="p-2">
-                <button *ngFor="let j of notification" [ngClass]="{'dropdown-item text-center small alert alert-light h-3': j.read,'dropdown-item text-center small alert alert-success h-3' : !j.read}" (click)="seeThisNotification(j.textData,j.id)">
+                  <ul *ngIf="cantNotif == 0" class="dropdown-item text-center small alert alert-primary h-3">
+                      No hay notificaciones nuevas
+                  </ul>
+                <button *ngFor="let j of notification" [ngClass]="{'dropdown-item small alert alert-light h-3': j.read,'dropdown-item text-center small alert alert-success h-3 p-1 mb-1' : !j.read}" (click)="seeThisNotification(j.textData,j.id)">
                     {{j.tittle}}
+                    <button class="btn btn-danger small" (click)="delete(j.id)"><fa-icon icon="trash"></fa-icon></button>
                 </button>
-                <button (click)="seeAllNotification()" class="btn btn-primary">Ver Todos >></button>
+                <button (click)="seeAllNotification()" class="btn btn-primary text-center">Ver Todos >></button>
               </div>
           </div>
         </div>

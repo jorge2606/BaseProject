@@ -1,23 +1,26 @@
 <div class="modal-header">
-  <h4 class="modal-title">{{Encabezado}}</h4>
+  <h4 class="modal-title">Notificaciones nuevas</h4>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
-  <div *ngFor="let j of Contenido" [ngClass]="{'dropdown-item small alert alert-light': j.read,'dropdown-item small alert alert-success' : !j.read}">
-      <div class="row h-10">
-          <input type="checkbox"><p class="pl-3">{{j.tittle}}</p>
-          <button id="collapseExample{{j.id}}" type="button" class="btn btn-outline-primary mr-2 small" (click)="isCollapsed = !isCollapsed"
-                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
-                Ver
+  <div *ngFor="let j of Contenido" class="small alert" [ngClass]="{'alert-secondary': j.read,'alert-success' : !j.read}">
+    <div class="row h-10">    
+          <h6 class="mr-auto pl-1">Titulo : {{j.tittle}}</h6>
+
+          <button id="collapseExample{{j.id}}" type="button" class="btn btn-default mr-2 small" (click)="onChange(j)"
+                [attr.aria-expanded]="j.colapse" aria-controls="collapseExample">
+                <fa-icon icon="{{verOcultar}}"></fa-icon>
           </button>
       </div>
-      <div id="collapseExample{{j.id}}" [ngbCollapse]="isCollapsed">
-              <p>{{j.textData}}</p> 
-              <button class="btn btn-danger" (click)="delete(j.id)"><fa-icon icon="trash"></fa-icon></button>
+      <div id="{{j.id}}" class="text-justify pt-3" [ngbCollapse]="!j.colapse">
+          <textarea class="form-control text-left" rows="5" readonly>{{j.textData}}</textarea>
       </div>
-
+      <button class="btn btn-danger" (click)="delete(j.id)">
+        <fa-icon icon="trash">
+        </fa-icon>
+      </button>
   </div>
 
   <ngb-pagination (pageChange)="loadPage($event)" [collectionSize]="col_size" [pageSize]="itemsPerPage" [(page)]="page"

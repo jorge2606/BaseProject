@@ -24,4 +24,5 @@ namespace server.Dto
         public string Tittle { get; set; }
         public bool Read { get; set; }
     }
+
 }

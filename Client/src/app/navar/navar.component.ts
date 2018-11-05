@@ -26,12 +26,15 @@ export class NavarComponent implements OnInit {
   notificationridden = new Notifications();
   isLogged : Observable<boolean>;
   idUser : number;
+  cantNotif : number;
   @Input() urlImage : string;
 
 
   ngOnInit() {
-    this.notificaionServices.getAllNotifications().subscribe(
-      x => this.notification = x
+    this.notificaionServices.getAllNotifications().subscribe(x => {
+      this.notification = x,
+      this.cantNotif = this.notification.length
+    }
     );
     
     this.idUser = this.authService.userId('id');
@@ -93,6 +96,19 @@ export class NavarComponent implements OnInit {
       () => {
         console.log('Backdrop click');
     })
-  }  
+  }
+  
+
+  delete(id : number){
+    this.notificaionServices.delete(id).subscribe(
+      ()=>{
+        
+      }
+      ,
+      error => {
+          console.log("error", error);
+      }
+    );
+  }
 
 }

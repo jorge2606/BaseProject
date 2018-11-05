@@ -3,4 +3,5 @@ export class Notifications{
     textData : string;
     tittle : string;
     read : boolean;
+    colapse : boolean;
 }
