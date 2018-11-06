@@ -21,19 +21,22 @@
     <ul class="navbar-nav ml-auto small">
       <li class="nav-item dropdown">
         <div class="d-inline-block pull-right" ngbDropdown #myDrop="ngbDropdown">
-          <button class="btn btn-outline-danger mr-2 small" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()">
+          <button *ngIf="cantNotif == 0" class="btn btn-light mr-2 small" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()">
             <fa-icon icon="bell"></fa-icon>
+          </button>
+          <button *ngIf="cantNotif != 0" class="btn btn-light mr-2 small" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()">
+              <fa-icon style="color:red;" icon="bell"></fa-icon>
+              <span  style="background-color:red;" class="badge badge-primary badge-pill">{{notification.length}}</span>
           </button>
           <div ngbDropdownMenu aria-labelledby="dropdownManual">
               <div class="p-2">
-                  <ul *ngIf="cantNotif == 0" class="dropdown-item text-center small alert alert-primary h-3">
+                <ul *ngIf="cantNotif == 0" class="dropdown-item text-center small alert alert-primary h-3">
                       No hay notificaciones nuevas
-                  </ul>
-                <button *ngFor="let j of notification" [ngClass]="{'dropdown-item small alert alert-light h-3': j.read,'dropdown-item text-center small alert alert-success h-3 p-1 mb-1' : !j.read}" (click)="seeThisNotification(j.textData,j.id)">
+                </ul>
+                <button *ngFor="let j of notification" class="dropdown-item small alert" [ngClass]="{'alert-light h-3 p-1 mb-1': j.read,'alert-success h-3 p-1 mb-1' : !j.read}" (click)="seeThisNotification(j.textData,j.id)">
                     {{j.tittle}}
-                    <button class="btn btn-danger small" (click)="delete(j.id)"><fa-icon icon="trash"></fa-icon></button>
                 </button>
-                <button (click)="seeAllNotification()" class="btn btn-primary text-center">Ver Todos >></button>
+                <a (click)="seeAllNotification()" class="small" href="#">ver todos</a>
               </div>
           </div>
         </div>
@@ -47,8 +50,8 @@
               <img class="rounded-circle" src="{{urlImage}}" alt="">
             </button>
             <div ngbDropdownMenu aria-labelledby="dropdownManual">
-                <button routerLink="/settingUser/{{idUser}}" class="dropdown-item small">Mi Perfil</button>
-              <button (click)="logout()" class="dropdown-item small">Cerrar Sesión</button>
+                <button routerLink="/settingUser/{{idUser}}" class="dropdown-item small"><fa-icon icon="address-card"></fa-icon> Mi Perfil</button>
+              <button (click)="logout()" class="dropdown-item small"><fa-icon icon="sign-out-alt"></fa-icon> Cerrar Sesión</button>
             </div>
           </div>
       </li>      

@@ -15,12 +15,12 @@
 			<td>{{user.userName}}</td>
 			<td>
 				<div class="btn-group" role="group" aria-label="Basic example">
-					<button type="button" routerLink="/update/{{user.id}}" class="btn btn-default">
-						<fa-icon icon="edit"></fa-icon>
-					</button>
-					<button type="button" routerLink="/users" (click)="openEliminar(user.id,user.dni,user.userName)" class="btn btn-danger">
-						<fa-icon icon="trash"></fa-icon>
-					</button>
+					<a class="pr-3" routerLink="/update/{{user.id}}">
+						<fa-icon style="color:gray;" icon="edit"></fa-icon>
+					</a>
+					<a routerLink="/users" (click)="openEliminar(user.id,user.dni,user.userName)">
+						<fa-icon style="color:red;" icon="trash"></fa-icon>
+					</a>
 				</div>
 			</td>
 		</tr>

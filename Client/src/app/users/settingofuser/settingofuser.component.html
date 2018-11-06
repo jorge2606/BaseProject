@@ -1,4 +1,7 @@
-<ngb-tabset type="pills">
+<a style="margin-left : 5px;" class="btn btn-primary" href="" routerLink="/users">
+    <fa-icon icon="angle-left"></fa-icon>
+</a>
+<ngb-tabset type="pills pt-1">
     <ngb-tab title="Perfil">
         <ng-template ngbTabContent>
             <div class="container col-4">
@@ -53,8 +56,9 @@
                     </div>
                 
                     <div style="margin-bottom:5px;" class="form-group">
-                        <button class="btn btn-success navarStyle" [disabled]="!userForm.form.valid">Guardar</button>
-                        <a style="margin-left : 5px;" class="btn btn-primary navarStyle" href="" routerLink="/users">atrás</a>
+                        <button class="btn btn-success navarStyle" [disabled]="!userForm.form.valid">
+                            <fa-icon icon="save"></fa-icon>
+                        </button>
                     </div>
                 
                 
@@ -68,7 +72,7 @@
     <ngb-tab>
         <ng-template ngbTabTitle>Imagen</ng-template>
         <ng-template ngbTabContent>
-            <div class="container col-8 ">
+            <div class="container col-4">
                 <app-photo-profile></app-photo-profile>
             </div>
         </ng-template>

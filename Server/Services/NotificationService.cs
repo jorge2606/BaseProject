@@ -32,7 +32,7 @@ namespace server.Services
 
         public ActionResult<List<NotificationDto>> GetSomeNotifications()
         {
-            return _contextNotification.Notifications.Where(x => x.Read == false).OrderBy(x => x.CreationTime).Select(_mapper.Map<NotificationDto>).
+            return _contextNotification.Notifications.OrderBy(x => x.CreationTime).Select(_mapper.Map<NotificationDto>).
                 Take(5).ToList();
         }
 

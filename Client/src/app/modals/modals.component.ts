@@ -9,6 +9,11 @@ export class NgbdModalContent {
   @Input() Contenido;
   @Input() Encabezado;
   @Input() GuardaroEliminar;
+  @Input() MsgClose;
+  @Input() GuardaroEliminarClass;
+  @Input() MsgCloseClass;
+  @Input() MsgCloseHidden;
+  @Input() GuardaroEliminarHidden;
 
   constructor(public activeModal: NgbActiveModal) {}
 }

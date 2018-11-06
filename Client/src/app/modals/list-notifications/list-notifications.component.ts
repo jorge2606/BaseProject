@@ -1,7 +1,8 @@
 import { NotificationsService } from './../../_services/notifications.service';
 import { Component, Input } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Notifications } from '../../_models/notifications';
+import { NgbdModalContent } from '../modals.component';
 
 @Component({
   selector: 'app-list-notifications',
@@ -21,7 +22,9 @@ export class ListNotificationsComponent {
   colapseOrNo: boolean;
   public isCollapsed = true;
 
-  constructor(public activeModal: NgbActiveModal, private notifService: NotificationsService) { }
+  constructor(public activeModal: NgbActiveModal, 
+    private notifService: NotificationsService,
+    private modalService: NgbModal) { }
 
   ngOnInit() {
     this.getAllNotifications(this.page);
@@ -41,13 +44,28 @@ export class ListNotificationsComponent {
     )
   }
 
-  delete(id: number) {
-    this.notifService.delete(id).subscribe(
-      x => this.getAllNotifications(this.page),
-      error => {
-        console.log("error", error);
-      }
-    );
+  delete(id : number){
+    const modalRef = this.modalService.open(NgbdModalContent);
+    modalRef.componentInstance.Encabezado = "Eliminar";
+    modalRef.componentInstance.Contenido = "¿Desea Eliminar?";
+    modalRef.componentInstance.GuardaroEliminar = "Eliminar";
+    modalRef.componentInstance.GuardaroEliminarClass = "btn-danger";
+    modalRef.componentInstance.MsgClose = "Cancelar";
+    modalRef.componentInstance.MsgCloseClass = "btn-default"
+    modalRef.result.then(() => {
+          this.notifService.delete(id).subscribe(
+            ()=>{
+              this.getAllNotifications(this.page)
+            }
+            ,
+            error => {
+                console.log("error", error);
+            }
+          );
+          },
+          () => {
+            console.log('Backdrop click');
+          })
   }
 
   ocultar(event: boolean) {

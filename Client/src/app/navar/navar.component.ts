@@ -26,7 +26,7 @@ export class NavarComponent implements OnInit {
   notificationridden = new Notifications();
   isLogged : Observable<boolean>;
   idUser : number;
-  cantNotif : number;
+  cantNotif : number = 0;
   @Input() urlImage : string;
 
 
@@ -51,7 +51,19 @@ export class NavarComponent implements OnInit {
   }
 
   logout(){
-    this.authService.logout();
+    const modalRef = this.modalService.open(NgbdModalContent);
+    modalRef.componentInstance.Encabezado = "Cerrar Sessión";
+    modalRef.componentInstance.Contenido = "¿Desea salir de la aplicación?";
+    modalRef.componentInstance.GuardaroEliminar = "Salir";
+    modalRef.componentInstance.MsgClose = "Cancelar";
+    modalRef.componentInstance.GuardaroEliminarClass = "btn-primary";
+    modalRef.componentInstance.MsgCloseClass = "btn-default";
+    modalRef.result.then(() => {    
+      this.authService.logout();
+    },
+    () => {
+      console.log('Backdrop click');
+    })
   }
 
   //MODALS
@@ -59,7 +71,10 @@ export class NavarComponent implements OnInit {
     const modalRef = this.modalService.open(NgbdModalContent);
     modalRef.componentInstance.Encabezado = "Notificación";
     modalRef.componentInstance.Contenido = notif;
-    modalRef.componentInstance.GuardaroEliminar = "Entendido";
+    modalRef.componentInstance.MsgClose = "Cerrar";
+    modalRef.componentInstance.MsgCloseClass = "btn-primary";
+    modalRef.componentInstance.GuardaroEliminarHidden = true;
+
     modalRef.result.then(() => {
       this.notificationridden.id = id,
       this.notificationridden.read = true,
@@ -100,15 +115,24 @@ export class NavarComponent implements OnInit {
   
 
   delete(id : number){
-    this.notificaionServices.delete(id).subscribe(
-      ()=>{
-        
-      }
-      ,
-      error => {
-          console.log("error", error);
-      }
-    );
+    const modalRef = this.modalService.open(NgbdModalContent);
+    modalRef.componentInstance.Encabezado = "Eliminar";
+    modalRef.componentInstance.Contenido = "¿Desea Eliminar?";
+    modalRef.componentInstance.GuardaroEliminar = "Eliminar";
+    modalRef.componentInstance.MsgClose = "Cancelar";
+    modalRef.componentInstance.MsgCloseClass = "btn-default";
+    modalRef.componentInstance.GuardaroEliminarClass = "btn-danger";
+    modalRef.result.then(() => {
+          this.notificaionServices.delete(id).subscribe(
+            ()=>{
+              
+            }
+            ,
+            error => {
+                console.log("error", error);
+            }
+          );
+    })
   }
 
 }
