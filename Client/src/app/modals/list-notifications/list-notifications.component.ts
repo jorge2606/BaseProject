@@ -14,6 +14,7 @@ export class ListNotificationsComponent {
   Contenido: Notifications[];
   @Input() Encabezado;
   @Input() button;
+  @Input() ButtonHidden;
   col_size: number;
   itemsPerPage: number = 5;
   page = 0;

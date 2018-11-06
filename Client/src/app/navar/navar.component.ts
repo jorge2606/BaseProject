@@ -92,6 +92,7 @@ export class NavarComponent implements OnInit {
     const modalRef = this.modalService.open(ListNotificationsComponent);
     modalRef.componentInstance.Encabezado = "Todas las Notificaciones";
     modalRef.componentInstance.button = "Entendido";
+    modalRef.componentInstance.ButtonHidden = false;
     modalRef.result.then(() => {
       /*this.notificationridden.id = id,
       this.notificationridden.read = true,
