@@ -33,7 +33,7 @@
                 <ul *ngIf="cantNotif == 0" class="dropdown-item text-center small alert alert-primary h-3">
                       No hay notificaciones nuevas
                 </ul>
-                <button *ngFor="let j of notification" class="dropdown-item small alert" [ngClass]="{'alert-light h-3 p-1 mb-1': j.read,'alert-success h-3 p-1 mb-1' : !j.read}" (click)="seeThisNotification(j.textData,j.id)">
+                <button *ngFor="let j of notification" class="dropdown-item small alert" [ngClass]="{'alert-light h-3 p-1 mb-1': j.read,'alert-success h-3 p-1 mb-1' : !j.read}" (click)="seeThisNotification(j)">
                     {{j.tittle}}
                 </button>
                 <a (click)="seeAllNotification()" class="small" href="#">ver todos</a>

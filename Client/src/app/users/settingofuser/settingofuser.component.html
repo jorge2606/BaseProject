@@ -1,8 +1,8 @@
 <a style="margin-left : 5px;" class="btn btn-primary" href="" routerLink="/users">
     <fa-icon icon="angle-left"></fa-icon>
 </a>
-<ngb-tabset type="pills pt-1">
-    <ngb-tab title="Perfil">
+<ngb-tabset #t="ngbTabset">
+    <ngb-tab id="tab-selectbyid1" title="Simple">
         <ng-template ngbTabContent>
             <div class="container col-4">
                 <h2>Mi Perfil</h2>

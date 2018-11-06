@@ -23,19 +23,26 @@ export class NavarComponent implements OnInit {
               private var_user_service: UserService ) { }
 
   notification : Notifications[];
-  notificationridden = new Notifications();
   isLogged : Observable<boolean>;
   idUser : number;
   cantNotif : number = 0;
   @Input() urlImage : string;
 
 
-  ngOnInit() {
-    this.notificaionServices.getAllNotifications().subscribe(x => {
+  retriveNotifications(){
+    this.notificaionServices.getAllNotifications().subscribe(
+      x => {
       this.notification = x,
       this.cantNotif = this.notification.length
-    }
-    );
+      }, error =>{
+        console.log('')
+      }
+      );
+  }
+
+  ngOnInit() {
+
+    this.retriveNotifications();
     
     this.idUser = this.authService.userId('id');
     
@@ -52,7 +59,7 @@ export class NavarComponent implements OnInit {
 
   logout(){
     const modalRef = this.modalService.open(NgbdModalContent);
-    modalRef.componentInstance.Encabezado = "Cerrar Sessión";
+    modalRef.componentInstance.Encabezado = "Cerrar Sesión";
     modalRef.componentInstance.Contenido = "¿Desea salir de la aplicación?";
     modalRef.componentInstance.GuardaroEliminar = "Salir";
     modalRef.componentInstance.MsgClose = "Cancelar";
@@ -67,29 +74,18 @@ export class NavarComponent implements OnInit {
   }
 
   //MODALS
-  seeThisNotification(notif : String, id : number) {
+  seeThisNotification(notificationridden : any) {
     const modalRef = this.modalService.open(NgbdModalContent);
     modalRef.componentInstance.Encabezado = "Notificación";
-    modalRef.componentInstance.Contenido = notif;
+    modalRef.componentInstance.Contenido = notificationridden.textData;
     modalRef.componentInstance.MsgClose = "Cerrar";
     modalRef.componentInstance.MsgCloseClass = "btn-primary";
     modalRef.componentInstance.GuardaroEliminarHidden = true;
+    
+    this.notificaionServices.notificationRidden(notificationridden).subscribe(
+        x => this.retriveNotifications()
+    )
 
-    modalRef.result.then(() => {
-      this.notificationridden.id = id,
-      this.notificationridden.read = true,
-      this.notificationridden.textData = "";
-      this.notificationridden.tittle = "" 
-      this.notificaionServices.notificationRidden(this.notificationridden).subscribe(
-        x => this.notificaionServices.getAllNotifications().subscribe(
-          x => console.log(x)
-          
-        )
-      )
-    },
-      () => {
-        console.log('Backdrop click');
-    })
   }
 
   seeAllNotification() {
