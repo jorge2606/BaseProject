@@ -2,10 +2,11 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using server.models;
+using Audit.EntityFramework;
 
 namespace server.Models
 {
-    public class DataContext : IdentityDbContext<User, Role, Guid>
+    public class DataContext : AuditIdentityDbContext<User, Role, Guid>
     {
 
         public DataContext(DbContextOptions<DataContext> ConnectionStrings)

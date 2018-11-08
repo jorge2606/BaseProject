@@ -21,12 +21,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using Audit.EntityFramework;
+using Audit.Data;
+using Audit.Core;
+using server.models;
 
 namespace server
 {
     public class Startup
     {
-        
+
         private const string _defaultCorsPolicyName = "localhost";
 
         public Startup(IConfiguration configuration)
@@ -38,8 +42,22 @@ namespace server
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<Models.DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ASPDatabase")));
-            
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ASPDatabase")));
+            services.AddDbContext<AuditContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AuditDatabase")));
+
+            //begin Audit config
+            Audit.Core.Configuration.Setup()
+                .UseEntityFramework(x => x
+                    .UseDbContext<AuditContext>()
+                    .AuditTypeNameMapper(typeName => "Audit_" + typeName)
+                    .AuditEntityAction<IAudit>((evt, ent, auditEntity) =>
+                    {
+                        auditEntity.AuditDate = DateTime.UtcNow;
+                        auditEntity.AuditUser = evt.Environment.UserName;
+                        auditEntity.AuditAction = ent.Action;
+                    })
+                );
+
             // MVC
             services.AddMvc(
                 options => options.Filters.Add(new CorsAuthorizationFilterFactory(_defaultCorsPolicyName))
@@ -79,7 +97,7 @@ namespace server
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    
+
                 };
             });
 
@@ -96,7 +114,7 @@ namespace server
              .AddSignInManager<SignInManager>()
              .AddEntityFrameworkStores<DataContext>()
              .AddDefaultTokenProviders();
-            
+
             // Identity Services
             services.AddScoped<IUserStore<User>, UserStore>();
             services.AddScoped<IRoleStore<Role>, RoleStore>();
@@ -146,7 +164,7 @@ namespace server
                     Path.Combine(staticFileDirectory, "Profile")),
                 RequestPath = "/StaticFiles"
             });
-            
+
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -159,7 +177,7 @@ namespace server
                 .AllowCredentials());
 
             app.UseAuthentication();
-            
+
             app.UseMvc();
         }
     }
