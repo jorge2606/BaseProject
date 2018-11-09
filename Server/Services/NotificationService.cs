@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using Audit.Data;
 using AutoMapper;
 using server.Dto;
 using server.IServices;
@@ -14,11 +15,14 @@ namespace server.Services
     public class NotificationService : INotificationService
     {
         private DataContext _contextNotification;
+        private AuditContext _contextAudit;
         private IMapper _mapper;
    
-        public NotificationService(DataContext context, IMapper mapper)
+        public NotificationService(DataContext context, IMapper mapper,
+        AuditContext auditContext)
         {
             _contextNotification = context;
+            _contextAudit = auditContext;
             _mapper = mapper;
         }
 

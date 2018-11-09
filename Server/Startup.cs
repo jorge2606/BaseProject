@@ -21,9 +21,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
-using Audit.EntityFramework;
 using Audit.Data;
 using Audit.Core;
+using Microsoft.AspNetCore.Http;
+using server.Helpers;
 using server.models;
 
 namespace server
@@ -33,29 +34,38 @@ namespace server
 
         private const string _defaultCorsPolicyName = "localhost";
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IServiceProvider serviceProvider)
         {
             Configuration = configuration;
+            ServiceProvider = serviceProvider;
         }
 
         public IConfiguration Configuration { get; }
+        public IServiceProvider ServiceProvider { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ASPDatabase")));
             services.AddDbContext<AuditContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AuditDatabase")));
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            //services.AddHttpContextAccessor();
+
             //begin Audit config
             Audit.Core.Configuration.Setup()
-                .UseEntityFramework(x => x
+                .UseEntityFramework(ef => ef
                     .UseDbContext<AuditContext>()
-                    .AuditTypeNameMapper(typeName => "Audit_" + typeName)
-                    .AuditEntityAction<IAudit>((evt, ent, auditEntity) =>
-                    {
-                        auditEntity.AuditDate = DateTime.UtcNow;
-                        auditEntity.AuditUser = evt.Environment.UserName;
-                        auditEntity.AuditAction = ent.Action;
-                    })
+                    .AuditTypeExplicitMapper(m => m
+                        .Map<Notification, Audit_Notification>()
+                        .AuditEntityAction<IAudit>((evt, entry, auditEntity) =>
+                        {
+                            MyService user = new MyService();
+                            auditEntity.Id = new Guid();
+                            auditEntity.AuditDate = DateTime.UtcNow;
+                            auditEntity.AuditUser = user.getCurrentUserName();
+                            auditEntity.AuditAction = entry.Action; // Insert, Update, Delete
+                        })
+                    )
                 );
 
             // MVC
@@ -177,6 +187,8 @@ namespace server
                 .AllowCredentials());
 
             app.UseAuthentication();
+
+            app.UseStaticHttpContext();
 
             app.UseMvc();
         }

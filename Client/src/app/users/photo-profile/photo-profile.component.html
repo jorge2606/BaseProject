@@ -8,13 +8,10 @@
 
     <div class="container">
         <div *ngIf="!url" class="container-image col-md-6">
-            <img src="{{urlImage}}" class="image" height="25" with="25">
-            <div class="middle">
-                <span class="btn btn-default btn-file">
-                    <input class="text" type="file" id="fileUpload" (change)="onSelectFile($event)" ng2FileSelect
-                        [uploader]="uploader" value="Cambiar" />
-                </span>
-            </div>
+            <img src="{{urlImage}}" class="image">
+            <input class="inputfile" type="file"  name="file" id="file" (change)="onSelectFile($event)" ng2FileSelect
+                    [uploader]="uploader" value="Cambiar" />
+                    <label for="file" class="btn btn-default">  <fa-icon icon="upload"></fa-icon>Choose a file</label>
             <br>
             <button type="button" class="btn btn-danger btn-xs" (click)="eliminarPerfil()">
                     <fa-icon icon="trash"></fa-icon>

@@ -4,6 +4,7 @@ namespace Audit.Data
 {
     public interface IAudit
     {
+       Guid Id { get; set; }
        string AuditAction { get; set; }
        DateTime AuditDate { get; set; }
        string AuditUser { get; set; }

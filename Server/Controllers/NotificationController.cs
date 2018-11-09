@@ -13,7 +13,7 @@ namespace server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-
+    [Authorize]
     public class NotificationController : ControllerBase
     {
         private INotificationService _notificationService;
@@ -42,14 +42,12 @@ namespace server.Controllers
         }
 
         [HttpGet("GetSomeNotifications")]
-        [AllowAnonymous]
         public ActionResult<List<NotificationDto>> GetSomeNotifications()
         {
             return _notificationService.GetSomeNotifications();
         }
 
         [HttpGet("GetAllNotifications")]
-        [AllowAnonymous]
         public ActionResult<List<NotificationDto>> GetAllNotifications()
         {
             return _notificationService.GetAllNotifications();
@@ -64,7 +62,6 @@ namespace server.Controllers
         }
 
         [HttpDelete("Delete/{id}")]
-        [AllowAnonymous]
         public ActionResult<List<NotificationDto>> DeleteNotification(Guid id)
         {
             var response = _notificationService.DeleteNotification(id);
@@ -77,7 +74,6 @@ namespace server.Controllers
         }
 
         [HttpPut("NotificationRidden")]
-        [AllowAnonymous]
         public IActionResult NotificationRidden(NotificationDto notif)
         {
             var response = _notificationService.NotificationRidden(notif.Id);
