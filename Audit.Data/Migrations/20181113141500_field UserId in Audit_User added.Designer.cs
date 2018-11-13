@@ -4,14 +4,16 @@ using Audit.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Audit.Data.Migrations
 {
     [DbContext(typeof(AuditContext))]
-    partial class AuditContextModelSnapshot : ModelSnapshot
+    [Migration("20181113141500_field UserId in Audit_User added")]
+    partial class fieldUserIdinAudit_Useradded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

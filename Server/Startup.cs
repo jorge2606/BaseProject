@@ -23,6 +23,7 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Audit.Data;
 using Audit.Core;
+using Audit.Service;
 using Microsoft.AspNetCore.Http;
 using server.Helpers;
 using server.models;
@@ -57,6 +58,7 @@ namespace server
                     .UseDbContext<AuditContext>()
                     .AuditTypeExplicitMapper(m => m
                         .Map<Notification, Audit_Notification>()
+                        .Map<User, Audit_User>()
                         .AuditEntityAction<IAudit>((evt, entry, auditEntity) =>
                         {
                             MyService user = new MyService();
@@ -138,6 +140,7 @@ namespace server
             services.AddScoped<ISmsSender, EmailService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IFileService, FileService>();
+            services.AddScoped<Audit.Service.Interfaces.IUserService, UserAuditService>();
 
             //sender Email
             // Add application services.

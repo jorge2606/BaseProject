@@ -24,5 +24,6 @@ namespace Audit.Data
         }
 
         public virtual DbSet<Audit_Notification> Audit_Notifications { get; set; }
+        public virtual DbSet<Audit_User> Audit_Users { get; set; }
     }
 }

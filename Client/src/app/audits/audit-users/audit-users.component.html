@@ -1,0 +1,39 @@
+<table class="table table-hover">
+    <thead>
+      <tr style="font-weight: bold;">
+        <td>Usuario Actual</td>
+        <td>Acción</td>
+        <td>Fecha</td>
+        <td>Ult. Cambios</td>
+      </tr>
+    </thead>
+    <tbody> 
+      <tr *ngFor="let user of userAudit" class="text-white "
+          [ngClass]="{'bg-danger': user.auditAction == 'Delete',
+                      'bg-warning' : user.auditAction == 'Update',
+                      'bg-success' : user.auditAction == 'Insert'}">
+        <td>{{user.auditUser}}</td>
+        <td>{{user.auditAction}}</td>
+        <td>{{user.auditDate | date:'dd/MM/yyyy (hh:mm:ss)'}}</td>
+        <td>
+            <ul>
+              <li *ngIf="user.current.dni != user.previous.dni">
+                  {{user.current.dni}} --> {{user.current.dni}}</li>
+              <li *ngIf="user.current.userName != user.previous.userName">
+                  {{user.previous.userName}} --> {{user.current.userName}}
+              </li>
+            </ul>          
+          </td>
+        <!--<td>
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <a class="pr-3" routerLink="/update/{{user.id}}">
+              <fa-icon style="color:gray;" icon="edit"></fa-icon>
+            </a>
+            <a routerLink="/users" (click)="openEliminar(user.id,user.dni,user.userName)">
+              <fa-icon style="color:red;" icon="trash"></fa-icon>
+            </a>
+          </div>
+        </td>-->
+      </tr>
+    </tbody>
+  </table>

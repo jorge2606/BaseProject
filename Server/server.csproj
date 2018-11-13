@@ -46,6 +46,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Audit.Data\Audit.Data.csproj" />
+    <ProjectReference Include="..\Audit.Dto\Audit.Dto.csproj" />
+    <ProjectReference Include="..\Audit.Service\Audit.Service.csproj" />
+    <ProjectReference Include="..\Service.common\Service.common.csproj" />
   </ItemGroup>
 
 </Project>

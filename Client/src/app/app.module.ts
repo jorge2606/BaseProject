@@ -33,6 +33,8 @@ import { SettingofuserComponent } from './users/settingofuser/settingofuser.comp
 import { FileUploadModule } from 'ng2-file-upload';
 import { PhotoProfileComponent } from './users/photo-profile/photo-profile.component';
 import { ListNotificationsComponent } from './modals/list-notifications/list-notifications.component';
+import { AuditsComponent } from './audits/audits.component';
+import { AuditUsersComponent } from './audits/audit-users/audit-users.component';
 
 
 library.add(fas);
@@ -56,7 +58,9 @@ library.add(fas);
     ResetPasswordComponent,
     SettingofuserComponent,
     PhotoProfileComponent,
-    ListNotificationsComponent
+    ListNotificationsComponent,
+    AuditsComponent,
+    AuditUsersComponent
   ],
   imports: [
     BrowserModule,

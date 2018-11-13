@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Http;
 namespace server.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly DataContext _context;
@@ -121,7 +122,6 @@ namespace server.Controllers
         }
 
         [HttpGet("getbyid/{id}")]
-        [Authorize]
         public ActionResult<ModifyUserDto> GetById(Guid id)
         {
             var user = _context.Users.Find(id);

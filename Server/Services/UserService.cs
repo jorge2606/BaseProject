@@ -170,7 +170,7 @@ namespace server.Services
             {
                 user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, userParam.Password);
             }
-            if (userParam.image.Length > 0)
+            if (userParam.image != null)
             {
                 //agregamos la imagen
                 FileCreateDto fileNew = new FileCreateDto();
