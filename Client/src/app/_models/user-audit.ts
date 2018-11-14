@@ -1,6 +1,7 @@
 class UserAuditBase{
     dni : number;
     userName : string;
+    phoneNumber : String;
 }
 export class UserAudit{
     auditAction : string;

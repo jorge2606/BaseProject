@@ -4,14 +4,16 @@ using Audit.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Audit.Data.Migrations
 {
     [DbContext(typeof(AuditContext))]
-    partial class AuditContextModelSnapshot : ModelSnapshot
+    [Migration("20181114142105_remove field UserId")]
+    partial class removefieldUserId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,8 +31,6 @@ namespace Audit.Data.Migrations
                     b.Property<DateTime>("AuditDate");
 
                     b.Property<string>("AuditUser");
-
-                    b.Property<Guid>("AuditUserId");
 
                     b.Property<Guid>("EntityId");
 
@@ -57,8 +57,6 @@ namespace Audit.Data.Migrations
                     b.Property<DateTime>("AuditDate");
 
                     b.Property<string>("AuditUser");
-
-                    b.Property<Guid>("AuditUserId");
 
                     b.Property<int>("Dni");
 

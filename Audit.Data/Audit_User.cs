@@ -8,6 +8,6 @@ namespace Audit.Data
     {
         public int Dni { set; get; }
         public string UserName { set; get; }
-        public Guid UserId { set; get; }
+        public string PhoneNumber { get; set; }
     }
 }

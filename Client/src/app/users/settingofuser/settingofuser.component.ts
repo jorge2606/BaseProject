@@ -34,7 +34,7 @@ export class SettingofuserComponent implements OnInit {
         this.router.navigate(['/users']);
       },
         error => {
-         // this.errors = error.error.notifications;
+         console.log(error);
         }      
     );
     this.router.navigate([UsersComponent]);

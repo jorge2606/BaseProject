@@ -21,14 +21,14 @@ namespace server.Helpers
             return result;
         }
 
-        public string getCurrentUserId()
+        public Guid getCurrentUserId()
         {
-            var result = "";
+            Guid result = Guid.Empty;
             foreach (var claim in HttpContext.Current.User.Claims)
             {
                 if (claim.Type.ToString().Equals("NameIdentifier"))
                 {
-                    return claim.Value; 
+                    return new Guid(claim.Value); 
                 }
             }
 

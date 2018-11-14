@@ -4,14 +4,16 @@ using Audit.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Audit.Data.Migrations
 {
     [DbContext(typeof(AuditContext))]
-    partial class AuditContextModelSnapshot : ModelSnapshot
+    [Migration("20181114141831_add field PhoneNumber")]
+    partial class addfieldPhoneNumber
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,8 +31,6 @@ namespace Audit.Data.Migrations
                     b.Property<DateTime>("AuditDate");
 
                     b.Property<string>("AuditUser");
-
-                    b.Property<Guid>("AuditUserId");
 
                     b.Property<Guid>("EntityId");
 
@@ -58,13 +58,13 @@ namespace Audit.Data.Migrations
 
                     b.Property<string>("AuditUser");
 
-                    b.Property<Guid>("AuditUserId");
-
                     b.Property<int>("Dni");
 
                     b.Property<Guid>("EntityId");
 
                     b.Property<string>("PhoneNumber");
+
+                    b.Property<Guid>("UserId");
 
                     b.Property<string>("UserName");
 

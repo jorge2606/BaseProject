@@ -8,5 +8,7 @@ namespace Audit.Data
        string AuditAction { get; set; }
        DateTime AuditDate { get; set; }
        string AuditUser { get; set; }
+       Guid AuditUserId { get; set; }
+       Guid EntityId { get; set; }
     }
 }   

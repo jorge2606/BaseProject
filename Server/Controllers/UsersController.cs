@@ -171,7 +171,6 @@ namespace server.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         public async Task<IActionResult> Update([FromBody]MofidyUserCommingFromClientDto userDto)
         {
             await _userService.UpdateAsync(userDto);
@@ -179,7 +178,6 @@ namespace server.Controllers
         }
 
         [HttpPut("UpdateProfile")]
-        [Authorize]
         public async Task<IActionResult> UpdateProfile([FromBody]MofidyUserCommingFromClientDto userDto)
         {
             await _userService.UpdateAsync(userDto);
@@ -187,7 +185,6 @@ namespace server.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
         public IActionResult Delete(Guid id)
         {
             _userService.Delete(id);

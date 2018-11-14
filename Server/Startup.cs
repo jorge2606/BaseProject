@@ -27,6 +27,7 @@ using Audit.Service;
 using Microsoft.AspNetCore.Http;
 using server.Helpers;
 using server.models;
+using Audit.EntityFramework;
 
 namespace server
 {
@@ -61,11 +62,17 @@ namespace server
                         .Map<User, Audit_User>()
                         .AuditEntityAction<IAudit>((evt, entry, auditEntity) =>
                         {
+                            var entityFrameworkEvent = evt.GetEntityFrameworkEvent();
                             MyService user = new MyService();
                             auditEntity.Id = new Guid();
                             auditEntity.AuditDate = DateTime.UtcNow;
                             auditEntity.AuditUser = user.getCurrentUserName();
-                            auditEntity.AuditAction = entry.Action; // Insert, Update, Delete
+                            auditEntity.AuditUserId = user.getCurrentUserId();
+                            auditEntity.EntityId = (Guid)entry.PrimaryKey["Id"];
+                            auditEntity.AuditAction = entry.Action;
+                           
+                            //entityFrameworkEvent. 
+                            // Insert, Update, Delete
                         })
                     )
                 );

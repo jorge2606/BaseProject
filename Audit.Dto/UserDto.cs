@@ -9,6 +9,7 @@ namespace Audit.Dto
     {
         public int Dni { set; get; }
         public string UserName { set; get; }
+        public string PhoneNumber { set; get; }
     }
 
     public class AuditDto<T> : AuditBase

@@ -1,4 +1,4 @@
-<table class="table table-hover">
+<table class="table">
     <thead>
       <tr style="font-weight: bold;">
         <td>Usuario Actual</td>
@@ -8,20 +8,33 @@
       </tr>
     </thead>
     <tbody> 
-      <tr *ngFor="let user of userAudit" class="text-white "
-          [ngClass]="{'bg-danger': user.auditAction == 'Delete',
-                      'bg-warning' : user.auditAction == 'Update',
-                      'bg-success' : user.auditAction == 'Insert'}">
+      <tr *ngFor="let user of userAudit"
+          [ngClass]="{'danger': user.auditAction == 'Delete',
+                      'warning' : user.auditAction == 'Update',
+                      'success' : user.auditAction == 'Insert'}">
         <td>{{user.auditUser}}</td>
         <td>{{user.auditAction}}</td>
-        <td>{{user.auditDate | date:'dd/MM/yyyy (hh:mm:ss)'}}</td>
+        <td>{{user.auditDate | date:'dd/MM/yyyy (H:mm:ss) a'}}</td>
         <td>
             <ul>
-              <li *ngIf="user.current.dni != user.previous.dni">
-                  {{user.current.dni}} --> {{user.current.dni}}</li>
-              <li *ngIf="user.current.userName != user.previous.userName">
-                  {{user.previous.userName}} --> {{user.current.userName}}
+              <li *ngIf="user.current.dni != user.previous.dni && user.previous.dni">
+                 Dni: {{user.previous.dni}} --> {{user.current.dni}}
               </li>
+              <li *ngIf="user.current.dni != user.previous.dni && !user.previous.dni">
+                Dni: {{user.current.dni}}
+             </li>
+              <li *ngIf="user.current.userName != user.previous.userName && user.previous.userName">
+                 Usuario: {{user.previous.userName}} --> {{user.current.userName}}
+              </li>
+              <li *ngIf="user.current.userName != user.previous.userName && !user.previous.userName">
+                Usuario: {{user.current.userName}}
+             </li>
+              <li *ngIf="user.current.phoneNumber != user.previous.phoneNumber && user.previous.phoneNumber">
+                Telefóno: {{user.previous.phoneNumber}} --> {{user.current.phoneNumber}}
+             </li>
+             <li *ngIf="user.current.phoneNumber != user.previous.phoneNumber && !user.previous.phoneNumber">
+              Telefóno: {{user.current.phoneNumber}}
+           </li>
             </ul>          
           </td>
         <!--<td>

@@ -23,7 +23,7 @@ namespace Audit.Service
 
         public ServiceResult<List<AuditDto<UserAuditDto>>> GetUserAudit(Guid userId)
         {
-            var user = _auditContext.Audit_Users.Where(x => x.UserId == userId).ToList().OrderBy(x => x.AuditDate).ToList();
+            var user = _auditContext.Audit_Users.Where(x => x.EntityId == userId).ToList().OrderByDescending(x => x.AuditDate).ToList();
 
             if (user == null)
             {
@@ -35,7 +35,8 @@ namespace Audit.Service
             
             foreach (var userIndex in user)
             {
-                var previous = _mapper.Map<UserAuditDto>(user.Find(x => x.AuditDate < userIndex.AuditDate));
+                var p = user.FirstOrDefault(x => x.AuditDate < userIndex.AuditDate);
+                var previous = _mapper.Map<UserAuditDto>(p);
                 if (previous == null)
                 {
                     previous = new UserAuditDto();
@@ -54,7 +55,7 @@ namespace Audit.Service
                 );
             }
             
-            return new ServiceResult<List<AuditDto<UserAuditDto>>>(listRegisters);
+            return new ServiceResult<List<AuditDto<UserAuditDto>>>(listRegisters.OrderByDescending(x => x.AuditDate).ToList());
 
 
         }

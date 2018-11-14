@@ -17,7 +17,7 @@ namespace server.Controllers
         }
 
         [HttpGet("userAudits/{userId}")]
-        public ActionResult userAudits(Guid userId)
+        public ActionResult UserAudits(Guid userId)
         {
             var result = _userService.GetUserAudit(userId);
 

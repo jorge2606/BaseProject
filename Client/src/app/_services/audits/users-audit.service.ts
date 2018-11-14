@@ -9,7 +9,7 @@ export class UsersAuditService {
   constructor(private http: HttpClient) { }
 
   fetchModifiedOfUser(userId : number){
-    return this.http.get<any>('http://localhost:63098/api/Audit/userAudits/' + userId);
+    return this.http.get<any>('http://localhost:63098/api/Audit/UserAudits/' + userId);
   }
   
 }
