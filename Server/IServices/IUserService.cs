@@ -10,8 +10,9 @@ namespace server.IServices
     public interface IUserService
     {
         Task<ServiceResult<UserDto>> Authenticate(string username, string password);
-        Task UpdateAsync(MofidyUserCommingFromClientDto user);
-        Task<ServiceResult<string>> CreateAsync(createUserDto user);
+        Task UpdateMyProfile(UpdateMyProfile user);
+        Task UpdateProfileAsAdmin(UpdateProfileAsAdmin user);
+        Task<ServiceResult<string>> CreateAsync(CreateUserDto user);
         void Delete(Guid id);
         Task<ServiceResult<UserDto>> Register(SaveUserDto model);
         Task UpdateUserRole(Guid idUser, Guid id);

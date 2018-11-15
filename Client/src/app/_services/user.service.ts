@@ -25,11 +25,11 @@ export class UserService {
     }
 
     updateUsers(user: User) : Observable<any> {
-        return this.http.put('http://localhost:63098/api/User/', user);
+        return this.http.put('http://localhost:63098/api/User/UpdateProfileAsAdmin/', user);
     }
 
     updateProfileUsers(user: modifyUser) : Observable<any> {
-        return this.http.put('http://localhost:63098/api/User/UpdateProfile', user);
+        return this.http.put('http://localhost:63098/api/User/UpdateMyProfile', user);
     }
 
     createWithObjectUser(user: createUser): Observable<any> {
@@ -68,14 +68,7 @@ export class UserService {
     }
 
     deleteProfilePhoto(id: number) {
-        return this.http.delete('http://localhost:63098/api/File/removePhoto/' + id).subscribe(
-            data => {
-                console.log("POST Request is successful ", data);
-            },
-            error => {
-                console.log("Rrror", error);
-            }
-        );
+        return this.http.delete('http://localhost:63098/api/File/removePhoto/' + id);
     }
 
 }

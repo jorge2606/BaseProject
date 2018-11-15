@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:63098/api/File/'
+  apiUrl: 'http://localhost:63098/api/File/UpdateMyImage/'
 };
 
 /*

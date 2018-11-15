@@ -138,7 +138,44 @@ namespace server.Services
             }
         }
 
-        public async Task UpdateAsync(MofidyUserCommingFromClientDto userParam)
+        public async Task UpdateProfileAsAdmin(UpdateProfileAsAdmin userParam)
+          {
+              var user = _context.Users.Find(userParam.Id);
+
+              if (user == null)
+                  throw new AppException("User not found");
+
+              if (userParam.UserName != user.UserName)
+              {
+                  // username has changed so check if the new username is already taken
+                  if (_context.Users.Any(x => x.UserName == userParam.UserName))
+                      throw new AppException("El usuario " + userParam.UserName + " ya existe en la db.");
+              }
+               
+              // update user properties
+              user.Dni = userParam.Dni;
+              user.UserName = userParam.UserName;
+              user.Email = userParam.UserName;
+              user.PhoneNumber = userParam.PhoneNumber;
+
+              //actualizo los roles del usuario
+              foreach (var role in userParam.RolesUser)
+              {
+                  await UpdateUserRoleWhenModify(user.Id, role.Id, role.RolBelongUser);
+              }
+
+
+              // update password if it was entered
+              if (!string.IsNullOrWhiteSpace(userParam.Password))
+              {
+                  user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, userParam.Password);
+              }
+
+              _context.Users.Update(user);
+              _context.SaveChanges();
+          }
+
+        public async Task UpdateMyProfile(UpdateMyProfile userParam)
         {
             var user = _context.Users.Find(userParam.Id);
 
@@ -151,7 +188,7 @@ namespace server.Services
                 if (_context.Users.Any(x => x.UserName == userParam.UserName))
                     throw new AppException("El usuario " + userParam.UserName + " ya existe en la db.");
             }
-             
+
             // update user properties
             user.Dni = userParam.Dni;
             user.UserName = userParam.UserName;
@@ -170,21 +207,11 @@ namespace server.Services
             {
                 user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, userParam.Password);
             }
-            if (userParam.image != null)
-            {
-                //agregamos la imagen
-                FileCreateDto fileNew = new FileCreateDto();
-                fileNew.File = userParam.image;
-                fileNew.UserId = user.Id;
-                await _fileService.Save(fileNew);
-            }
             _context.Users.Update(user);
             _context.SaveChanges();
-
-
         }
 
-        public async Task<ServiceResult<string>> CreateAsync(createUserDto user)
+        public async Task<ServiceResult<string>> CreateAsync(CreateUserDto user)
         {
             var NewUser = new User
             {

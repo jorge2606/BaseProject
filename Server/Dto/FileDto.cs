@@ -22,6 +22,8 @@ namespace server.Dto
 
     }
 
+    public class UpdateMyImageDto : FileCreateDto {}
+
     public class FileDeleteDto
     {
         public DateTime DeleteTime { set; get; }

@@ -27,7 +27,7 @@ namespace server.Services
             _mapper = mapper;
         }
 
-        public async Task<ServiceResult<FileCreateDto>> Save(FileCreateDto model)
+        public async Task<ServiceResult<UpdateMyImageDto>> UpdateMyImage(UpdateMyImageDto model)
         {
 
             var path = Path.Combine(StaticFilesDirectory, "Profile", model.UserId.ToString());
@@ -41,11 +41,12 @@ namespace server.Services
             var files = Directory.EnumerateFiles(path, "*.*" );
 
             
-            if (files.Count() == 1)
+            if (files.Count() > 0)
             {
-               Directory.Delete(path,true);
-
-                Directory.CreateDirectory(newDirectory);
+                foreach (var f in files)
+                {
+                   File.Delete(f); 
+                }
             }
 
             var file = model.File;
@@ -70,7 +71,7 @@ namespace server.Services
             _contextFile.SaveChanges();
             
 
-            return new ServiceResult<FileCreateDto>(model);
+            return new ServiceResult<UpdateMyImageDto>(model);
         }
 
         public ServiceResult<FileByIdDto> GetByIdFile(Guid userId)

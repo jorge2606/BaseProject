@@ -32,7 +32,7 @@ export class PhotoProfileComponent implements OnInit {
   
   initializeUploader() {
     this.uploader = new FileUploader({
-      url: this.baseUrl+this.authService.userId('id'),
+      url: this.baseUrl,
       authToken: 'Bearer ' + this.authService.userId('token'),
       isHTML5: true,
       allowedFileType: ['image'],
@@ -65,7 +65,7 @@ export class PhotoProfileComponent implements OnInit {
     //image
     this.initializeUploader();
     this.idUser = this.authService.userId('id');
-    this.urlImage = this.authService.urlFile(this.idUser, 200,200);
+    this.urlImage = this.authService.urlFile(this.idUser, 200,200) + "r=" + (Math.random() * 100) + 1;
   }
 
   removePreview(){
@@ -75,9 +75,19 @@ export class PhotoProfileComponent implements OnInit {
   }
 
   eliminarPerfil(){
-    this.userService.deleteProfilePhoto(this.idUser);
-    this.urlImage = this.authService.urlFile(this.idUser, 200,200)  + "r=" + (Math.random() * 100) + 1;
-    this.url = '';
+    let url = this.authService.urlFile(this.idUser, 200,200);
+    this.userService.deleteProfilePhoto(this.idUser).subscribe(
+      data => {
+        this.urlImage =  url + "r=" + (Math.random() * 100) + 1,
+        this.url = '',
+        this.messaBetweenComp.sendMessage(this.urlImage),
+        console.log("POST Request is successful ", data)
+      },
+      error => {
+          console.log("Rrror", error);
+      }
+    );
+
   }
 
 }

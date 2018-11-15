@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.FileProviders;
 using server.Dto;
+using server.Helpers;
 using server.IServices;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -16,6 +17,7 @@ using SixLabors.ImageSharp.Processing;
 namespace server.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     public class FileController : ControllerBase
     {
         private IFileService _fileService;
@@ -27,13 +29,14 @@ namespace server.Controllers
             _fileProvider = env.ContentRootFileProvider;
         }
 
-        [HttpPost("{userId}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> saveFile(FileCreateDto fileCreateDto,Guid userId)
+        [HttpPost("UpdateMyImage")]
+        public async Task<IActionResult> UpdateMyImage(UpdateMyImageDto fileCreateDto)
         {
-           fileCreateDto.UserId = userId;
+            MyService user = new MyService();
+            
+            fileCreateDto.UserId = user.getCurrentUserId();
 
-           var result = await _fileService.Save(fileCreateDto);
+           var result = await _fileService.UpdateMyImage(fileCreateDto);
             if (!result.IsSuccess)
             {
                 return BadRequest(result);
@@ -43,7 +46,6 @@ namespace server.Controllers
         }
 
         [HttpGet("{userId}")]
-        [AllowAnonymous]
         public IActionResult FileById(Guid userId)
         {
            var result = _fileService.GetByIdFile(userId);
@@ -55,7 +57,6 @@ namespace server.Controllers
         }
 
         [HttpDelete("removePhoto/{userId}")]
-        [AllowAnonymous]
         public IActionResult RemoveFile(Guid userId)
         {
             var result = _fileService.RemoveProfilePhoto(userId);

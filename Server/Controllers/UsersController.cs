@@ -42,7 +42,7 @@ namespace server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Save([FromBody]createUserDto createUser)
+        public async Task<IActionResult> Save([FromBody]CreateUserDto createUser)
         {
             var newUser = await _userService.CreateAsync(createUser);
 
@@ -170,17 +170,17 @@ namespace server.Controllers
             return modifyUserDto;
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Update([FromBody]MofidyUserCommingFromClientDto userDto)
+        [HttpPut("UpdateProfileAsAdmin")]
+        public async Task<IActionResult> UpdateProfileAsAdmin([FromBody]UpdateProfileAsAdmin userDto)
         {
-            await _userService.UpdateAsync(userDto);
+            await _userService.UpdateProfileAsAdmin(userDto);
             return Ok();
         }
-
-        [HttpPut("UpdateProfile")]
-        public async Task<IActionResult> UpdateProfile([FromBody]MofidyUserCommingFromClientDto userDto)
+        
+        [HttpPut("UpdateMyProfile")]
+        public async Task<IActionResult> UpdateMyProfile([FromBody]UpdateMyProfile userDto)
         {
-            await _userService.UpdateAsync(userDto);
+            await _userService.UpdateMyProfile(userDto);
             return Ok();
         }
 
