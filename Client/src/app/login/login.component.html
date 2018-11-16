@@ -29,3 +29,9 @@
         </form>
     </div>
 </nav>
+
+<div class="">
+    <ul style="margin-top : 15px;" *ngIf="error.length != 0" class="alert alert-danger" role="alert">
+        <li *ngFor="let e of error">{{ e.value }}</li>
+    </ul>
+</div>

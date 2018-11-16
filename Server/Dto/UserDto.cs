@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using server.Models;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,23 @@ using System.ComponentModel.DataAnnotations;
 
 namespace server.Dto
 {
+
+    public class UserValidator : AbstractValidator<SaveUserDto>
+    {
+        public UserValidator()
+        {
+            RuleFor(x => x.Dni.ToString()).NotEmpty().MaximumLength(8);
+            RuleFor(x => x.Dni.ToString()).NotEmpty().MinimumLength(8);
+            RuleFor(x => x.UserName).NotEmpty();
+            RuleFor(x => x.Password).NotEmpty();
+            RuleFor(x => x.Email)
+                .EmailAddress()
+                .MaximumLength(256);
+            RuleFor(x => x.PhoneNumber).NotEmpty().MinimumLength(8);
+            RuleFor(x => x.PhoneNumber).NotEmpty().MaximumLength(8);
+        }
+    }
+
     public class SaveUserDto : UserDto
     {
         [Required]

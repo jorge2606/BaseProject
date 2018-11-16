@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using server.Helpers;
 using System.Threading.Tasks;
+using FluentValidation;
 using server.Identity;
 using Microsoft.AspNetCore.Http;
 
@@ -23,7 +24,7 @@ namespace server.Controllers
         private IUserService _userService;
         private readonly IConfiguration _configuration;
         private IMapper _mapper;
-
+        
         public UserController(DataContext context, IUserService userService, IConfiguration configuration,
             IMapper mapper)
         {
@@ -57,7 +58,7 @@ namespace server.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Authentication([FromBody]LoginDto p_LoginDto)
         {
-            var result = await _userService.Authenticate(p_LoginDto.Usuario, p_LoginDto.Password);
+            var result = await _userService.Authenticate(p_LoginDto);
 
             if (!result.IsSuccess)
             {
@@ -106,18 +107,18 @@ namespace server.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody]SaveUserDto userDto)
         {
-            var result = await _userService.Register(userDto);
+           var result = await _userService.Register(userDto);
 
             if (!result.IsSuccess)
             {
-                return BadRequest(result);
+               return BadRequest(result);
             }
 
-           /* UserAuthenticationDto ObjToken = new UserAuthenticationDto
-            {
-                Token = result.Response
-            };
-            */
+            /* UserAuthenticationDto ObjToken = new UserAuthenticationDto
+             {
+                 Token = result.Response
+             };
+             */
             return Ok(result.Response);
         }
 

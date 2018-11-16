@@ -18,6 +18,8 @@ using server.ServiceResult;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Http;
 using AutoMapper;
+using FluentValidation;
+using server.Extensions;
 
 namespace server.Services
 {
@@ -29,8 +31,8 @@ namespace server.Services
         private readonly IEmailSender _emailSender;
         private IFileService _fileService;
         private IMapper _mapper;
-
-
+        private readonly IValidator<SaveUserDto> _fluentValidatorUser;
+        private readonly IValidator<LoginDto> _fluentValidatorLogin;
         private readonly SignInManager _signInManager;
 
         public UserService(DataContext context,
@@ -41,7 +43,9 @@ namespace server.Services
             SignInManager signInManager,
             IEmailSender emailSender,
             IFileService fileService,
-            IMapper mapper)
+            IMapper mapper,
+            IValidator<SaveUserDto> fluentValidatorUser,
+            IValidator<LoginDto> fluentValidatorLogin)
         {
             _context = context;
             _userManager = userManager;
@@ -51,15 +55,23 @@ namespace server.Services
             _emailSender = emailSender;
             _fileService = fileService;
             _mapper = mapper;
+            _fluentValidatorUser = fluentValidatorUser;
+            _fluentValidatorLogin = fluentValidatorLogin;
         }
 
         private IConfiguration _configuration { get; }
 
-        public async Task<ServiceResult<UserDto>> Authenticate(string username, string password)
+        public async Task<ServiceResult<UserDto>> Authenticate(LoginDto p_LoginDto)
         {
+            var firstValidation = _fluentValidatorLogin.Validate(p_LoginDto);
+
+            if (!firstValidation.IsValid)
+            {
+                return _mapper.Map<ServiceResult<UserDto>>(firstValidation.ToServiceResult<LoginDto>(null));
+            }
             ServiceResult<UserDto> result = new ServiceResult<UserDto>();
 
-            var user = await _userManager.Users.SingleOrDefaultAsync(x => x.UserName == username);
+            var user = await _userManager.Users.SingleOrDefaultAsync(x => x.UserName == p_LoginDto.Usuario);
 
             if (user == null)
             {
@@ -67,7 +79,7 @@ namespace server.Services
                 return result;
             }
 
-            var passwordResult = await _userManager.CheckPasswordAsync(user, password);
+            var passwordResult = await _userManager.CheckPasswordAsync(user, p_LoginDto.Password);
 
             if (!passwordResult)
             {
@@ -283,6 +295,13 @@ namespace server.Services
 
         public async Task<ServiceResult<UserDto>> Register(SaveUserDto model)
         {
+            var firstValidation = _fluentValidatorUser.Validate(model);
+
+            if (!firstValidation.IsValid)
+            {
+                return firstValidation.ToServiceResult<UserDto>(null);
+            }
+
             var user = new User
             {
                 Id = Guid.NewGuid(),
@@ -293,12 +312,11 @@ namespace server.Services
             };
             
             var result = await _userManager.CreateAsync(user, model.Password);
-
+            
             if (!result.Succeeded)
             {
                 return result.ToServiceResult<UserDto>(null);
             }
-            
 
             await _signInManager.SignInAsync(user, false);
 

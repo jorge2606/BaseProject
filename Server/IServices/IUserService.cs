@@ -9,7 +9,7 @@ namespace server.IServices
 
     public interface IUserService
     {
-        Task<ServiceResult<UserDto>> Authenticate(string username, string password);
+        Task<ServiceResult<UserDto>> Authenticate(LoginDto p_LoginDto);
         Task UpdateMyProfile(UpdateMyProfile user);
         Task UpdateProfileAsAdmin(UpdateProfileAsAdmin user);
         Task<ServiceResult<string>> CreateAsync(CreateUserDto user);

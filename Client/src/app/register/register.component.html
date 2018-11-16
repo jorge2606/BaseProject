@@ -2,7 +2,7 @@
     <h2>Registrar</h2>
     <form (ngSubmit)="userForm.form.valid && onSubmit()" method="post" #userForm="ngForm">
         <div class="form-group">
-            <input class="form-control" [(ngModel)]="model.dni" #dni="ngModel" required name="dni" id="dni" type="number"
+            <input class="form-control" [(ngModel)]="model.dni" maxlength="8" #dni="ngModel" required name="dni" id="dni" type="number"
                 placeholder="Dni">
             <div style="margin-top: 10px;" *ngIf="dni.invalid && dni.dirty" class="alert alert-danger">
                 Dni Incorrecto
@@ -24,7 +24,7 @@
         </div>
 
         <div style="padding-top : 8px;" class="from-group">
-            <input class="form-control" [(ngModel)]="model.password" required #password="ngModel" name="password" type="password"
+            <input class="form-control" [(ngModel)]="model.password" #password="ngModel" name="password" type="password"
                 placeholder="Contraseña" value="">
         </div>
         <div style="margin-top: 10px;" *ngIf="password.dirty && password.invalid" class="alert alert-danger">
@@ -43,7 +43,7 @@
     <div *ngIf="userForm.form.invalid && !userForm.form.dirty">
         Hay Campos erroneos en el formulario, verifiquelos
     </div>
-    <div>
+    <div class="">
         <ul style="margin-top : 15px;" *ngIf="errors.length != 0" class="alert alert-danger" role="alert">
             <li *ngFor="let error of errors">{{ error.value }}</li>
         </ul>

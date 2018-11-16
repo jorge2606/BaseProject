@@ -5,7 +5,7 @@ using System.Security.Claims;
 
 namespace server.Models
 {
-    public class User : IdentityUser<Guid>, IEntity<Guid>
+    public class User : IdentityUser<Guid>
     {
 
         public int Dni { set; get; }

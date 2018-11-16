@@ -45,7 +45,7 @@ export class UserService {
     }
 
     register(user: Register): Observable<any> {
-        return this.http.post<any>('http://localhost:63098/api/User/register', user)
+        return this.http.post<any>('http://localhost:63098/api/User/register',user)
         .pipe(
             map(this.authenticationService.saveToken),
             catchError(error => this.handleError(error))

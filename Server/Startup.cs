@@ -28,6 +28,9 @@ using Microsoft.AspNetCore.Http;
 using server.Helpers;
 using server.models;
 using Audit.EntityFramework;
+using FluentValidation.AspNetCore;
+using server.Dto;
+using FluentValidation;
 
 namespace server
 {
@@ -80,7 +83,16 @@ namespace server
             // MVC
             services.AddMvc(
                 options => options.Filters.Add(new CorsAuthorizationFilterFactory(_defaultCorsPolicyName))
+            ).AddFluentValidation(fv =>
+                {
+                    //fv.RegisterValidatorsFromAssemblyContaining<UserValidator>();
+                    //fv.RegisterValidatorsFromAssemblyContaining<UserValidator>();
+                    fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+                    fv.ImplicitlyValidateChildProperties = true;
+                }
             );
+
+            //FluentValidation
 
             services.AddAutoMapper();
 
@@ -154,6 +166,9 @@ namespace server
             services.AddTransient<IEmailSender, EmailService>();
             services.AddTransient<ISmsSender, EmailService>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
+            //Validation
+            services.AddTransient<IValidator<SaveUserDto>, UserValidator>();
+            services.AddTransient<IValidator<LoginDto>, LoginValidator>();
 
             services.AddDirectoryBrowser();
 

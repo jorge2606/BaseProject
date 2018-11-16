@@ -24,6 +24,7 @@ export class RegisterComponent implements OnInit {
   }
 
   registerUser(){
+    this.model.userName = this.model.email;
     this.userService.register(this.model).subscribe(
       result => {
         this.router.navigate(['Home']);
